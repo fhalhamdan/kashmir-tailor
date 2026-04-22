@@ -123,6 +123,23 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
   </div>
 </div>
 
+<!-- TAILOR PIN -->
+
+<div class="overlay" id="tailorPinOverlay">
+  <div class="modal" style="max-width:340px;border-radius:20px 20px 0 0">
+    <div class="modal-title">🪡 رمز الخياط <button class="close-btn" onclick="closeModal('tailorPinOverlay')">✕</button></div>
+    <p style="font-size:13px;color:#777;margin-bottom:12px">أدخل رمز دخول الخياط</p>
+    <input type="password" maxlength="4" inputmode="numeric" id="tailorPinInput"
+      style="width:100%;text-align:center;font-size:28px;letter-spacing:12px;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-family:'Tajawal',sans-serif;background:var(--cream);margin-bottom:10px"
+      onkeydown="if(event.key==='Enter')checkTailorPin()">
+    <div id="tailorPinError" style="color:var(--red);font-size:13px;text-align:center;display:none;margin-bottom:8px">❌ رمز خاطئ</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-gold" style="flex:1;justify-content:center" onclick="checkTailorPin()">دخول</button>
+      <button class="btn btn-outline" onclick="closeModal('tailorPinOverlay')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN APP -->
 
 <div id="mainApp" style="display:none">
@@ -329,6 +346,12 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
       <div class="fg"><label>الرمز الجديد (4 أرقام)</label><input type="password" id="s_newpin" maxlength="4" inputmode="numeric" placeholder="xxxx"></div>
       <button class="btn btn-brown btn-full" onclick="changePin()">تغيير الرمز</button>
     </div>
+    <div class="card">
+      <div class="card-title">🪡 تغيير رمز الخياط</div>
+      <div class="fg"><label>الرمز الحالي للخياط: <b id="tailorPinDisplay">0000</b></label></div>
+      <div class="fg"><label>الرمز الجديد (4 أرقام)</label><input type="password" id="s_tailorpin" maxlength="4" inputmode="numeric" placeholder="xxxx"></div>
+      <button class="btn btn-gold btn-full" onclick="changeTailorPin()">تغيير رمز الخياط</button>
+    </div>
   </div>
 
   <div class="bottom-nav">
@@ -399,6 +422,7 @@ const sb = createClient(SUPA_URL, SUPA_KEY);
 // ─── STATE ──────────────────────────────────────────────────
 let currentRole = null;
 let currentPin = '1234';
+let tailorPin = '0000';
 let ownerPhone = '';
 let orderSerial = 383;
 let items = [];
@@ -599,7 +623,15 @@ function calcTotal() {
 // ─── LOGIN ───────────────────────────────────────────────────
 function login(role) {
   if(role==='owner') { document.getElementById('pinInput').value=''; openModal('pinOverlay'); setTimeout(()=>document.getElementById('pinInput').focus(),300); }
-  else { currentRole='tailor'; startApp(); }
+  else { document.getElementById('tailorPinInput').value=''; openModal('tailorPinOverlay'); setTimeout(()=>document.getElementById('tailorPinInput').focus(),300); }
+}
+function checkTailorPin() {
+  if(document.getElementById('tailorPinInput').value === tailorPin) {
+    currentRole='tailor'; closeModal('tailorPinOverlay'); startApp();
+  } else {
+    document.getElementById('tailorPinError').style.display='block';
+    setTimeout(()=>{ document.getElementById('tailorPinInput').value=''; document.getElementById('tailorPinError').style.display='none'; }, 1200);
+  }
 }
 function checkPin() {
   if(document.getElementById('pinInput').value === currentPin) {
@@ -1006,6 +1038,14 @@ async function sendReportWA() {
 function saveSettings() {
   ownerPhone = document.getElementById('s_phone').value;
   showToast('✅ تم الحفظ');
+}
+function changeTailorPin() {
+  const p = document.getElementById('s_tailorpin').value;
+  if(p.length!==4||!/^\d{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
+  tailorPin = p;
+  document.getElementById('tailorPinDisplay').textContent = p;
+  showToast('✅ تم تغيير رمز الخياط');
+  document.getElementById('s_tailorpin').value='';
 }
 function changePin() {
   const p = document.getElementById('s_newpin').value;
