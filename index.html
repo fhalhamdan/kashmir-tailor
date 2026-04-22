@@ -323,6 +323,7 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
 
   <div class="page" id="page-reports">
     <div class="sec-title">📈 التقرير الأسبوعي</div>
+    <div id="tailor-no-access" style="display:none" class="empty"><div style="font-size:48px">🔒</div><p>التقارير للمالك فقط</p></div>
     <div id="reportContent"></div>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
       <button class="btn btn-gold" onclick="generateReport()">🔄 تحديث</button>
@@ -641,7 +642,18 @@ function checkPin() {
     setTimeout(()=>{ document.getElementById('pinInput').value=''; document.getElementById('pinError').style.display='none'; }, 1200);
   }
 }
-function startApp() {
+async function startApp() {
+  // Load settings from Supabase
+  try {
+    const {data:settingsData} = await sb.from('settings').select('*');
+    if(settingsData) {
+      settingsData.forEach(s => {
+        if(s.key==='ownerPin') currentPin = s.value;
+        if(s.key==='tailorPin') { tailorPin = s.value; const el=document.getElementById('tailorPinDisplay'); if(el) el.textContent=s.value; }
+        if(s.key==='ownerPhone') { ownerPhone = s.value; const el=document.getElementById('s_phone'); if(el) el.value=s.value; }
+      });
+    }
+  } catch(e) {}
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('mainApp').style.display='block';
   document.getElementById('roleBadge').textContent = currentRole==='owner'?'👑 مالك':'🪡 خياط';
@@ -721,7 +733,7 @@ function orderCardHTML(o) {
       👤 <b>${o.name}</b> | 📞 ${o.phone}<br>
       🧵 ${(o.services||[]).join('، ')||'—'}<br>
       📅 ${o.date||'—'} ${o.duedate?'→ تسليم: <b>'+o.duedate+'</b>':''}<br>
-      💰 <b>${(o.total||0).toFixed(3)} KD</b> | مدفوع: ${(o.paid||0).toFixed(3)} | <span style="color:var(--red)">متبقي: ${(o.remaining||0).toFixed(3)}</span>
+      💰 <b>${(o.total||0).toFixed(3)} KD</b> | مدفوع: ${(o.paid||0).toFixed(3)} ${currentRole==='owner'?'| <span style="color:var(--red)">متبقي: '+(o.remaining||0).toFixed(3)+'</span>':''}
     </div>
     <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
       <button class="btn-wa btn-sm" onclick="sendWA('${o.id}')">📲 رسالة</button>
@@ -1035,23 +1047,26 @@ async function sendReportWA() {
 }
 
 // ─── SETTINGS ────────────────────────────────────────────────
-function saveSettings() {
+async function saveSettings() {
   ownerPhone = document.getElementById('s_phone').value;
+  await sb.from('settings').upsert({key:'ownerPhone', value:ownerPhone});
   showToast('✅ تم الحفظ');
 }
-function changeTailorPin() {
+async function changeTailorPin() {
   const p = document.getElementById('s_tailorpin').value;
-  if(p.length!==4||!/^\d{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
+  if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
   tailorPin = p;
+  await sb.from('settings').upsert({key:'tailorPin', value:p});
   document.getElementById('tailorPinDisplay').textContent = p;
   showToast('✅ تم تغيير رمز الخياط');
   document.getElementById('s_tailorpin').value='';
 }
-function changePin() {
+async function changePin() {
   const p = document.getElementById('s_newpin').value;
-  if(p.length!==4||!/^\d{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
+  if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
   currentPin = p;
-  showToast('✅ تم تغيير الرمز');
+  await sb.from('settings').upsert({key:'ownerPin', value:p});
+  showToast('✅ تم تغيير رمز المالك');
   document.getElementById('s_newpin').value='';
 }
 </script>
