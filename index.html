@@ -15,11 +15,11 @@
   --border: #d4a84c;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; padding-bottom: 75px; }
+body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; padding-bottom: 80px; }
 .top-nav { background: linear-gradient(135deg, var(--brown), #2a1a10); color: var(--gold-pale); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; height: 54px; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 12px rgba(0,0,0,.35); }
 .top-nav .logo { font-size: 17px; font-weight: 900; color: var(--gold-light); }
 .role-badge { font-size: 11px; background: rgba(255,255,255,.15); padding: 3px 8px; border-radius: 20px; }
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--brown); display: flex; z-index: 100; box-shadow: 0 -3px 12px rgba(0,0,0,.3); }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--brown); display: flex; z-index: 100; box-shadow: 0 -3px 12px rgba(0,0,0,.3); min-height: 56px; }
 .bnav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; color: rgba(255,255,255,.5); cursor: pointer; transition: all .2s; font-size: 10px; gap: 2px; border: none; background: none; font-family: 'Tajawal', sans-serif; }
 .bnav-item .icon { font-size: 20px; }
 .bnav-item.active { color: var(--gold-light); }
@@ -142,7 +142,7 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
 
 <!-- MAIN APP -->
 
-<div id="mainApp" style="display:none">
+<div id="mainApp" style="display:none;min-height:100vh">
   <div class="top-nav">
     <div class="logo">✂️ كشمير للخياطة</div>
     <div style="display:flex;gap:8px;align-items:center">
@@ -324,8 +324,8 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
   <div class="page" id="page-reports">
     <div id="tailor-no-access" style="display:none" class="empty"><div style="font-size:48px">🔒</div><p>التقارير للمالك فقط</p></div>
     <div id="ownerReports" style="display:none">
-    <div class="sec-title">📈 التقرير الأسبوعي</div>
-    <div id="reportContent"></div>
+      <div class="sec-title">📈 التقرير الأسبوعي</div>
+      <div id="reportContent"></div>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
       <button class="btn btn-gold" onclick="generateReport()">🔄 تحديث</button>
       <button class="btn-wa" onclick="sendReportWA()">📲 إرسال لي واتساب</button>
@@ -356,14 +356,17 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
     </div>
   </div>
 
-  <div class="bottom-nav">
+</div>
+
+<!-- BOTTOM NAV - outside mainApp -->
+
+<div class="bottom-nav" id="bottomNav" style="display:none">
     <button class="bnav-item active" onclick="showPage('home',this)"><span class="icon">🏠</span>الرئيسية</button>
     <button class="bnav-item" onclick="showPage('order',this)"><span class="icon">➕</span>طلب جديد</button>
     <button class="bnav-item" onclick="showPage('orders',this)"><span class="icon">📋</span>الطلبات</button>
     <button class="bnav-item" onclick="showPage('customers',this)"><span class="icon">👥</span>الزبائن</button>
     <button class="bnav-item" onclick="showPage('reports',this)" id="bnav-reports" style="display:none"><span class="icon">📈</span>التقارير</button>
     <button class="bnav-item" onclick="showPage('settings',this)"><span class="icon">⚙️</span>الإعدادات</button>
-  </div>
 </div>
 
 <!-- ORDER DETAIL MODAL -->
@@ -657,6 +660,7 @@ async function startApp() {
   } catch(e) { console.log('settings load error', e); }
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('mainApp').style.display='block';
+  document.getElementById('bottomNav').style.display='flex';
   document.getElementById('roleBadge').textContent = currentRole==='owner'?'👑 مالك':'🪡 خياط';
   if(currentRole==='owner') {
     document.getElementById('bnav-reports').style.display='';
@@ -672,7 +676,7 @@ async function startApp() {
   renderOrders();
   renderCustomers();
 }
-function logout() { currentRole=null; document.getElementById('loginWrap').style.display='flex'; document.getElementById('mainApp').style.display='none'; }
+function logout() { currentRole=null; document.getElementById('loginWrap').style.display='flex'; document.getElementById('mainApp').style.display='none'; document.getElementById('bottomNav').style.display='none'; }
 
 // ─── NAVIGATION ──────────────────────────────────────────────
 function showPage(id, btn) {
