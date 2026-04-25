@@ -322,8 +322,9 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
   <!-- REPORTS -->
 
   <div class="page" id="page-reports">
-    <div class="sec-title">📈 التقرير الأسبوعي</div>
     <div id="tailor-no-access" style="display:none" class="empty"><div style="font-size:48px">🔒</div><p>التقارير للمالك فقط</p></div>
+    <div id="ownerReports" style="display:none">
+    <div class="sec-title">📈 التقرير الأسبوعي</div>
     <div id="reportContent"></div>
     <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
       <button class="btn btn-gold" onclick="generateReport()">🔄 تحديث</button>
@@ -339,7 +340,7 @@ body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(
     <div class="sec-title">⚙️ الإعدادات</div>
     <div class="card">
       <div class="card-title">🏪 بيانات المحل</div>
-      <div class="fg"><label>رقم الواتساب (للتقرير)</label><input type="tel" id="s_phone" inputmode="tel" placeholder="96599XXXXXX"></div>
+      <div class="fg"><label>رقم الواتساب (للتقرير)</label><input type="tel" id="s_phone" inputmode="tel" placeholder="96599XXXXXX" value="96569007826"></div>
       <button class="btn btn-gold btn-full" onclick="saveSettings()">💾 حفظ</button>
     </div>
     <div class="card" id="pinCard">
@@ -422,9 +423,9 @@ const sb = createClient(SUPA_URL, SUPA_KEY);
 
 // ─── STATE ──────────────────────────────────────────────────
 let currentRole = null;
-let currentPin = '1234';
-let tailorPin = '0000';
-let ownerPhone = '';
+let currentPin = '1973';
+let tailorPin = '1234';
+let ownerPhone = '96569007826';
 let orderSerial = 383;
 let items = [];
 let selNeck = 'عادية - زر واحد';
@@ -646,18 +647,26 @@ async function startApp() {
   // Load settings from Supabase
   try {
     const {data:settingsData} = await sb.from('settings').select('*');
-    if(settingsData) {
+    if(settingsData && settingsData.length > 0) {
       settingsData.forEach(s => {
-        if(s.key==='ownerPin') currentPin = s.value;
-        if(s.key==='tailorPin') { tailorPin = s.value; const el=document.getElementById('tailorPinDisplay'); if(el) el.textContent=s.value; }
-        if(s.key==='ownerPhone') { ownerPhone = s.value; const el=document.getElementById('s_phone'); if(el) el.value=s.value; }
+        if(s.key==='ownerPin' && s.value) currentPin = s.value;
+        if(s.key==='tailorPin' && s.value) { tailorPin = s.value; const el=document.getElementById('tailorPinDisplay'); if(el) el.textContent=s.value; }
+        if(s.key==='ownerPhone' && s.value) { ownerPhone = s.value; const el=document.getElementById('s_phone'); if(el) el.value=s.value; }
       });
     }
-  } catch(e) {}
+  } catch(e) { console.log('settings load error', e); }
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('mainApp').style.display='block';
   document.getElementById('roleBadge').textContent = currentRole==='owner'?'👑 مالك':'🪡 خياط';
-  if(currentRole==='owner') { document.getElementById('bnav-reports').style.display=''; document.getElementById('debtStat').style.display=''; }
+  if(currentRole==='owner') {
+    document.getElementById('bnav-reports').style.display='';
+    document.getElementById('debtStat').style.display='';
+    const ownerRep = document.getElementById('ownerReports');
+    if(ownerRep) ownerRep.style.display='';
+  } else {
+    const noAccess = document.getElementById('tailor-no-access');
+    if(noAccess) noAccess.style.display='';
+  }
   initUI();
   renderHome();
   renderOrders();
@@ -1033,8 +1042,6 @@ async function generateReport() {
 }
 
 async function sendReportWA() {
-  const ph = ownerPhone.replace(/\D/g,'');
-  if(!ph) { showToast('❌ أضف رقمك في الإعدادات'); return; }
   const {data:allOrders} = await sb.from('orders').select('*');
   const now = new Date(); const weekAgo = new Date(now-7*864e5);
   const weekOrds = (allOrders||[]).filter(o=>new Date(o.created_at)>=weekAgo);
@@ -1043,30 +1050,35 @@ async function sendReportWA() {
   let msg = `📊 *تقرير أسبوعي - كشمير للخياطة*\n📅 ${weekAgo.toLocaleDateString('ar-KW')} → ${now.toLocaleDateString('ar-KW')}\n\n`;
   msg += `🔢 عدد الطلبات: ${weekOrds.length}\n💰 الإيرادات: ${weekRev.toFixed(3)} KD\n💸 المبالغ المتبقية: ${debt.toFixed(3)} KD\n`;
   msg += `⏳ شغالة: ${(allOrders||[]).filter(o=>o.status==='شغال').length} | ✅ جاهزة: ${(allOrders||[]).filter(o=>o.status==='جاهز').length}`;
-  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+  const numbers = ['96560601605','96560948048','96550519551'];
+  const encoded = encodeURIComponent(msg);
+  numbers.forEach((num,i) => {
+    setTimeout(() => { window.open(`https://wa.me/${num}?text=${encoded}`, '_blank'); }, i*800);
+  });
+  showToast('✅ يتم إرسال التقرير للأرقام الأربعة');
 }
 
 // ─── SETTINGS ────────────────────────────────────────────────
 async function saveSettings() {
-  ownerPhone = document.getElementById('s_phone').value;
-  await sb.from('settings').upsert({key:'ownerPhone', value:ownerPhone});
+  const ph = document.getElementById('s_phone').value;
+  if(ph) { ownerPhone = ph; await sb.from('settings').upsert({key:'ownerPhone', value:ph}); }
   showToast('✅ تم الحفظ');
 }
 async function changeTailorPin() {
   const p = document.getElementById('s_tailorpin').value;
   if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
   tailorPin = p;
-  await sb.from('settings').upsert({key:'tailorPin', value:p});
-  document.getElementById('tailorPinDisplay').textContent = p;
-  showToast('✅ تم تغيير رمز الخياط');
+  try { await sb.from('settings').upsert({key:'tailorPin', value:p}); } catch(e){}
+  const el = document.getElementById('tailorPinDisplay'); if(el) el.textContent = p;
+  showToast('✅ تم تغيير رمز الخياط - سيُطبق على الجميع');
   document.getElementById('s_tailorpin').value='';
 }
 async function changePin() {
   const p = document.getElementById('s_newpin').value;
   if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
   currentPin = p;
-  await sb.from('settings').upsert({key:'ownerPin', value:p});
-  showToast('✅ تم تغيير رمز المالك');
+  try { await sb.from('settings').upsert({key:'ownerPin', value:p}); } catch(e){}
+  showToast('✅ تم تغيير رمز المالك - سيُطبق على الجميع');
   document.getElementById('s_newpin').value='';
 }
 </script>
