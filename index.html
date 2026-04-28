@@ -6,1085 +6,837 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>كشمير للخياطة</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  --gold: #b8860b; --gold-light: #d4a017; --gold-pale: #f9f0d8;
-  --dark: #1a1208; --brown: #3d2b1f; --cream: #fdf8f0;
-  --white: #fff; --red: #c0392b; --green: #27ae60; --blue: #2980b9;
-  --border: #d4a84c;
-}
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; padding-bottom: 80px; }
-.top-nav { background: linear-gradient(135deg, var(--brown), #2a1a10); color: var(--gold-pale); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; height: 54px; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 12px rgba(0,0,0,.35); }
-.top-nav .logo { font-size: 17px; font-weight: 900; color: var(--gold-light); }
-.role-badge { font-size: 11px; background: rgba(255,255,255,.15); padding: 3px 8px; border-radius: 20px; }
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--brown); display: flex; z-index: 100; box-shadow: 0 -3px 12px rgba(0,0,0,.3); min-height: 56px; }
-.bnav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; color: rgba(255,255,255,.5); cursor: pointer; transition: all .2s; font-size: 10px; gap: 2px; border: none; background: none; font-family: 'Tajawal', sans-serif; }
-.bnav-item .icon { font-size: 20px; }
-.bnav-item.active { color: var(--gold-light); }
-.page { display: none; padding: 14px; max-width: 800px; margin: 0 auto; }
-.page.active { display: block; }
-.card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(184,134,11,.1); }
-.card-title { font-size: 13px; font-weight: 900; color: var(--brown); background: var(--gold-pale); padding: 6px 10px; border-radius: 8px; margin-bottom: 12px; }
-.sec-title { font-size: 18px; font-weight: 900; color: var(--brown); border-right: 4px solid var(--gold); padding-right: 10px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
-.fg { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
-.fg label { font-size: 11px; font-weight: 700; color: var(--brown); }
-.fg input, .fg select, .fg textarea { border: 1.5px solid #ddd; border-radius: 8px; padding: 9px 10px; font-family: 'Tajawal', sans-serif; font-size: 14px; background: var(--cream); width: 100%; transition: border .2s; }
-.fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--gold); background: #fff; }
-.fg textarea { resize: vertical; min-height: 56px; }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.check-group { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
-.ci { display: flex; align-items: center; gap: 5px; background: var(--cream); border: 1.5px solid #ddd; border-radius: 8px; padding: 6px 12px; font-size: 13px; cursor: pointer; transition: all .15s; user-select: none; }
-.ci.on { background: var(--gold-pale); border-color: var(--gold); font-weight: 700; }
-.vis-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-.vo { border: 2px solid #ddd; border-radius: 10px; padding: 8px 12px; cursor: pointer; background: var(--cream); font-size: 12px; font-weight: 700; color: #777; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all .15s; text-align: center; min-width: 70px; }
-.vo.on { border-color: var(--gold); background: var(--gold-pale); color: var(--brown); }
-.meas-wrap { display: flex; gap: 10px; align-items: flex-start; }
-.meas-fields { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.mi label { font-size: 10px; font-weight: 700; color: var(--brown); display: block; margin-bottom: 2px; }
-.mi input { border: 1.5px solid #ddd; border-radius: 6px; padding: 7px 8px; font-size: 13px; font-family: 'Tajawal', sans-serif; width: 100%; text-align: center; background: var(--cream); }
-.mi input:focus { outline: none; border-color: var(--gold); background: #fff; }
-.tbl { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 10px; }
-.tbl th { background: var(--brown); color: var(--gold-pale); padding: 8px 5px; text-align: center; font-size: 11px; }
-.tbl td { padding: 5px 3px; border-bottom: 1px solid var(--gold-pale); text-align: center; vertical-align: middle; }
-.tbl td input, .tbl td select { border: 1px solid #ddd; border-radius: 6px; padding: 5px 4px; font-size: 12px; font-family: 'Tajawal', sans-serif; width: 100%; background: var(--cream); text-align: center; }
-.totals-box { background: var(--gold-pale); border: 2px solid var(--gold); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
-.trow { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(184,134,11,.2); }
-.trow label { font-weight: 700; font-size: 13px; }
-.trow span { font-weight: 900; }
-.remaining-box { display: flex; justify-content: space-between; padding: 8px 10px; border-radius: 8px; margin-top: 6px; }
-.btn { border: none; border-radius: 10px; padding: 10px 16px; font-family: 'Tajawal', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-.btn-gold { background: var(--gold); color: #fff; }
-.btn-brown { background: var(--brown); color: var(--gold-pale); }
-.btn-green { background: var(--green); color: #fff; }
-.btn-red { background: var(--red); color: #fff; }
-.btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--brown); }
-.btn-full { width: 100%; justify-content: center; }
-.btn-sm { padding: 7px 12px; font-size: 12px; }
-.btn-wa { background: #25d366; color: #fff; border: none; border-radius: 10px; padding: 10px 14px; font-family: 'Tajawal', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-.ord-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 13px; margin-bottom: 10px; }
-.ord-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.ord-num { font-size: 20px; font-weight: 900; color: var(--gold); }
-.ord-body { font-size: 13px; color: #666; line-height: 1.9; }
-.status-sel { border: 1.5px solid var(--border); border-radius: 8px; padding: 5px 10px; font-family: 'Tajawal', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-.cust-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 13px 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.stat-c { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
-.stat-c .num { font-size: 26px; font-weight: 900; color: var(--gold); }
-.stat-c .lbl { font-size: 12px; color: #777; font-weight: 700; }
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 200; align-items: flex-end; justify-content: center; }
-.overlay.active { display: flex; }
-.modal { background: var(--white); border-radius: 20px 20px 0 0; padding: 20px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; border-top: 3px solid var(--gold); }
-.modal-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 17px; font-weight: 900; color: var(--brown); }
-.close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: #999; }
-.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, var(--brown), #1a0a05); padding: 20px; }
-.login-box { background: var(--white); border-radius: 20px; padding: 28px 22px; width: 100%; max-width: 360px; text-align: center; border: 2px solid var(--gold); }
-.role-btn { width: 100%; border: 2px solid var(--border); background: var(--cream); border-radius: 12px; padding: 14px; font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: right; transition: all .2s; }
-.role-btn:hover { background: var(--gold-pale); border-color: var(--gold); }
-.toast { position: fixed; top: 64px; left: 50%; transform: translateX(-50%); background: var(--brown); color: var(--gold-pale); padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; z-index: 999; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.3); }
-.toast.show { opacity: 1; }
-.loading { text-align: center; padding: 30px; color: #aaa; font-size: 14px; }
-.empty { text-align: center; padding: 30px; color: #aaa; }
-.report-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--gold-pale); font-size: 13px; }
-.report-row b { color: var(--gold); font-size: 15px; }
+body { font-family: 'Tajawal', sans-serif; }
+select, input, textarea, button { font-family: 'Tajawal', sans-serif; }
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-
-<div class="login-wrap" id="loginWrap">
-  <div class="login-box">
-    <div style="font-size:40px;margin-bottom:10px">✂️</div>
-    <h2 style="font-size:22px;font-weight:900;color:var(--brown);margin-bottom:6px">كشمير للخياطة</h2>
-    <p style="font-size:13px;color:#888;margin-bottom:20px">اختر طريقة الدخول</p>
-    <button class="role-btn" onclick="login('owner')"><span style="font-size:24px">👑</span><div><div>المالك</div><div style="font-size:11px;color:#888;font-weight:400">صلاحيات كاملة + التقارير</div></div></button>
-    <button class="role-btn" onclick="login('tailor')"><span style="font-size:24px">🪡</span><div><div>الخياط</div><div style="font-size:11px;color:#888;font-weight:400">الطلبات والزبائن فقط</div></div></button>
-  </div>
-</div>
-
-<!-- PIN -->
-
-<div class="overlay" id="pinOverlay">
-  <div class="modal" style="max-width:340px;border-radius:20px 20px 0 0">
-    <div class="modal-title">🔐 رمز المالك <button class="close-btn" onclick="closeModal('pinOverlay')">✕</button></div>
-    <p style="font-size:13px;color:#777;margin-bottom:12px">أدخل رمز الدخول (الافتراضي: 1234)</p>
-    <input type="password" maxlength="4" inputmode="numeric" id="pinInput"
-      style="width:100%;text-align:center;font-size:28px;letter-spacing:12px;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-family:'Tajawal',sans-serif;background:var(--cream);margin-bottom:10px"
-      onkeydown="if(event.key==='Enter')checkPin()">
-    <div id="pinError" style="color:var(--red);font-size:13px;text-align:center;display:none;margin-bottom:8px">❌ رمز خاطئ</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-gold" style="flex:1;justify-content:center" onclick="checkPin()">دخول</button>
-      <button class="btn btn-outline" onclick="closeModal('pinOverlay')">إلغاء</button>
-    </div>
-  </div>
-</div>
-
-<!-- TAILOR PIN -->
-
-<div class="overlay" id="tailorPinOverlay">
-  <div class="modal" style="max-width:340px;border-radius:20px 20px 0 0">
-    <div class="modal-title">🪡 رمز الخياط <button class="close-btn" onclick="closeModal('tailorPinOverlay')">✕</button></div>
-    <p style="font-size:13px;color:#777;margin-bottom:12px">أدخل رمز دخول الخياط</p>
-    <input type="password" maxlength="4" inputmode="numeric" id="tailorPinInput"
-      style="width:100%;text-align:center;font-size:28px;letter-spacing:12px;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-family:'Tajawal',sans-serif;background:var(--cream);margin-bottom:10px"
-      onkeydown="if(event.key==='Enter')checkTailorPin()">
-    <div id="tailorPinError" style="color:var(--red);font-size:13px;text-align:center;display:none;margin-bottom:8px">❌ رمز خاطئ</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-gold" style="flex:1;justify-content:center" onclick="checkTailorPin()">دخول</button>
-      <button class="btn btn-outline" onclick="closeModal('tailorPinOverlay')">إلغاء</button>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN APP -->
-
-<div id="mainApp" style="display:none;min-height:100vh">
-  <div class="top-nav">
-    <div class="logo">✂️ كشمير للخياطة</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <span class="role-badge" id="roleBadge">—</span>
-      <button class="btn btn-outline btn-sm" onclick="logout()" style="color:var(--gold-pale);border-color:rgba(255,255,255,.3)">خروج</button>
-    </div>
-  </div>
-
-  <!-- HOME -->
-
-  <div class="page active" id="page-home">
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-c"><div class="num" id="statC">0</div><div class="lbl">زبون</div></div>
-      <div class="stat-c"><div class="num" id="statO">0</div><div class="lbl">طلب كلي</div></div>
-      <div class="stat-c"><div class="num" id="statP">0</div><div class="lbl">طلب شغال</div></div>
-      <div class="stat-c" id="debtStat" style="display:none"><div class="num" id="statD">0 KD</div><div class="lbl">مبالغ متبقية</div></div>
-    </div>
-    <div class="sec-title">آخر الطلبات</div>
-    <div id="homeOrders"></div>
-  </div>
-
-  <!-- NEW ORDER -->
-
-  <div class="page" id="page-order">
-    <div class="sec-title">📝 طلب جديد <button class="btn btn-outline btn-sm" onclick="clearOrderForm()">مسح</button></div>
-
-```
-<div class="card">
-  <div class="card-title">👤 بيانات الزبون</div>
-  <div class="row2">
-    <div class="fg"><label>الاسم *</label><input type="text" id="o_name" placeholder="اسم الزبون"></div>
-    <div class="fg"><label>رقم الهاتف *</label><input type="tel" id="o_phone" placeholder="965XXXXXXXX" inputmode="tel"></div>
-  </div>
-  <div class="row2">
-    <div class="fg"><label>التاريخ</label><input type="date" id="o_date"></div>
-    <div class="fg"><label>تاريخ التسليم</label><input type="date" id="o_duedate"></div>
-  </div>
-  <div class="row2">
-    <div class="fg"><label>الخياط</label><input type="text" id="o_tailor" placeholder="اسم الخياط"></div>
-    <div class="fg"><label>الخام</label>
-      <select id="o_fabric"><option value="">اختر</option><option>من عندنا (داخل)</option><option>من برا (خارج)</option></select>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-title">🧵 نوع الخدمة</div>
-  <div class="check-group" id="sg_services"></div>
-</div>
-
-<div class="card">
-  <div class="card-title">👘 تفاصيل الدشداشة</div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">نوع الدشداشة | Type</div>
-  <div class="check-group" id="sg_dtype"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:4px">تصميم الفولة | Neck Style</div>
-  <div class="vis-group" id="vg_neck"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">شريط الصدر | Chest Strip</div>
-  <div class="vis-group" id="vg_chest"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">المخبة الجانبية | Side Pocket</div>
-  <div class="vis-group" id="vg_pocket"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">الجيب الأمامي | Front Pocket</div>
-  <div class="vis-group" id="vg_front"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">زر الغولة | Button</div>
-  <div class="vis-group" id="vg_button"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">الخط الجانبي | Side Line</div>
-  <div class="vis-group" id="vg_sideline"></div>
-  <div class="row2" style="margin-top:8px">
-    <div class="fg"><label>عدد القطع</label><input type="number" id="o_qty" value="1" min="1" inputmode="numeric"></div>
-  </div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">إضافات</div>
-  <div class="check-group" id="sg_extras"></div>
-  <div style="font-size:12px;font-weight:700;color:var(--brown);margin-bottom:6px">خدمات إضافية</div>
-  <div class="check-group" id="sg_exsvc"></div>
-</div>
-
-<div class="card">
-  <div class="card-title">📏 القياسات</div>
-  <div class="meas-wrap">
-    <div style="flex-shrink:0">
-      <svg viewBox="0 0 160 340" width="120" height="270" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50,35 Q80,22 110,35 L128,85 L132,315 L28,315 L32,85 Z" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="2"/>
-        <ellipse cx="80" cy="34" rx="17" ry="10" fill="#fdf8f0" stroke="#3d2b1f" stroke-width="1.5"/>
-        <path d="M32,85 L8,132 L18,137 L40,98" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="1.5"/>
-        <path d="M128,85 L152,132 L142,137 L120,98" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="1.5"/>
-        <line x1="80" y1="44" x2="80" y2="305" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="292" x2="130" y2="292" stroke="#b8860b" stroke-width="1.5"/>
-        <rect x="30" y="188" width="16" height="20" rx="2" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>
-        <rect x="113" y="175" width="15" height="24" rx="2" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>
-        <line x1="20" y1="34" x2="20" y2="315" stroke="#2980b9" stroke-width="1.2"/>
-        <polygon points="20,32 18,38 22,38" fill="#2980b9"/>
-        <polygon points="20,317 18,311 22,311" fill="#2980b9"/>
-        <line x1="33" y1="85" x2="127" y2="85" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
-        <line x1="34" y1="113" x2="126" y2="113" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
-        <line x1="35" y1="142" x2="125" y2="142" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
-        <line x1="36" y1="170" x2="124" y2="170" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
-        <circle cx="80" cy="65" r="3" fill="#c0392b"/>
-      </svg>
-    </div>
-    <div class="meas-fields" id="measFields"></div>
-  </div>
-  <div class="fg" style="margin-top:10px"><label>ملاحظات القياسات</label><textarea id="m_notes" placeholder="أي ملاحظة..."></textarea></div>
-</div>
-
-<div class="card">
-  <div class="card-title">🧣 الأقمشة والأمتار</div>
-  <div style="overflow-x:auto">
-    <table class="tbl">
-      <thead><tr><th>#</th><th>اسم الخامة</th><th>النوع</th><th>الأمتار</th><th>السعر/م</th><th>الإجمالي</th><th></th></tr></thead>
-      <tbody id="itemsBody"></tbody>
-    </table>
-  </div>
-  <button class="btn btn-outline btn-sm" onclick="addItem()">+ إضافة سطر</button>
-</div>
-
-<div class="card">
-  <div class="card-title">💰 الأسعار والدفع</div>
-  <div class="row3">
-    <div class="fg"><label>رسوم الخياطة (KD)</label><input type="number" id="p_tailor" value="0" inputmode="decimal" oninput="calcTotal()"></div>
-    <div class="fg"><label>إجمالي الخام (KD)</label><input type="number" id="p_text" value="0" readonly style="background:#f0f0f0"></div>
-    <div class="fg"><label>أخرى (KD)</label><input type="number" id="p_other" value="0" inputmode="decimal" oninput="calcTotal()"></div>
-  </div>
-  <div class="row3">
-    <div class="fg"><label>خصم | Discount</label>
-      <select id="p_disc" onchange="calcTotal()">
-        <option value="0">بدون خصم</option>
-        <option value="5">5%</option><option value="10">10%</option><option value="15">15%</option>
-        <option value="20">20%</option><option value="25">25%</option><option value="30">30%</option>
-        <option value="35">35%</option><option value="40">40%</option>
-      </select>
-    </div>
-    <div class="fg"><label>المدفوع | Paid (KD)</label><input type="number" id="p_paid" value="0" inputmode="decimal" oninput="calcTotal()" style="border-color:var(--green);background:#f0fff4"></div>
-    <div class="fg"><label>طريقة الدفع</label>
-      <select id="p_method"><option>نقدي</option><option>كنت (KNET)</option><option>تحويل</option></select>
-    </div>
-  </div>
-  <div class="totals-box">
-    <div class="trow"><label>الخياطة</label><span id="t_tail">0.000 KD</span></div>
-    <div class="trow"><label>المنسوجات</label><span id="t_text">0.000 KD</span></div>
-    <div class="trow"><label>أخرى</label><span id="t_other">0.000 KD</span></div>
-    <div class="trow" id="t_disc_row" style="display:none"><label style="color:var(--green)">الخصم</label><span id="t_disc" style="color:var(--green)">0.000 KD</span></div>
-    <div class="trow"><label>الإجمالي الكلي</label><span id="t_total" style="font-size:18px;color:var(--gold)">0.000 KD</span></div>
-    <div class="trow"><label>المدفوع</label><span id="t_paid" style="color:var(--green)">0.000 KD</span></div>
-    <div class="remaining-box" id="remainBox">
-      <span id="remainLabel" style="font-weight:900;font-size:15px">⚠️ الباقي | Remaining</span>
-      <span id="t_remain" style="font-weight:900;font-size:18px">0.000 KD</span>
-    </div>
-  </div>
-  <div class="fg" style="margin-top:10px"><label>ملاحظات</label><textarea id="o_remarks" placeholder="أي ملاحظات..."></textarea></div>
-</div>
-
-<button class="btn btn-gold btn-full" style="font-size:16px;padding:14px" onclick="saveOrder()">💾 حفظ الطلب</button>
-```
-
-  </div>
-
-  <!-- ORDERS -->
-
-  <div class="page" id="page-orders">
-    <div class="sec-title">📋 الطلبات</div>
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <select id="ordFilter" onchange="renderOrders()" style="flex:1;border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-family:'Tajawal',sans-serif;font-size:14px">
-        <option value="">كل الطلبات</option><option>شغال</option><option>جاهز</option><option>سلّم</option>
-      </select>
-      <input type="text" id="ordSearch" placeholder="ابحث..." oninput="renderOrders()" style="flex:1;border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-family:'Tajawal',sans-serif;font-size:14px">
-    </div>
-    <div id="orderList"></div>
-  </div>
-
-  <!-- CUSTOMERS -->
-
-  <div class="page" id="page-customers">
-    <div class="sec-title">👥 الزبائن <button class="btn btn-gold btn-sm" onclick="openAddCust()">+ زبون جديد</button></div>
-    <input type="text" id="custSearch" placeholder="ابحث باسم أو رقم..." oninput="renderCustomers()" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Tajawal',sans-serif;font-size:14px;margin-bottom:12px">
-    <div id="custList"></div>
-  </div>
-
-  <!-- REPORTS -->
-
-  <div class="page" id="page-reports">
-    <div id="tailor-no-access" style="display:none" class="empty"><div style="font-size:48px">🔒</div><p>التقارير للمالك فقط</p></div>
-    <div id="ownerReports" style="display:none">
-      <div class="sec-title">📈 التقرير الأسبوعي</div>
-      <div id="reportContent"></div>
-    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn btn-gold" onclick="generateReport()">🔄 تحديث</button>
-      <button class="btn-wa" onclick="sendReportWA()">📲 إرسال لي واتساب</button>
-    </div>
-    <div class="sec-title" style="margin-top:16px">💸 المبالغ المتبقية</div>
-    <div id="debtList"></div>
-  </div>
-
-  <!-- SETTINGS -->
-
-  <div class="page" id="page-settings">
-    <div class="sec-title">⚙️ الإعدادات</div>
-    <div class="card">
-      <div class="card-title">🏪 بيانات المحل</div>
-      <div class="fg"><label>رقم الواتساب (للتقرير)</label><input type="tel" id="s_phone" inputmode="tel" placeholder="96599XXXXXX" value="96569007826"></div>
-      <button class="btn btn-gold btn-full" onclick="saveSettings()">💾 حفظ</button>
-    </div>
-    <div class="card" id="pinCard">
-      <div class="card-title">🔐 تغيير رمز المالك</div>
-      <div class="fg"><label>الرمز الجديد (4 أرقام)</label><input type="password" id="s_newpin" maxlength="4" inputmode="numeric" placeholder="xxxx"></div>
-      <button class="btn btn-brown btn-full" onclick="changePin()">تغيير الرمز</button>
-    </div>
-    <div class="card">
-      <div class="card-title">🪡 تغيير رمز الخياط</div>
-      <div class="fg"><label>الرمز الحالي للخياط: <b id="tailorPinDisplay">0000</b></label></div>
-      <div class="fg"><label>الرمز الجديد (4 أرقام)</label><input type="password" id="s_tailorpin" maxlength="4" inputmode="numeric" placeholder="xxxx"></div>
-      <button class="btn btn-gold btn-full" onclick="changeTailorPin()">تغيير رمز الخياط</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- BOTTOM NAV - outside mainApp -->
-
-<div class="bottom-nav" id="bottomNav" style="display:none">
-    <button class="bnav-item active" onclick="showPage('home',this)"><span class="icon">🏠</span>الرئيسية</button>
-    <button class="bnav-item" onclick="showPage('order',this)"><span class="icon">➕</span>طلب جديد</button>
-    <button class="bnav-item" onclick="showPage('orders',this)"><span class="icon">📋</span>الطلبات</button>
-    <button class="bnav-item" onclick="showPage('customers',this)"><span class="icon">👥</span>الزبائن</button>
-    <button class="bnav-item" onclick="showPage('reports',this)" id="bnav-reports" style="display:none"><span class="icon">📈</span>التقارير</button>
-    <button class="bnav-item" onclick="showPage('settings',this)"><span class="icon">⚙️</span>الإعدادات</button>
-</div>
-
-<!-- ORDER DETAIL MODAL -->
-
-<div class="overlay" id="ordModal">
-  <div class="modal">
-    <div class="modal-title"><span id="odm_title">—</span><button class="close-btn" onclick="closeModal('ordModal')">✕</button></div>
-    <div id="odm_body"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-      <button class="btn-wa btn-sm" onclick="sendWAOrder()">📲 رسالة الزبون</button>
-      <button class="btn btn-red btn-sm" onclick="deleteCurrentOrder()">🗑️ حذف</button>
-      <button class="btn btn-outline btn-sm" onclick="closeModal('ordModal')">إغلاق</button>
-    </div>
-  </div>
-</div>
-
-<!-- CUSTOMER MODAL -->
-
-<div class="overlay" id="custModal">
-  <div class="modal">
-    <div class="modal-title"><span id="cm_title">زبون جديد</span><button class="close-btn" onclick="closeModal('custModal')">✕</button></div>
-    <div class="row2">
-      <div class="fg"><label>الاسم *</label><input type="text" id="cm_name"></div>
-      <div class="fg"><label>الهاتف *</label><input type="tel" id="cm_phone" inputmode="tel"></div>
-    </div>
-    <div class="fg"><label>العنوان</label><input type="text" id="cm_address"></div>
-    <div class="fg"><label>ملاحظات</label><textarea id="cm_notes"></textarea></div>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="btn btn-gold" style="flex:1;justify-content:center" onclick="saveCustomer()">💾 حفظ</button>
-      <button class="btn btn-outline" onclick="closeModal('custModal')">إلغاء</button>
-    </div>
-  </div>
-</div>
-
-<!-- CUSTOMER DETAIL MODAL -->
-
-<div class="overlay" id="custDetailModal">
-  <div class="modal">
-    <div class="modal-title"><span id="cdm_name">—</span><button class="close-btn" onclick="closeModal('custDetailModal')">✕</button></div>
-    <div id="cdm_body"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-      <button class="btn btn-gold btn-sm" onclick="newOrderForCust()">➕ طلب جديد</button>
-      <button class="btn btn-outline btn-sm" onclick="editCurrentCust()">✏️ تعديل</button>
-      <button class="btn btn-red btn-sm" onclick="deleteCurrentCust()">🗑️ حذف</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-// ─── SUPABASE ───────────────────────────────────────────────
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+// ─── SUPABASE CONFIG ─────────────────────────────────────────
 const SUPA_URL = 'https://gnyephepayziysasiavj.supabase.co';
 const SUPA_KEY = 'sb_publishable_NPTC1AtF9PSBZ5glYB4MWQ_DszwmaLh';
-const { createClient } = supabase;
-const sb = createClient(SUPA_URL, SUPA_KEY);
 
-// ─── STATE ──────────────────────────────────────────────────
-let currentRole = null;
-let currentPin = '1973';
-let tailorPin = '1234';
-let ownerPhone = '96569007826';
-let orderSerial = 383;
-let items = [];
-let selNeck = 'عادية - زر واحد';
-let selChest = 'مخفي';
-let selPocket = 'بدون مخبة داخلية';
-let selFront = 'بدون كرتون';
-let selButton = 'طباقي';
-let selSideline = 'مفرد';
-let selServices = [];
-let selDtype = [];
-let selExtras = [];
-let selExSvc = [];
-let viewingOrderId = null;
-let viewingCustId = null;
-let editingCustId = null;
+let sb;
+try {
+const { createClient } = window.supabase || {};
+if (createClient) sb = createClient(SUPA_URL, SUPA_KEY);
+} catch(e) {}
+
+// Fallback mock if supabase not available
+const mockDB = { customers: [], orders: [], settings: [] };
+const sbMock = {
+from: (table) => ({
+select: () => ({ data: mockDB[table] || [], error: null }),
+insert: (d) => { (mockDB[table] = mockDB[table] || []).push({…d, id: Date.now().toString(), created_at: new Date().toISOString()}); return { error: null }; },
+update: (d) => ({ eq: () => ({ data: null, error: null }) }),
+delete: () => ({ eq: () => ({ error: null }) }),
+upsert: (d) => { return { error: null }; },
+order: () => ({ limit: () => ({ data: mockDB[table] || [], error: null }), data: mockDB[table] || [], error: null }),
+eq: () => ({ single: () => ({ data: null, error: null }), data: [], error: null }),
+})
+};
+
+const db = sb || sbMock;
+
+// ─── CONSTANTS ───────────────────────────────────────────────
+const OWNER_PIN = ‘1973’;
+const TAILOR_PIN = ‘1234’;
+const REPORT_NUMBERS = [‘96560601605’, ‘96560948048’, ‘96550519551’];
+
+const GOLD = ‘#b8860b’;
+const BROWN = ‘#3d2b1f’;
+const CREAM = ‘#fdf8f0’;
+const GOLD_PALE = ‘#f9f0d8’;
+const BORDER = ‘#d4a84c’;
+const GREEN = ‘#27ae60’;
+const RED = ‘#c0392b’;
+const WHITE = ‘#ffffff’;
 
 const MEAS_FIELDS = [
-  {id:'frontlen', ar:'طول أمامي', en:'Length Front'},
-  {id:'backlen', ar:'طول خلفي', en:'Length Back'},
-  {id:'shoulder', ar:'كتف', en:'Shoulder'},
-  {id:'sleeves', ar:'كم', en:'Sleeves'},
-  {id:'chest', ar:'صدر', en:'Chest'},
-  {id:'halfchest', ar:'نصف الصدر', en:'Half Chest'},
-  {id:'button', ar:'زر', en:'Button'},
-  {id:'hemfold', ar:'طية الحاشية', en:'Hem Fold'},
-  {id:'buttoncut', ar:'قطع الزر', en:'Button Cut'},
-  {id:'handcut', ar:'قطع يدوي', en:'Hand Cut'},
-  {id:'wallet', ar:'محفظة', en:'Wallet'},
-  {id:'mobile', ar:'نقال', en:'Mobile'},
+{ id: ‘frontlen’, ar: ‘طول أمامي’, en: ‘Length Front’ },
+{ id: ‘backlen’, ar: ‘طول خلفي’, en: ‘Length Back’ },
+{ id: ‘shoulder’, ar: ‘كتف’, en: ‘Shoulder’ },
+{ id: ‘sleeves’, ar: ‘كم’, en: ‘Sleeves’ },
+{ id: ‘chest’, ar: ‘صدر’, en: ‘Chest’ },
+{ id: ‘halfchest’, ar: ‘نصف الصدر’, en: ‘Half Chest’ },
+{ id: ‘button’, ar: ‘زر’, en: ‘Button’ },
+{ id: ‘hemfold’, ar: ‘طية الحاشية’, en: ‘Hem Fold’ },
+{ id: ‘buttoncut’, ar: ‘قطع الزر’, en: ‘Button Cut’ },
+{ id: ‘handcut’, ar: ‘قطع يدوي’, en: ‘Hand Cut’ },
+{ id: ‘wallet’, ar: ‘محفظة’, en: ‘Wallet’ },
+{ id: ‘mobile’, ar: ‘نقال’, en: ‘Mobile’ },
 ];
 
-// ─── INIT UI ─────────────────────────────────────────────────
-function initUI() {
-  // Services
-  renderCheckGroup('sg_services', ['خياطة دشداشة','بيع خام','تصليح دشداشة','غسيل'], selServices, v => selServices = v);
-  renderCheckGroup('sg_dtype', ['Classic | كلاسيك','Design | تصميم'], selDtype, v => selDtype = v);
-  renderCheckGroup('sg_extras', ['مخبة | Pocket','موبايل | Mobile'], selExtras, v => selExtras = v);
-  renderCheckGroup('sg_exsvc', ['تنقيع | Soaking','غسيل | Laundry','خدمة سريعة | Fast Track'], selExSvc, v => selExSvc = v);
+const SERVICES = [‘خياطة دشداشة’, ‘بيع خام’, ‘تصليح دشداشة’, ‘غسيل’];
+const DISHDASHA_TYPES = [‘Classic | كلاسيك’, ‘Design | تصميم’];
+const EXTRAS = [‘مخبة | Pocket’, ‘موبايل | Mobile’];
+const EXTRA_SVCS = [‘تنقيع | Soaking’, ‘غسيل | Laundry’, ‘خدمة سريعة | Fast Track’];
 
-  // Visual pickers
-  renderVisPicker('vg_neck', [
-    {v:'عادية - زر واحد', l:'عادية\nزر واحد', svg:`<circle cx="20" cy="8" r="6" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><rect x="18" y="14" width="4" height="28" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><circle cx="20" cy="22" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>`},
-    {v:'زرارين', l:'زرارين', svg:`<circle cx="20" cy="8" r="6" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><rect x="18" y="14" width="4" height="28" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><circle cx="20" cy="20" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/><circle cx="20" cy="32" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>`},
-    {v:'قلابي مثلث', l:'قلابي\nمثلث', svg:`<polygon points="20,2 10,18 30,18" fill="none" stroke="#3d2b1f" stroke-width="1.8"/><rect x="18" y="18" width="4" height="24" fill="none" stroke="#3d2b1f" stroke-width="1.5"/>`},
-  ], selNeck, v => selNeck = v);
+const NECK_OPTS = [‘عادية - زر واحد’, ‘زرارين’, ‘قلابي مثلث’];
+const CHEST_OPTS = [‘مخفي’, ‘مكشوف الأزرة’, ‘سحاب’];
+const POCKET_OPTS = [‘بدون مخبة داخلية’, ‘مع مخبة داخلية’];
+const FRONT_OPTS = [‘بدون كرتون’, ‘مع كرتون’];
+const BTN_OPTS = [‘مخفي’, ‘طباقي’, ‘زرار قديم’];
+const SIDELINE_OPTS = [‘مفرد’, ‘مزدوج’];
 
-  renderVisPicker('vg_chest', [
-    {v:'مخفي', l:'مخفي', svg:`<rect x="17" y="2" width="6" height="38" fill="none" stroke="#3d2b1f" stroke-width="1.5" stroke-dasharray="4,3"/>`},
-    {v:'مكشوف الأزرة', l:'مكشوف', svg:`<rect x="13" y="2" width="14" height="38" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><circle cx="20" cy="12" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/><circle cx="20" cy="22" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/><circle cx="20" cy="32" r="3" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>`},
-    {v:'سحاب', l:'سحاب', svg:`<rect x="15" y="2" width="10" height="38" fill="none" stroke="#3d2b1f" stroke-width="1.5"/><line x1="20" y1="4" x2="20" y2="38" stroke="#b8860b" stroke-width="2"/>`},
-  ], selChest, v => selChest = v);
+const emptyOrder = () => ({
+name: ‘’, phone: ‘’, tailor: ‘’,
+date: new Date().toISOString().split(‘T’)[0],
+duedate: ‘’, services: [], fabric: ‘’, qty: 1,
+dishdashaTypes: [], neck: ‘عادية - زر واحد’,
+chestStrip: ‘مخفي’, sidePocket: ‘بدون مخبة داخلية’,
+frontPocket: ‘بدون كرتون’, buttonStyle: ‘طباقي’,
+sideLine: ‘مفرد’, extras: [], extraServices: [],
+measurements: Object.fromEntries(MEAS_FIELDS.map(f => [f.id, ‘’])),
+measNotes: ‘’,
+items: [{ fabricName: ‘’, type: ‘’, meters: ‘’, price: ‘’ }],
+tailoring: ‘’, others: ‘’, discount: 0, paid: ‘’, payMethod: ‘نقدي’, remarks: ‘’,
+});
 
-  renderVisPicker('vg_pocket', [
-    {v:'بدون مخبة داخلية', l:'بدون داخلية', svg:`<path d="M8,4 Q20,0 32,4 L30,40 L10,40 Z" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>`},
-    {v:'مع مخبة داخلية', l:'مع داخلية', svg:`<path d="M8,4 Q20,0 32,4 L30,40 L10,40 Z" fill="none" stroke="#3d2b1f" stroke-width="1.8"/><path d="M13,4 Q20,1 27,4 L26,18 L14,18 Z" fill="#f9f0d8" stroke="#b8860b" stroke-width="1.2"/>`},
-  ], selPocket, v => selPocket = v);
+// ─── STYLES ──────────────────────────────────────────────────
+const S = {
+body: { fontFamily: “‘Tajawal’, sans-serif”, direction: ‘rtl’, background: CREAM, minHeight: ‘100vh’, paddingBottom: 70 },
+topNav: { background: `linear-gradient(135deg, ${BROWN}, #2a1a10)`, color: GOLD_PALE, display: ‘flex’, alignItems: ‘center’, justifyContent: ‘space-between’, padding: ‘0 14px’, height: 54, position: ‘sticky’, top: 0, zIndex: 100, boxShadow: ‘0 3px 12px rgba(0,0,0,.35)’ },
+logo: { fontWeight: 900, fontSize: 17, color: ‘#d4a017’ },
+bottomNav: { position: ‘fixed’, bottom: 0, left: 0, right: 0, background: BROWN, display: ‘flex’, zIndex: 100, boxShadow: ‘0 -3px 12px rgba(0,0,0,.3)’ },
+page: { padding: 14, maxWidth: 800, margin: ‘0 auto’ },
+card: { background: WHITE, border: `1.5px solid ${BORDER}`, borderRadius: 14, padding: 14, marginBottom: 12, boxShadow: ‘0 2px 8px rgba(184,134,11,.1)’ },
+cardTitle: { fontSize: 13, fontWeight: 900, color: BROWN, background: GOLD_PALE, padding: ‘6px 10px’, borderRadius: 8, marginBottom: 12 },
+secTitle: { fontSize: 18, fontWeight: 900, color: BROWN, borderRight: `4px solid ${GOLD}`, paddingRight: 10, marginBottom: 14, display: ‘flex’, justifyContent: ‘space-between’, alignItems: ‘center’ },
+inp: { border: `1.5px solid #ddd`, borderRadius: 8, padding: ‘9px 10px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 14, background: CREAM, width: ‘100%’, outline: ‘none’, boxSizing: ‘border-box’ },
+label: { fontSize: 11, fontWeight: 700, color: BROWN, display: ‘block’, marginBottom: 3 },
+fg: { marginBottom: 10 },
+row2: { display: ‘grid’, gridTemplateColumns: ‘1fr 1fr’, gap: 10, marginBottom: 10 },
+row3: { display: ‘grid’, gridTemplateColumns: ‘1fr 1fr 1fr’, gap: 10, marginBottom: 10 },
+};
 
-  renderVisPicker('vg_front', [
-    {v:'بدون كرتون', l:'بدون كرتون', svg:`<rect x="4" y="4" width="32" height="24" rx="3" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>`},
-    {v:'مع كرتون', l:'مع كرتون', svg:`<rect x="4" y="4" width="32" height="24" rx="3" fill="none" stroke="#3d2b1f" stroke-width="1.8"/><rect x="4" y="4" width="32" height="10" rx="3" fill="#f9f0d8" stroke="#b8860b" stroke-width="1.2"/>`},
-  ], selFront, v => selFront = v);
+const btn = (bg, color = WHITE, extra = {}) => ({
+border: ‘none’, borderRadius: 10, padding: ‘10px 16px’,
+fontFamily: ‘Tajawal,sans-serif’, fontSize: 14, fontWeight: 700,
+cursor: ‘pointer’, background: bg, color,
+display: ‘inline-flex’, alignItems: ‘center’, gap: 6, …extra
+});
 
-  renderVisPicker('vg_button', [
-    {v:'مخفي', l:'مخفي', svg:`<rect x="6" y="6" width="28" height="28" rx="4" fill="none" stroke="#3d2b1f" stroke-width="1.5" stroke-dasharray="4,2"/>`},
-    {v:'طباقي', l:'طباقي', svg:`<circle cx="20" cy="20" r="14" fill="none" stroke="#3d2b1f" stroke-width="1.8"/><circle cx="20" cy="20" r="6" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>`},
-    {v:'زرار قديم', l:'زرار قديم', svg:`<circle cx="20" cy="20" r="14" fill="none" stroke="#3d2b1f" stroke-width="1.8"/><circle cx="20" cy="20" r="4" fill="#3d2b1f"/><line x1="6" y1="20" x2="34" y2="20" stroke="#3d2b1f" stroke-width="1"/><line x1="20" y1="6" x2="20" y2="34" stroke="#3d2b1f" stroke-width="1"/>`},
-  ], selButton, v => selButton = v);
-
-  renderVisPicker('vg_sideline', [
-    {v:'مفرد', l:'مفرد', svg:`<line x1="20" y1="4" x2="20" y2="38" stroke="#3d2b1f" stroke-width="2.5"/>`},
-    {v:'مزدوج', l:'مزدوج', svg:`<line x1="13" y1="4" x2="13" y2="38" stroke="#3d2b1f" stroke-width="2"/><line x1="27" y1="4" x2="27" y2="38" stroke="#3d2b1f" stroke-width="2"/>`},
-  ], selSideline, v => selSideline = v);
-
-  // Measurements
-  const mf = document.getElementById('measFields');
-  mf.innerHTML = MEAS_FIELDS.map(f => `
-    <div class="mi">
-      <label>${f.ar} | ${f.en}</label>
-      <input type="number" inputmode="decimal" placeholder="0" id="m_${f.id}">
-    </div>`).join('');
-
-  // Items
-  items = [{fabricName:'', type:'', meters:'', price:''}];
-  renderItems();
-
-  // Date
-  document.getElementById('o_date').value = new Date().toISOString().split('T')[0];
+// ─── COMPONENTS ──────────────────────────────────────────────
+function FG({ label: lbl, children }) {
+return <div style={S.fg}><label style={S.label}>{lbl}</label>{children}</div>;
 }
 
-function renderCheckGroup(id, opts, sel, onChange) {
-  const el = document.getElementById(id);
-  el.innerHTML = opts.map(o => `<div class="ci ${sel.includes(o)?'on':''}" onclick="toggleCheck(this,'${o}','${id}')">${o}</div>`).join('');
-  el._onChange = onChange;
-  el._sel = sel;
+function CheckGroup({ label: lbl, options, values, onChange }) {
+const toggle = v => onChange(values.includes(v) ? values.filter(x => x !== v) : […values, v]);
+return (
+<div style={{ marginBottom: 10 }}>
+{lbl && <div style={{ fontSize: 12, fontWeight: 700, color: BROWN, marginBottom: 6 }}>{lbl}</div>}
+<div style={{ display: ‘flex’, flexWrap: ‘wrap’, gap: 7 }}>
+{options.map(o => {
+const on = values.includes(o);
+return <div key={o} onClick={() => toggle(o)} style={{ border: `1.5px solid ${on ? GOLD : '#ddd'}`, borderRadius: 8, padding: ‘6px 12px’, cursor: ‘pointer’, background: on ? GOLD_PALE : CREAM, fontSize: 13, fontWeight: on ? 700 : 400, color: on ? BROWN : ‘#555’ }}>{o}</div>;
+})}
+</div>
+</div>
+);
 }
 
-function toggleCheck(el, val, groupId) {
-  const grp = document.getElementById(groupId);
-  el.classList.toggle('on');
-  const sel = [...grp.querySelectorAll('.ci.on')].map(c => c.textContent);
-  grp._sel = sel;
-  if(grp._onChange) grp._onChange(sel);
+function VisPicker({ label: lbl, options, value, onChange }) {
+return (
+<div style={{ marginBottom: 10 }}>
+<div style={{ fontSize: 12, fontWeight: 700, color: BROWN, marginBottom: 6 }}>{lbl}</div>
+<div style={{ display: ‘flex’, flexWrap: ‘wrap’, gap: 8 }}>
+{options.map(o => (
+<div key={o} onClick={() => onChange(o)} style={{ border: `2px solid ${value === o ? GOLD : '#ddd'}`, borderRadius: 8, padding: ‘8px 14px’, cursor: ‘pointer’, background: value === o ? GOLD_PALE : CREAM, fontSize: 13, fontWeight: value === o ? 700 : 400, color: value === o ? BROWN : ‘#777’ }}>{o}</div>
+))}
+</div>
+</div>
+);
 }
 
-function renderVisPicker(id, opts, selVal, onChange) {
-  const el = document.getElementById(id);
-  el.innerHTML = opts.map(o => `
-    <div class="vo ${selVal===o.v?'on':''}" onclick="selectVis('${id}','${o.v}')">
-      <svg viewBox="0 0 40 42" width="36" height="38">${o.svg}</svg>
-      <span>${o.l}</span>
-    </div>`).join('');
-  el._onChange = onChange;
+function TotalsBox({ tailoring, textiles, others, discount, paid, total, remaining }) {
+const discAmt = (tailoring + textiles + others) * discount / 100;
+return (
+<div style={{ background: GOLD_PALE, border: `2px solid ${GOLD}`, borderRadius: 12, padding: ‘12px 14px’, marginBottom: 10 }}>
+{[[‘الخياطة’, tailoring], [‘المنسوجات’, textiles], [‘أخرى’, others]].map(([l, v]) => (
+<div key={l} style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
+<span style={{ fontWeight: 700 }}>{l}</span><span>{v.toFixed(3)} KD</span>
+</div>
+))}
+{discount > 0 && <div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
+<span style={{ fontWeight: 700, color: GREEN }}>خصم {discount}%</span>
+<span style={{ color: GREEN, fontWeight: 700 }}>- {discAmt.toFixed(3)} KD</span>
+</div>}
+<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘8px 0 4px’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
+<span style={{ fontWeight: 900 }}>الإجمالي الكلي</span>
+<span style={{ fontWeight: 900, fontSize: 18, color: GOLD }}>{total.toFixed(3)} KD</span>
+</div>
+<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’ }}>
+<span style={{ fontWeight: 700 }}>المدفوع</span>
+<span style={{ color: GREEN, fontWeight: 900 }}>{paid.toFixed(3)} KD</span>
+</div>
+<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘8px 10px’, marginTop: 6, borderRadius: 8, background: remaining > 0 ? ‘#fde2e2’ : ‘#d4edda’, border: `2px solid ${remaining > 0 ? RED : GREEN}` }}>
+<span style={{ fontWeight: 900, color: remaining > 0 ? RED : GREEN, fontSize: 15 }}>{remaining > 0 ? ‘⚠️ الباقي | Remaining’ : ‘✅ مسوّى | Paid in Full’}</span>
+<span style={{ fontWeight: 900, fontSize: 18, color: remaining > 0 ? RED : GREEN }}>{remaining.toFixed(3)} KD</span>
+</div>
+</div>
+);
 }
 
-function selectVis(id, val) {
-  const el = document.getElementById(id);
-  el.querySelectorAll('.vo').forEach(v => v.classList.toggle('on', v.dataset.v === val || v.querySelector('span')?.textContent === val));
-  el.querySelectorAll('.vo').forEach(v => {
-    const sp = v.querySelector('span');
-    if(sp && sp.textContent.trim() === val.trim()) v.classList.add('on');
-    else if(sp && sp.textContent.trim() !== val.trim()) v.classList.remove('on');
-  });
-  if(el._onChange) el._onChange(val);
-  // simple approach
-  el.querySelectorAll('.vo').forEach(v => {
-    v.classList.remove('on');
-  });
-  [...el.querySelectorAll('.vo')].forEach(v => {
-    if([...v.querySelectorAll('span')].some(s => s.textContent.includes(val.split(' ')[0])) || v.textContent.includes(val)) {
-      v.classList.add('on');
-    }
-  });
-  if(el._onChange) el._onChange(val);
+function Modal({ show, title, onClose, children }) {
+if (!show) return null;
+return (
+<div style={{ position: ‘fixed’, inset: 0, background: ‘rgba(0,0,0,.55)’, zIndex: 200, display: ‘flex’, alignItems: ‘flex-end’, justifyContent: ‘center’ }}>
+<div style={{ background: WHITE, borderRadius: ‘20px 20px 0 0’, padding: 20, width: ‘100%’, maxWidth: 600, maxHeight: ‘90vh’, overflowY: ‘auto’, borderTop: `3px solid ${GOLD}` }}>
+<div style={{ display: ‘flex’, justifyContent: ‘space-between’, marginBottom: 14, fontSize: 17, fontWeight: 900, color: BROWN }}>
+<span>{title}</span>
+<button onClick={onClose} style={{ background: ‘none’, border: ‘none’, fontSize: 22, cursor: ‘pointer’, color: ‘#999’ }}>✕</button>
+</div>
+{children}
+</div>
+</div>
+);
 }
 
-// ─── ITEMS TABLE ─────────────────────────────────────────────
-function renderItems() {
-  const tb = document.getElementById('itemsBody');
-  tb.innerHTML = items.map((r,i) => `
-    <tr>
-      <td>${i+1}</td>
-      <td><input placeholder="اسم الخامة" value="${r.fabricName||''}" oninput="updateItem(${i},'fabricName',this.value)"></td>
-      <td><select onchange="updateItem(${i},'type',this.value)">
-        <option value="">النوع</option>
-        <option ${r.type==='صيفي | Summer'?'selected':''}>صيفي | Summer</option>
-        <option ${r.type==='شتوي | Winter'?'selected':''}>شتوي | Winter</option>
-      </select></td>
-      <td><input type="number" value="${r.meters||''}" placeholder="0" oninput="updateItem(${i},'meters',this.value)" inputmode="decimal"></td>
-      <td><input type="number" value="${r.price||''}" placeholder="0" oninput="updateItem(${i},'price',this.value)" inputmode="decimal"></td>
-      <td><b>${((parseFloat(r.meters)||0)*(parseFloat(r.price)||0)).toFixed(3)}</b></td>
-      <td><button onclick="removeItem(${i})" style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer">✕</button></td>
-    </tr>`).join('');
-  calcTotal();
+function Toast({ msg }) {
+if (!msg) return null;
+return <div style={{ position: ‘fixed’, top: 64, left: ‘50%’, transform: ‘translateX(-50%)’, background: BROWN, color: GOLD_PALE, padding: ‘10px 20px’, borderRadius: 30, fontSize: 13, fontWeight: 700, zIndex: 999, boxShadow: ‘0 4px 16px rgba(0,0,0,.3)’, whiteSpace: ‘nowrap’ }}>{msg}</div>;
 }
 
-function updateItem(i, field, val) { items[i][field] = val; renderItems(); }
-function removeItem(i) { items.splice(i,1); if(!items.length) items.push({fabricName:'',type:'',meters:'',price:''}); renderItems(); }
-function addItem() { items.push({fabricName:'',type:'',meters:'',price:''}); renderItems(); }
-
-function calcTotal() {
-  const textiles = items.reduce((s,r) => s + (parseFloat(r.meters)||0)*(parseFloat(r.price)||0), 0);
-  const tail = parseFloat(document.getElementById('p_tailor').value)||0;
-  const other = parseFloat(document.getElementById('p_other').value)||0;
-  const disc = parseFloat(document.getElementById('p_disc').value)||0;
-  const paid = parseFloat(document.getElementById('p_paid').value)||0;
-  const sub = tail + textiles + other;
-  const discAmt = sub * disc / 100;
-  const total = sub - discAmt;
-  const remain = total - paid;
-
-  document.getElementById('p_text').value = textiles.toFixed(3);
-  document.getElementById('t_tail').textContent = tail.toFixed(3)+' KD';
-  document.getElementById('t_text').textContent = textiles.toFixed(3)+' KD';
-  document.getElementById('t_other').textContent = other.toFixed(3)+' KD';
-  document.getElementById('t_total').textContent = total.toFixed(3)+' KD';
-  document.getElementById('t_paid').textContent = paid.toFixed(3)+' KD';
-  document.getElementById('t_remain').textContent = remain.toFixed(3)+' KD';
-
-  const discRow = document.getElementById('t_disc_row');
-  if(disc > 0) { discRow.style.display='flex'; document.getElementById('t_disc').textContent = '- '+discAmt.toFixed(3)+' KD'; }
-  else discRow.style.display='none';
-
-  const rb = document.getElementById('remainBox');
-  const rl = document.getElementById('remainLabel');
-  const rt = document.getElementById('t_remain');
-  if(remain > 0) {
-    rb.style.background='#fde2e2'; rb.style.border='2px solid var(--red)';
-    rl.style.color='var(--red)'; rt.style.color='var(--red)';
-    rl.textContent='⚠️ الباقي | Remaining';
-  } else {
-    rb.style.background='#d4edda'; rb.style.border='2px solid var(--green)';
-    rl.style.color='var(--green)'; rt.style.color='var(--green)';
-    rl.textContent='✅ مسوّى | Paid in Full';
-  }
+function BNavItem({ icon, label: lbl, active, onClick }) {
+return (
+<button onClick={onClick} style={{ flex: 1, display: ‘flex’, flexDirection: ‘column’, alignItems: ‘center’, justifyContent: ‘center’, padding: ‘8px 4px’, color: active ? ‘#d4a017’ : ‘rgba(255,255,255,.5)’, background: ‘none’, border: ‘none’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 10, gap: 2, cursor: ‘pointer’ }}>
+<span style={{ fontSize: 20 }}>{icon}</span>{lbl}
+</button>
+);
 }
 
-// ─── LOGIN ───────────────────────────────────────────────────
-function login(role) {
-  if(role==='owner') { document.getElementById('pinInput').value=''; openModal('pinOverlay'); setTimeout(()=>document.getElementById('pinInput').focus(),300); }
-  else { document.getElementById('tailorPinInput').value=''; openModal('tailorPinOverlay'); setTimeout(()=>document.getElementById('tailorPinInput').focus(),300); }
-}
-function checkTailorPin() {
-  if(document.getElementById('tailorPinInput').value === tailorPin) {
-    currentRole='tailor'; closeModal('tailorPinOverlay'); startApp();
-  } else {
-    document.getElementById('tailorPinError').style.display='block';
-    setTimeout(()=>{ document.getElementById('tailorPinInput').value=''; document.getElementById('tailorPinError').style.display='none'; }, 1200);
-  }
-}
-function checkPin() {
-  if(document.getElementById('pinInput').value === currentPin) {
-    currentRole='owner'; closeModal('pinOverlay'); startApp();
-  } else {
-    document.getElementById('pinError').style.display='block';
-    setTimeout(()=>{ document.getElementById('pinInput').value=''; document.getElementById('pinError').style.display='none'; }, 1200);
-  }
-}
-async function startApp() {
-  // Load settings from Supabase
-  try {
-    const {data:settingsData} = await sb.from('settings').select('*');
-    if(settingsData && settingsData.length > 0) {
-      settingsData.forEach(s => {
-        if(s.key==='ownerPin' && s.value) currentPin = s.value;
-        if(s.key==='tailorPin' && s.value) { tailorPin = s.value; const el=document.getElementById('tailorPinDisplay'); if(el) el.textContent=s.value; }
-        if(s.key==='ownerPhone' && s.value) { ownerPhone = s.value; const el=document.getElementById('s_phone'); if(el) el.value=s.value; }
-      });
-    }
-  } catch(e) { console.log('settings load error', e); }
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('mainApp').style.display='block';
-  document.getElementById('bottomNav').style.display='flex';
-  document.getElementById('roleBadge').textContent = currentRole==='owner'?'👑 مالك':'🪡 خياط';
-  if(currentRole==='owner') {
-    document.getElementById('bnav-reports').style.display='';
-    document.getElementById('debtStat').style.display='';
-    const ownerRep = document.getElementById('ownerReports');
-    if(ownerRep) ownerRep.style.display='';
-  } else {
-    const noAccess = document.getElementById('tailor-no-access');
-    if(noAccess) noAccess.style.display='';
-  }
-  initUI();
-  renderHome();
-  renderOrders();
-  renderCustomers();
-}
-function logout() { currentRole=null; document.getElementById('loginWrap').style.display='flex'; document.getElementById('mainApp').style.display='none'; document.getElementById('bottomNav').style.display='none'; }
-
-// ─── NAVIGATION ──────────────────────────────────────────────
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(id==='home') renderHome();
-  if(id==='orders') renderOrders();
-  if(id==='customers') renderCustomers();
-  if(id==='reports' && currentRole==='owner') generateReport();
+function OrderCard({ o, onView, onWA, onStatus, onDelete, role }) {
+const sc = { شغال: ‘#dbeeff’, جاهز: ‘#d4edda’, “سلّم”: ‘#eee’ }[o.status] || ‘#eee’;
+const tc = { شغال: ‘#2980b9’, جاهز: GREEN, “سلّم”: ‘#777’ }[o.status] || ‘#777’;
+return (
+<div style={{ background: WHITE, border: `1.5px solid ${BORDER}`, borderRadius: 12, padding: 13, marginBottom: 10 }}>
+<div style={{ display: ‘flex’, justifyContent: ‘space-between’, alignItems: ‘center’, marginBottom: 8 }}>
+<div style={{ fontSize: 20, fontWeight: 900, color: GOLD }}>#{o.serial}</div>
+<select value={o.status} onChange={e => onStatus(e.target.value)} style={{ border: `1.5px solid ${BORDER}`, borderRadius: 8, padding: ‘5px 10px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 13, fontWeight: 700, background: sc, color: tc, cursor: ‘pointer’ }}>
+<option>شغال</option><option>جاهز</option><option>سلّم</option>
+</select>
+</div>
+<div style={{ fontSize: 13, color: ‘#666’, lineHeight: 1.9 }}>
+👤 <b>{o.name}</b> | 📞 {o.phone}<br />
+🧵 {(o.services || []).join(’، ’) || ‘—’}<br />
+📅 {o.date || ‘—’}{o.duedate ? ` → تسليم: ${o.duedate}` : ‘’}<br />
+💰 <b>{(o.total || 0).toFixed(3)} KD</b> | مدفوع: {(o.paid || 0).toFixed(3)}
+{role === ‘owner’ && <span style={{ color: RED }}> | متبقي: {(o.remaining || 0).toFixed(3)}</span>}
+</div>
+<div style={{ display: ‘flex’, gap: 7, marginTop: 10, flexWrap: ‘wrap’ }}>
+<button onClick={onWA} style={{ background: ‘#25d366’, color: WHITE, border: ‘none’, borderRadius: 8, padding: ‘7px 12px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 12, fontWeight: 700, cursor: ‘pointer’ }}>📲 رسالة</button>
+<button onClick={onView} style={{ …btn(‘transparent’, BROWN), border: `1.5px solid ${BORDER}`, padding: ‘7px 12px’, fontSize: 12 }}>👁️ تفاصيل</button>
+<button onClick={onDelete} style={{ …btn(RED), padding: ‘7px 12px’, fontSize: 12 }}>🗑️</button>
+</div>
+</div>
+);
 }
 
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+// ─── MAIN APP ────────────────────────────────────────────────
+export default function App() {
+const [role, setRole] = useState(null);
+const [page, setPage] = useState(‘home’);
+const [toast, setToast] = useState(’’);
+const [orders, setOrders] = useState([]);
+const [customers, setCustomers] = useState([]);
+const [order, setOrder] = useState(emptyOrder());
+const [orderSerial, setOrderSerial] = useState(383);
+const [pinInput, setPinInput] = useState(’’);
+const [pinMode, setPinMode] = useState(null); // ‘owner’ | ‘tailor’
+const [pinError, setPinError] = useState(false);
+const [viewOrd, setViewOrd] = useState(null);
+const [viewCust, setViewCust] = useState(null);
+const [editCust, setEditCust] = useState(null);
+const [custForm, setCustForm] = useState({ name: ‘’, phone: ‘’, address: ‘’, notes: ‘’ });
+const [ordFilter, setOrdFilter] = useState(’’);
+const [ordSearch, setOrdSearch] = useState(’’);
+const [custSearch, setCustSearch] = useState(’’);
+const [extraPay, setExtraPay] = useState(’’);
+const [loading, setLoading] = useState(false);
 
-function showToast(msg, dur=2500) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), dur);
+const showToast = (msg, dur = 2500) => {
+setToast(msg);
+setTimeout(() => setToast(’’), dur);
+};
+
+// Load data
+const loadData = useCallback(async () => {
+setLoading(true);
+try {
+const [{ data: ords }, { data: custs }] = await Promise.all([
+db.from(‘orders’).select(’*’).order(‘created_at’, { ascending: false }),
+db.from(‘customers’).select(’*’).order(‘created_at’, { ascending: false }),
+]);
+setOrders(ords || []);
+setCustomers(custs || []);
+if (ords && ords.length > 0) {
+const maxSerial = Math.max(…ords.map(o => o.serial || 0));
+setOrderSerial(Math.max(383, maxSerial));
 }
+} catch (e) { console.error(e); }
+setLoading(false);
+}, []);
 
-// ─── HOME ────────────────────────────────────────────────────
-async function renderHome() {
-  const [custs, orders] = await Promise.all([
-    sb.from('customers').select('id'),
-    sb.from('orders').select('*').order('created_at', {ascending:false}).limit(10)
-  ]);
-  const all = orders.data || [];
-  const pending = all.filter(o=>o.status==='شغال').length;
-  const debt = all.reduce((s,o)=>s+(o.remaining||0),0);
+useEffect(() => { if (role) loadData(); }, [role, loadData]);
 
-  document.getElementById('statC').textContent = (custs.data||[]).length;
-  document.getElementById('statO').textContent = all.length;
-  document.getElementById('statP').textContent = pending;
-  document.getElementById('statD').textContent = debt.toFixed(3)+' KD';
+// ── TOTALS ──
+const textiles = order.items.reduce((s, r) => s + (parseFloat(r.meters) || 0) * (parseFloat(r.price) || 0), 0);
+const tailoring = parseFloat(order.tailoring) || 0;
+const others = parseFloat(order.others) || 0;
+const sub = tailoring + textiles + others;
+const discAmt = sub * (order.discount || 0) / 100;
+const total = sub - discAmt;
+const paid = parseFloat(order.paid) || 0;
+const remaining = total - paid;
 
-  const el = document.getElementById('homeOrders');
-  el.innerHTML = all.slice(0,5).map(o=>orderCardHTML(o)).join('') || '<div class="empty">ما في طلبات بعد</div>';
+// ── LOGIN ──
+const doLogin = (r) => { setPinMode(r); setPinInput(’’); setPinError(false); };
+
+const checkPin = () => {
+const correctPin = pinMode === ‘owner’ ? OWNER_PIN : TAILOR_PIN;
+if (pinInput === correctPin) {
+setRole(pinMode); setPinMode(null);
+} else {
+setPinError(true); setPinInput(’’);
+setTimeout(() => setPinError(false), 1500);
 }
+};
 
-// ─── ORDERS ──────────────────────────────────────────────────
-async function renderOrders() {
-  const filter = document.getElementById('ordFilter')?.value||'';
-  const search = document.getElementById('ordSearch')?.value||'';
-  let q = sb.from('orders').select('*').order('created_at', {ascending:false});
-  if(filter) q = q.eq('status', filter);
-  const {data} = await q;
-  let list = data || [];
-  if(search) list = list.filter(o=>o.name?.includes(search)||String(o.serial).includes(search)||o.phone?.includes(search));
-  document.getElementById('orderList').innerHTML = list.length ? list.map(o=>orderCardHTML(o)).join('') : '<div class="empty">ما في طلبات</div>';
+// ── SAVE ORDER ──
+const saveOrder = async () => {
+if (!order.name || !order.phone) { showToast(‘❌ أدخل الاسم والهاتف’); return; }
+const newSerial = orderSerial + 1;
+const newOrder = {
+serial: newSerial, date: order.date, duedate: order.duedate,
+name: order.name, phone: order.phone, tailor: order.tailor,
+services: order.services, fabric: order.fabric, qty: order.qty,
+dishdasha_types: order.dishdashaTypes, neck: order.neck,
+chest_strip: order.chestStrip, side_pocket: order.sidePocket,
+front_pocket: order.frontPocket, button_style: order.buttonStyle,
+side_line: order.sideLine, extras: order.extras,
+extra_services: order.extraServices, measurements: order.measurements,
+meas_notes: order.measNotes, items: order.items,
+tailoring, textiles, others, discount: order.discount,
+total, paid, remaining, pay_method: order.payMethod,
+remarks: order.remarks, status: ‘شغال’,
+};
+const { error } = await db.from(‘orders’).insert(newOrder);
+if (error) { showToast(’❌ خطأ: ’ + error.message); return; }
+
+```
+// Update customer
+const existing = customers.find(c => c.phone === order.phone);
+if (existing) {
+  await db.from('customers').update({ measurements: order.measurements, name: order.name }).eq('id', existing.id);
+} else {
+  await db.from('customers').insert({ name: order.name, phone: order.phone, measurements: order.measurements });
 }
+setOrderSerial(newSerial);
+await loadData();
+showToast('✅ تم حفظ الطلب #' + newSerial);
+setOrder(emptyOrder());
+setPage('orders');
+```
 
-function orderCardHTML(o) {
-  const sc = {شغال:'#dbeeff',جاهز:'#d4edda',"سلّم":'#eee'}[o.status]||'#eee';
-  const tc = {شغال:'#2980b9',جاهز:'#27ae60',"سلّم":'#777'}[o.status]||'#777';
-  return `<div class="ord-card">
-    <div class="ord-head">
-      <div class="ord-num">#${o.serial}</div>
-      <select class="status-sel" style="background:${sc};color:${tc}" onchange="updateStatus('${o.id}',this.value)">
-        <option ${o.status==='شغال'?'selected':''}>شغال</option>
-        <option ${o.status==='جاهز'?'selected':''}>جاهز</option>
-        <option ${o.status==="سلّم"?'selected':''}>سلّم</option>
-      </select>
+};
+
+// ── WHATSAPP ──
+const sendWA = (o) => {
+const shop = ‘كشمير للخياطة’;
+let msg = `🌟 *${shop}*\n\nالسلام عليكم ${o.name} 👋\n`;
+msg += o.status === ‘جاهز’ ? ‘طلبك جاهز للاستلام ✅\n\n’ : ‘تم استلام طلبك وهو قيد التنفيذ 🪡\n\n’;
+msg += `📋 *تفاصيل الطلب:*\n• رقم الطلب: #${o.serial}\n`;
+msg += `• الخدمة: ${(o.services || []).join('، ') || '—'}\n`;
+if (o.duedate) msg += `• موعد التسليم: ${o.duedate}\n`;
+const m = o.measurements || {};
+const measText = MEAS_FIELDS.filter(f => m[f.id]).map(f => `• ${f.ar}: ${m[f.id]}`).join(’\n’);
+if (measText) msg += `\n📏 *القياسات:*\n${measText}\n`;
+msg += `\n💰 *الحساب:*\n• الإجمالي: ${(o.total || 0).toFixed(3)} KD\n`;
+msg += `• المدفوع: ${(o.paid || 0).toFixed(3)} KD\n`;
+msg += o.remaining > 0 ? `• المتبقي: ${o.remaining.toFixed(3)} KD\n` : ‘• ✅ تم السداد الكامل\n’;
+msg += `\nشكراً لثقتكم 🙏`;
+window.open(`https://wa.me/${o.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`, ‘_blank’);
+};
+
+const sendReportWA = async () => {
+const now = new Date(); const weekAgo = new Date(now - 7 * 864e5);
+const weekOrds = orders.filter(o => new Date(o.created_at) >= weekAgo);
+const weekRev = weekOrds.reduce((s, o) => s + (o.paid || 0), 0);
+const debt = orders.reduce((s, o) => s + (o.remaining || 0), 0);
+let msg = `📊 *تقرير أسبوعي - كشمير للخياطة*\n📅 ${weekAgo.toLocaleDateString('ar-KW')} → ${now.toLocaleDateString('ar-KW')}\n\n`;
+msg += `🔢 عدد الطلبات: ${weekOrds.length}\n💰 الإيرادات: ${weekRev.toFixed(3)} KD\n💸 المبالغ المتبقية: ${debt.toFixed(3)} KD\n`;
+msg += `⏳ شغالة: ${orders.filter(o => o.status === 'شغال').length} | ✅ جاهزة: ${orders.filter(o => o.status === 'جاهز').length}`;
+const encoded = encodeURIComponent(msg);
+REPORT_NUMBERS.forEach((num, i) => setTimeout(() => window.open(`https://wa.me/${num}?text=${encoded}`, ‘_blank’), i * 800));
+showToast(‘✅ يتم إرسال التقرير للملاك’);
+};
+
+// ── UPDATE STATUS ──
+const updateStatus = async (id, status) => {
+await db.from(‘orders’).update({ status }).eq(‘id’, id);
+setOrders(prev => prev.map(o => o.id === id ? { …o, status } : o));
+showToast(‘✅ تم تحديث الحالة’);
+};
+
+const deleteOrder = async (id) => {
+if (!window.confirm(‘تأكيد حذف الطلب؟’)) return;
+await db.from(‘orders’).delete().eq(‘id’, id);
+setOrders(prev => prev.filter(o => o.id !== id));
+setViewOrd(null);
+showToast(‘🗑️ تم الحذف’);
+};
+
+const addPayment = async () => {
+const amt = parseFloat(extraPay) || 0;
+if (!amt || !viewOrd) { showToast(‘❌ أدخل مبلغ’); return; }
+const o = orders.find(x => x.id === viewOrd.id);
+if (!o) return;
+const newPaid = (o.paid || 0) + amt;
+const newRemaining = Math.max(0, (o.total || 0) - newPaid);
+await db.from(‘orders’).update({ paid: newPaid, remaining: newRemaining }).eq(‘id’, o.id);
+setOrders(prev => prev.map(x => x.id === o.id ? { …x, paid: newPaid, remaining: newRemaining } : x));
+setExtraPay(’’); setViewOrd(null);
+showToast(‘✅ تم تسجيل الدفعة’);
+};
+
+const saveCustomer = async () => {
+if (!custForm.name || !custForm.phone) { showToast(‘❌ أدخل الاسم والهاتف’); return; }
+if (editCust) {
+await db.from(‘customers’).update(custForm).eq(‘id’, editCust.id);
+setCustomers(prev => prev.map(c => c.id === editCust.id ? { …c, …custForm } : c));
+} else {
+await db.from(‘customers’).insert(custForm);
+await loadData();
+}
+setEditCust(null); setViewCust(null);
+showToast(‘✅ تم الحفظ’);
+};
+
+const deleteCustomer = async (id) => {
+if (!window.confirm(‘تأكيد حذف الزبون؟’)) return;
+await db.from(‘customers’).delete().eq(‘id’, id);
+setCustomers(prev => prev.filter(c => c.id !== id));
+setViewCust(null);
+showToast(‘🗑️ تم الحذف’);
+};
+
+// ── STATS ──
+const totalDebt = orders.reduce((s, o) => s + (o.remaining || 0), 0);
+const pendingCount = orders.filter(o => o.status === ‘شغال’).length;
+const now = new Date(); const weekAgo = new Date(now - 7 * 864e5);
+const weekOrds = orders.filter(o => new Date(o.created_at) >= weekAgo);
+const weekRev = weekOrds.reduce((s, o) => s + (o.paid || 0), 0);
+
+const filteredOrders = orders.filter(o =>
+(!ordFilter || o.status === ordFilter) &&
+(!ordSearch || o.name?.includes(ordSearch) || String(o.serial).includes(ordSearch) || o.phone?.includes(ordSearch))
+);
+
+const filteredCusts = customers.filter(c =>
+!custSearch || c.name?.includes(custSearch) || c.phone?.includes(custSearch)
+);
+
+// ──────── RENDER ────────────────────────────────────────────
+
+// LOGIN
+if (!role) return (
+<div style={{ minHeight: ‘100vh’, display: ‘flex’, alignItems: ‘center’, justifyContent: ‘center’, background: `linear-gradient(160deg, ${BROWN}, #1a0a05)`, padding: 20 }}>
+<div style={{ background: WHITE, borderRadius: 20, padding: ‘28px 22px’, width: ‘100%’, maxWidth: 360, textAlign: ‘center’, border: `2px solid ${GOLD}` }}>
+{pinMode ? (
+<>
+<div style={{ fontSize: 32, marginBottom: 8 }}>🔐</div>
+<h3 style={{ color: BROWN, marginBottom: 6 }}>{pinMode === ‘owner’ ? ‘رمز المالك’ : ‘رمز الخياط’}</h3>
+<input type=“password” maxLength={4} inputMode=“numeric” value={pinInput}
+onChange={e => setPinInput(e.target.value)}
+onKeyDown={e => e.key === ‘Enter’ && checkPin()}
+style={{ …S.inp, textAlign: ‘center’, fontSize: 28, letterSpacing: 12, width: 160, margin: ‘12px auto’, display: ‘block’ }} autoFocus />
+{pinError && <p style={{ color: RED, fontSize: 13, marginBottom: 8 }}>❌ رمز خاطئ</p>}
+<div style={{ display: ‘flex’, gap: 8, justifyContent: ‘center’ }}>
+<button onClick={checkPin} style={{ …btn(GOLD), padding: ‘10px 24px’ }}>دخول</button>
+<button onClick={() => setPinMode(null)} style={{ …btn(‘transparent’, BROWN), border: `1.5px solid ${BORDER}` }}>إلغاء</button>
+</div>
+</>
+) : (
+<>
+<div style={{ fontSize: 40, marginBottom: 10 }}>✂️</div>
+<h2 style={{ fontSize: 22, fontWeight: 900, color: BROWN, marginBottom: 6 }}>كشمير للخياطة</h2>
+<p style={{ fontSize: 13, color: ‘#888’, marginBottom: 20 }}>اختر طريقة الدخول</p>
+{[{ r: ‘owner’, icon: ‘👑’, t: ‘المالك’, s: ‘صلاحيات كاملة + التقارير’ }, { r: ‘tailor’, icon: ‘🪡’, t: ‘الخياط’, s: ‘الطلبات والزبائن فقط’ }].map(x => (
+<button key={x.r} onClick={() => doLogin(x.r)} style={{ width: ‘100%’, border: `2px solid ${BORDER}`, background: CREAM, borderRadius: 12, padding: 14, fontFamily: ‘Tajawal,sans-serif’, fontSize: 15, fontWeight: 700, cursor: ‘pointer’, display: ‘flex’, alignItems: ‘center’, gap: 10, marginBottom: 10, textAlign: ‘right’ }}>
+<span style={{ fontSize: 24 }}>{x.icon}</span>
+<div><div>{x.t}</div><div style={{ fontSize: 11, color: ‘#888’, fontWeight: 400 }}>{x.s}</div></div>
+</button>
+))}
+</>
+)}
+</div>
+</div>
+);
+
+return (
+<div style={S.body}>
+{/* TOP NAV */}
+<div style={S.topNav}>
+<div style={S.logo}>✂️ كشمير للخياطة</div>
+<div style={{ display: ‘flex’, gap: 8, alignItems: ‘center’ }}>
+<span style={{ fontSize: 11, background: ‘rgba(255,255,255,.15)’, padding: ‘3px 8px’, borderRadius: 20 }}>{role === ‘owner’ ? ‘👑 مالك’ : ‘🪡 خياط’}</span>
+<button onClick={() => { setRole(null); setPage(‘home’); }} style={{ …btn(‘transparent’, GOLD_PALE), border: ‘1px solid rgba(255,255,255,.3)’, padding: ‘5px 10px’, fontSize: 12 }}>خروج</button>
+</div>
+</div>
+
+```
+  <Toast msg={toast} />
+
+  {/* VIEW ORDER MODAL */}
+  <Modal show={!!viewOrd} title={viewOrd ? `طلب #${viewOrd.serial} - ${viewOrd.name}` : ''} onClose={() => setViewOrd(null)}>
+    {viewOrd && (() => {
+      const o = orders.find(x => x.id === viewOrd.id) || viewOrd;
+      return (
+        <>
+          <div style={{ fontSize: 13, lineHeight: 2, color: '#555', marginBottom: 12 }}>
+            📞 {o.phone}<br />🧵 {(o.services || []).join('، ') || '—'}<br />
+            📅 {o.date}{o.duedate ? ` → تسليم: ${o.duedate}` : ''}<br />
+            👘 فولة: {o.neck} | شريط: {o.chest_strip}
+            {o.remarks ? <><br />📝 {o.remarks}</> : null}
+          </div>
+          <div style={{ background: GOLD_PALE, border: `1.5px solid ${GOLD}`, borderRadius: 10, padding: '10px 14px', marginBottom: 12 }}>
+            {[['الإجمالي', (o.total || 0).toFixed(3) + ' KD', GOLD], ['المدفوع', (o.paid || 0).toFixed(3) + ' KD', GREEN], ['المتبقي', (o.remaining || 0).toFixed(3) + ' KD', RED]].map(([l, v, c]) => (
+              <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: `1px solid rgba(184,134,11,.2)` }}>
+                <span style={{ fontWeight: 700 }}>{l}</span><span style={{ fontWeight: 900, color: c }}>{v}</span>
+              </div>
+            ))}
+          </div>
+          <FG label="دفعة إضافية (KD)">
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input type="number" value={extraPay} onChange={e => setExtraPay(e.target.value)} placeholder="0.000" style={{ ...S.inp, flex: 1 }} />
+              <button onClick={addPayment} style={btn(GREEN)}>تسجيل</button>
+            </div>
+          </FG>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
+            <button onClick={() => sendWA(o)} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 10, padding: '10px 14px', fontFamily: 'Tajawal,sans-serif', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>📲 رسالة الزبون</button>
+            <button onClick={() => deleteOrder(o.id)} style={btn(RED)}>🗑️ حذف</button>
+            <button onClick={() => setViewOrd(null)} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>إغلاق</button>
+          </div>
+        </>
+      );
+    })()}
+  </Modal>
+
+  {/* VIEW CUSTOMER MODAL */}
+  <Modal show={!!viewCust} title={viewCust?.name || ''} onClose={() => setViewCust(null)}>
+    {viewCust && (() => {
+      const c = viewCust;
+      const ords = orders.filter(o => o.phone === c.phone);
+      const debt = ords.reduce((s, o) => s + (o.remaining || 0), 0);
+      const m = c.measurements || {};
+      return (
+        <>
+          <p style={{ fontSize: 13, color: '#777', marginBottom: 12 }}>📞 {c.phone}</p>
+          <div style={{ background: GOLD_PALE, border: `1.5px solid ${GOLD}`, borderRadius: 10, padding: '10px 14px', marginBottom: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontWeight: 700 }}>إجمالي الطلبات</span><span style={{ fontWeight: 900 }}>{ords.length}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}><span style={{ fontWeight: 700 }}>المتبقي</span><span style={{ fontWeight: 900, color: RED }}>{debt.toFixed(3)} KD</span></div>
+          </div>
+          {MEAS_FIELDS.some(f => m[f.id]) && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, marginBottom: 12 }}>
+              {MEAS_FIELDS.filter(f => m[f.id]).map(f => (
+                <div key={f.id} style={{ background: CREAM, borderRadius: 6, padding: '5px 8px', fontSize: 12 }}>
+                  <div style={{ fontSize: 10, color: '#888' }}>{f.ar}</div>
+                  <div style={{ fontWeight: 700 }}>{m[f.id]}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button onClick={() => { setViewCust(null); setOrder(o => ({ ...o, name: c.name, phone: c.phone, measurements: c.measurements || {} })); setPage('order'); }} style={btn(GOLD)}>➕ طلب جديد</button>
+            <button onClick={() => { setCustForm({ name: c.name, phone: c.phone, address: c.address || '', notes: c.notes || '' }); setEditCust(c); setViewCust(null); }} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>✏️ تعديل</button>
+            <button onClick={() => deleteCustomer(c.id)} style={btn(RED)}>🗑️ حذف</button>
+          </div>
+        </>
+      );
+    })()}
+  </Modal>
+
+  {/* EDIT CUSTOMER MODAL */}
+  <Modal show={editCust !== null} title={editCust ? 'تعديل الزبون' : 'زبون جديد'} onClose={() => { setEditCust(null); }}>
+    <div style={S.row2}>
+      <FG label="الاسم *"><input style={S.inp} value={custForm.name} onChange={e => setCustForm(f => ({ ...f, name: e.target.value }))} /></FG>
+      <FG label="الهاتف *"><input style={S.inp} value={custForm.phone} onChange={e => setCustForm(f => ({ ...f, phone: e.target.value }))} inputMode="tel" /></FG>
     </div>
-    <div class="ord-body">
-      👤 <b>${o.name}</b> | 📞 ${o.phone}<br>
-      🧵 ${(o.services||[]).join('، ')||'—'}<br>
-      📅 ${o.date||'—'} ${o.duedate?'→ تسليم: <b>'+o.duedate+'</b>':''}<br>
-      💰 <b>${(o.total||0).toFixed(3)} KD</b> | مدفوع: ${(o.paid||0).toFixed(3)} ${currentRole==='owner'?'| <span style="color:var(--red)">متبقي: '+(o.remaining||0).toFixed(3)+'</span>':''}
+    <FG label="ملاحظات"><textarea style={{ ...S.inp, minHeight: 56, resize: 'vertical' }} value={custForm.notes || ''} onChange={e => setCustForm(f => ({ ...f, notes: e.target.value }))} /></FG>
+    <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+      <button onClick={saveCustomer} style={{ ...btn(GOLD), flex: 1, justifyContent: 'center' }}>💾 حفظ</button>
+      <button onClick={() => setEditCust(null)} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>إلغاء</button>
     </div>
-    <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
-      <button class="btn-wa btn-sm" onclick="sendWA('${o.id}')">📲 رسالة</button>
-      <button class="btn btn-outline btn-sm" onclick="viewOrder('${o.id}')">👁️ تفاصيل</button>
-      <button class="btn btn-red btn-sm" onclick="deleteOrder('${o.id}')">🗑️</button>
-    </div>
-  </div>`;
-}
+  </Modal>
 
-async function updateStatus(id, status) {
-  await sb.from('orders').update({status}).eq('id',id);
-  showToast('✅ تم تحديث الحالة');
-  renderHome();
-}
+  {/* PAGES */}
+  <div style={S.page}>
 
-async function viewOrder(id) {
-  viewingOrderId = id;
-  const {data} = await sb.from('orders').select('*').eq('id',id).single();
-  if(!data) return;
-  document.getElementById('odm_title').textContent = `طلب #${data.serial} - ${data.name}`;
-  const m = data.measurements||{};
-  document.getElementById('odm_body').innerHTML = `
-    <div style="font-size:13px;line-height:2;color:#555;margin-bottom:12px">
-      📞 ${data.phone}<br>🧵 ${(data.services||[]).join('، ')||'—'}<br>
-      📅 ${data.date||'—'} ${data.duedate?'→ تسليم: '+data.duedate:''}<br>
-      👘 فولة: ${data.neck||'—'} | شريط: ${data.chest_strip||'—'}<br>
-      ${data.remarks?'📝 '+data.remarks:''}
-    </div>
-    <div class="totals-box">
-      <div class="trow"><label>الإجمالي</label><span style="color:var(--gold);font-size:18px">${(data.total||0).toFixed(3)} KD</span></div>
-      <div class="trow"><label>المدفوع</label><span style="color:var(--green)">${(data.paid||0).toFixed(3)} KD</span></div>
-      <div class="trow"><label>المتبقي</label><span style="color:var(--red)">${(data.remaining||0).toFixed(3)} KD</span></div>
-    </div>
-    <div class="fg" style="margin-top:12px"><label>دفعة إضافية (KD)</label>
-      <div style="display:flex;gap:8px">
-        <input type="number" id="extraPay" placeholder="0.000" inputmode="decimal" style="flex:1;border:1.5px solid var(--border);border-radius:8px;padding:9px;font-family:'Tajawal',sans-serif;font-size:14px">
-        <button class="btn btn-green" onclick="addPayment('${id}',${data.total||0},${data.paid||0})">تسجيل</button>
+    {/* HOME */}
+    {page === 'home' && (
+      <div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+          {[['👥', customers.length, 'زبون'], ['📋', orders.length, 'طلب كلي'], ['⏳', pendingCount, 'طلب شغال'], ...(role === 'owner' ? [['💸', totalDebt.toFixed(3) + ' KD', 'مبالغ متبقية']] : [])].map(([ic, v, l]) => (
+            <div key={l} style={{ ...S.card, textAlign: 'center', padding: 14 }}>
+              <div style={{ fontSize: 22 }}>{ic}</div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: GOLD }}>{v}</div>
+              <div style={{ fontSize: 12, color: '#777' }}>{l}</div>
+            </div>
+          ))}
+        </div>
+        <div style={S.secTitle}>آخر الطلبات</div>
+        {loading ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>جاري التحميل...</div> :
+          orders.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في طلبات بعد</div> :
+            orders.slice(0, 5).map(o => <OrderCard key={o.id} o={o} role={role} onView={() => setViewOrd(o)} onWA={() => sendWA(o)} onStatus={s => updateStatus(o.id, s)} onDelete={() => deleteOrder(o.id)} />)}
       </div>
-    </div>`;
-  openModal('ordModal');
-}
+    )}
 
-async function addPayment(id, total, oldPaid) {
-  const amt = parseFloat(document.getElementById('extraPay').value)||0;
-  if(!amt) { showToast('❌ أدخل مبلغ'); return; }
-  const newPaid = oldPaid + amt;
-  const newRemain = Math.max(0, total - newPaid);
-  await sb.from('orders').update({paid:newPaid, remaining:newRemain}).eq('id',id);
-  closeModal('ordModal');
-  showToast('✅ تم تسجيل الدفعة');
-  renderOrders(); renderHome();
-}
+    {/* NEW ORDER */}
+    {page === 'order' && (
+      <div>
+        <div style={S.secTitle}>📝 طلب جديد
+          <button onClick={() => setOrder(emptyOrder())} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}`, padding: '7px 12px', fontSize: 12 }}>مسح</button>
+        </div>
 
-async function deleteOrder(id) {
-  if(!confirm('تأكيد حذف الطلب؟')) return;
-  await sb.from('orders').delete().eq('id',id);
-  closeModal('ordModal');
-  showToast('🗑️ تم الحذف');
-  renderOrders(); renderHome();
-}
+        <div style={S.card}>
+          <div style={S.cardTitle}>👤 بيانات الزبون</div>
+          <div style={S.row2}>
+            <FG label="الاسم *"><input style={S.inp} value={order.name} onChange={e => setOrder(o => ({ ...o, name: e.target.value }))} placeholder="اسم الزبون" /></FG>
+            <FG label="رقم الهاتف *"><input style={S.inp} value={order.phone} onChange={e => setOrder(o => ({ ...o, phone: e.target.value }))} placeholder="965XXXXXXXX" inputMode="tel" /></FG>
+          </div>
+          <div style={S.row2}>
+            <FG label="التاريخ"><input type="date" style={S.inp} value={order.date} onChange={e => setOrder(o => ({ ...o, date: e.target.value }))} /></FG>
+            <FG label="تاريخ التسليم"><input type="date" style={S.inp} value={order.duedate} onChange={e => setOrder(o => ({ ...o, duedate: e.target.value }))} /></FG>
+          </div>
+          <div style={S.row2}>
+            <FG label="الخياط"><input style={S.inp} value={order.tailor} onChange={e => setOrder(o => ({ ...o, tailor: e.target.value }))} /></FG>
+            <FG label="الخام"><select style={S.inp} value={order.fabric} onChange={e => setOrder(o => ({ ...o, fabric: e.target.value }))}><option value="">اختر</option><option>من عندنا (داخل)</option><option>من برا (خارج)</option></select></FG>
+          </div>
+        </div>
 
-function deleteCurrentOrder() { if(viewingOrderId) deleteOrder(viewingOrderId); }
+        <div style={S.card}>
+          <div style={S.cardTitle}>🧵 الخدمات</div>
+          <CheckGroup options={SERVICES} values={order.services} onChange={v => setOrder(o => ({ ...o, services: v }))} />
+        </div>
 
-// ─── SAVE ORDER ──────────────────────────────────────────────
-async function saveOrder() {
-  const name = document.getElementById('o_name').value.trim();
-  const phone = document.getElementById('o_phone').value.trim();
-  if(!name||!phone) { showToast('❌ أدخل الاسم والهاتف'); return; }
+        <div style={S.card}>
+          <div style={S.cardTitle}>👘 تفاصيل الدشداشة</div>
+          <CheckGroup label="نوع الدشداشة" options={DISHDASHA_TYPES} values={order.dishdashaTypes} onChange={v => setOrder(o => ({ ...o, dishdashaTypes: v }))} />
+          <VisPicker label="تصميم الفولة | Neck Style" options={NECK_OPTS} value={order.neck} onChange={v => setOrder(o => ({ ...o, neck: v }))} />
+          <VisPicker label="شريط الصدر | Chest Strip" options={CHEST_OPTS} value={order.chestStrip} onChange={v => setOrder(o => ({ ...o, chestStrip: v }))} />
+          <VisPicker label="المخبة الجانبية | Side Pocket" options={POCKET_OPTS} value={order.sidePocket} onChange={v => setOrder(o => ({ ...o, sidePocket: v }))} />
+          <VisPicker label="الجيب الأمامي | Front Pocket" options={FRONT_OPTS} value={order.frontPocket} onChange={v => setOrder(o => ({ ...o, frontPocket: v }))} />
+          <VisPicker label="زر الغولة | Button" options={BTN_OPTS} value={order.buttonStyle} onChange={v => setOrder(o => ({ ...o, buttonStyle: v }))} />
+          <VisPicker label="الخط الجانبي | Side Line" options={SIDELINE_OPTS} value={order.sideLine} onChange={v => setOrder(o => ({ ...o, sideLine: v }))} />
+          <div style={S.row2}>
+            <FG label="عدد القطع"><input type="number" style={S.inp} value={order.qty} onChange={e => setOrder(o => ({ ...o, qty: e.target.value }))} inputMode="numeric" min={1} /></FG>
+          </div>
+          <CheckGroup label="إضافات" options={EXTRAS} values={order.extras} onChange={v => setOrder(o => ({ ...o, extras: v }))} />
+          <CheckGroup label="خدمات إضافية" options={EXTRA_SVCS} values={order.extraServices} onChange={v => setOrder(o => ({ ...o, extraServices: v }))} />
+        </div>
 
-  const textiles = items.reduce((s,r)=>s+(parseFloat(r.meters)||0)*(parseFloat(r.price)||0),0);
-  const tail = parseFloat(document.getElementById('p_tailor').value)||0;
-  const other = parseFloat(document.getElementById('p_other').value)||0;
-  const disc = parseFloat(document.getElementById('p_disc').value)||0;
-  const paid = parseFloat(document.getElementById('p_paid').value)||0;
-  const sub = tail + textiles + other;
-  const total = sub - (sub*disc/100);
-  const remaining = total - paid;
+        <div style={S.card}>
+          <div style={S.cardTitle}>📏 القياسات</div>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            <div style={{ flexShrink: 0 }}>
+              <svg viewBox="0 0 160 340" width="110" height="250" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,35 Q80,22 110,35 L128,85 L132,315 L28,315 L32,85 Z" fill="#fdf6e3" stroke={BROWN} strokeWidth="2" />
+                <ellipse cx="80" cy="34" rx="17" ry="10" fill="#fdf8f0" stroke={BROWN} strokeWidth="1.5" />
+                <path d="M32,85 L8,132 L18,137 L40,98" fill="#fdf6e3" stroke={BROWN} strokeWidth="1.5" />
+                <path d="M128,85 L152,132 L142,137 L120,98" fill="#fdf6e3" stroke={BROWN} strokeWidth="1.5" />
+                <line x1="80" y1="44" x2="80" y2="305" stroke="#aaa" strokeWidth="1" strokeDasharray="4,3" />
+                <line x1="30" y1="292" x2="130" y2="292" stroke={GOLD} strokeWidth="1.5" />
+                <line x1="20" y1="34" x2="20" y2="315" stroke="#2980b9" strokeWidth="1.2" />
+                <polygon points="20,32 18,38 22,38" fill="#2980b9" />
+                <polygon points="20,317 18,311 22,311" fill="#2980b9" />
+                {[85, 113, 142, 170].map(y => <line key={y} x1="33" y1={y} x2="127" y2={y} stroke={RED} strokeWidth="0.8" strokeDasharray="3,2" />)}
+              </svg>
+            </div>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
+              {MEAS_FIELDS.map(f => (
+                <div key={f.id}>
+                  <label style={{ fontSize: 10, fontWeight: 700, color: BROWN, display: 'block', marginBottom: 2 }}>{f.ar} | {f.en}</label>
+                  <input type="number" inputMode="decimal" placeholder="0" style={{ ...S.inp, padding: '7px 8px', fontSize: 13, textAlign: 'center' }}
+                    value={order.measurements[f.id] || ''}
+                    onChange={e => setOrder(o => ({ ...o, measurements: { ...o.measurements, [f.id]: e.target.value } }))} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <FG label="ملاحظات القياسات">
+            <textarea style={{ ...S.inp, minHeight: 56, marginTop: 8, resize: 'vertical' }} value={order.measNotes} onChange={e => setOrder(o => ({ ...o, measNotes: e.target.value }))} placeholder="أي ملاحظة..." />
+          </FG>
+        </div>
 
-  const measurements = {};
-  MEAS_FIELDS.forEach(f => { measurements[f.id] = document.getElementById('m_'+f.id)?.value||''; });
+        <div style={S.card}>
+          <div style={S.cardTitle}>🧣 الأقمشة والأمتار</div>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 10 }}>
+              <thead><tr>{['#', 'اسم الخامة', 'النوع', 'الأمتار', 'السعر/م', 'الإجمالي', ''].map(h => <th key={h} style={{ background: BROWN, color: GOLD_PALE, padding: '8px 5px', textAlign: 'center' }}>{h}</th>)}</tr></thead>
+              <tbody>
+                {order.items.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ textAlign: 'center', padding: '5px 3px' }}>{i + 1}</td>
+                    <td><input style={{ ...S.inp, padding: '5px 4px', fontSize: 12 }} placeholder="اسم الخامة" value={row.fabricName || ''} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, fabricName: e.target.value } : r) }))} /></td>
+                    <td><select style={{ ...S.inp, padding: '5px 4px', fontSize: 12 }} value={row.type} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, type: e.target.value } : r) }))}>
+                      <option value="">النوع</option><option>صيفي | Summer</option><option>شتوي | Winter</option>
+                    </select></td>
+                    <td><input type="number" inputMode="decimal" style={{ ...S.inp, padding: '5px 4px', fontSize: 12, textAlign: 'center' }} value={row.meters} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, meters: e.target.value } : r) }))} /></td>
+                    <td><input type="number" inputMode="decimal" style={{ ...S.inp, padding: '5px 4px', fontSize: 12, textAlign: 'center' }} value={row.price} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, price: e.target.value } : r) }))} /></td>
+                    <td style={{ textAlign: 'center', fontWeight: 700 }}>{((parseFloat(row.meters) || 0) * (parseFloat(row.price) || 0)).toFixed(3)}</td>
+                    <td><button onClick={() => setOrder(o => ({ ...o, items: o.items.filter((_, j) => j !== i) }))} style={{ background: 'none', border: 'none', color: RED, fontSize: 16, cursor: 'pointer' }}>✕</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <button onClick={() => setOrder(o => ({ ...o, items: [...o.items, { fabricName: '', type: '', meters: '', price: '' }] }))} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}`, fontSize: 13, padding: '7px 12px' }}>+ إضافة سطر</button>
+        </div>
 
-  orderSerial++;
-  const order = {
-    serial: orderSerial,
-    date: document.getElementById('o_date').value,
-    duedate: document.getElementById('o_duedate').value,
-    name, phone,
-    tailor: document.getElementById('o_tailor').value,
-    services: document.getElementById('sg_services')._sel||[],
-    fabric: document.getElementById('o_fabric').value,
-    qty: parseInt(document.getElementById('o_qty').value)||1,
-    dishdasha_types: document.getElementById('sg_dtype')._sel||[],
-    neck: selNeck, chest_strip: selChest,
-    side_pocket: selPocket, front_pocket: selFront,
-    button_style: selButton, side_line: selSideline,
-    extras: document.getElementById('sg_extras')._sel||[],
-    extra_services: document.getElementById('sg_exsvc')._sel||[],
-    measurements, meas_notes: document.getElementById('m_notes').value,
-    items, tailoring:tail, textiles, others:other,
-    discount:disc, total, paid, remaining,
-    pay_method: document.getElementById('p_method').value,
-    remarks: document.getElementById('o_remarks').value,
-    status: 'شغال'
-  };
-
-  const {error} = await sb.from('orders').insert(order);
-  if(error) { showToast('❌ خطأ في الحفظ: '+error.message); return; }
-
-  // Update/add customer measurements
-  const {data:existCust} = await sb.from('customers').select('id').eq('phone',phone).single();
-  if(existCust) {
-    await sb.from('customers').update({measurements, name}).eq('phone',phone);
-  } else {
-    await sb.from('customers').insert({name, phone, measurements});
-  }
-
-  showToast('✅ تم حفظ الطلب #'+orderSerial);
-  clearOrderForm();
-  showPage('orders', document.querySelector('.bnav-item:nth-child(3)'));
-}
-
-function clearOrderForm() {
-  ['o_name','o_phone','o_tailor','o_remarks','m_notes','p_tailor','p_other'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  document.getElementById('p_disc').value='0';
-  document.getElementById('p_paid').value='0';
-  document.getElementById('o_fabric').value='';
-  document.getElementById('o_qty').value='1';
-  selServices=[]; selDtype=[]; selExtras=[]; selExSvc=[];
-  selNeck='عادية - زر واحد'; selChest='مخفي'; selPocket='بدون مخبة داخلية';
-  selFront='بدون كرتون'; selButton='طباقي'; selSideline='مفرد';
-  items=[{fabricName:'',type:'',meters:'',price:''}];
-  initUI();
-}
-
-// ─── WHATSAPP ────────────────────────────────────────────────
-async function sendWA(id) {
-  const {data:o} = await sb.from('orders').select('*').eq('id',id).single();
-  if(!o) return;
-  const shop = 'كشمير للخياطة';
-  let msg = `🌟 *${shop}*\n\nالسلام عليكم ${o.name} 👋\n`;
-  msg += o.status==='جاهز' ? 'طلبك جاهز للاستلام ✅\n\n' : 'تم استلام طلبك وهو قيد التنفيذ 🪡\n\n';
-  msg += `📋 *تفاصيل الطلب:*\n• رقم الطلب: #${o.serial}\n`;
-  msg += `• الخدمة: ${(o.services||[]).join('، ')||'—'}\n`;
-  if(o.duedate) msg += `• موعد التسليم: ${o.duedate}\n`;
-  const m = o.measurements||{};
-  const measText = MEAS_FIELDS.filter(f=>m[f.id]).map(f=>`• ${f.ar}: ${m[f.id]}`).join('\n');
-  if(measText) msg += `\n📏 *القياسات:*\n${measText}\n`;
-  msg += `\n💰 *الحساب:*\n• الإجمالي: ${(o.total||0).toFixed(3)} KD\n`;
-  msg += `• المدفوع: ${(o.paid||0).toFixed(3)} KD\n`;
-  msg += o.remaining>0 ? `• المتبقي: ${o.remaining.toFixed(3)} KD\n` : '• ✅ تم السداد الكامل\n';
-  msg += `\nشكراً لثقتكم 🙏`;
-  window.open(`https://wa.me/${o.phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-async function sendWAOrder() { if(viewingOrderId) { await sendWA(viewingOrderId); closeModal('ordModal'); } }
-
-// ─── CUSTOMERS ───────────────────────────────────────────────
-async function renderCustomers() {
-  const search = document.getElementById('custSearch')?.value||'';
-  const {data} = await sb.from('customers').select('*').order('created_at', {ascending:false});
-  let list = data||[];
-  if(search) list = list.filter(c=>c.name?.includes(search)||c.phone?.includes(search));
-
-  const {data:orders} = await sb.from('orders').select('phone,remaining');
-  const debtMap = {};
-  (orders||[]).forEach(o=>{ debtMap[o.phone]=(debtMap[o.phone]||0)+(o.remaining||0); });
-
-  document.getElementById('custList').innerHTML = list.length ? list.map(c => {
-    const debt = debtMap[c.phone]||0;
-    return `<div class="cust-card" onclick="viewCust('${c.id}')">
-      <div><div style="font-weight:900;font-size:15px;color:var(--brown)">${c.name}</div><div style="font-size:12px;color:#777;margin-top:3px">📞 ${c.phone}</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-        <span class="badge" style="${debt>0?'background:#fde2e2;color:var(--red)':'background:#d4edda;color:var(--green)'}">${debt>0?debt.toFixed(3)+' KD':'مسوّى'}</span>
-        <span style="color:#ccc;font-size:20px">›</span>
+        <div style={S.card}>
+          <div style={S.cardTitle}>💰 الأسعار والدفع</div>
+          <div style={S.row3}>
+            <FG label="رسوم الخياطة (KD)"><input type="number" inputMode="decimal" style={S.inp} value={order.tailoring} onChange={e => setOrder(o => ({ ...o, tailoring: e.target.value }))} /></FG>
+            <FG label="إجمالي الخام (KD)"><input style={{ ...S.inp, background: '#f0f0f0' }} readOnly value={textiles.toFixed(3)} /></FG>
+            <FG label="أخرى (KD)"><input type="number" inputMode="decimal" style={S.inp} value={order.others} onChange={e => setOrder(o => ({ ...o, others: e.target.value }))} /></FG>
+          </div>
+          <div style={S.row3}>
+            <FG label="خصم | Discount">
+              <select style={S.inp} value={order.discount} onChange={e => setOrder(o => ({ ...o, discount: parseFloat(e.target.value) }))}>
+                {[0, 5, 10, 15, 20, 25, 30, 35, 40].map(p => <option key={p} value={p}>{p === 0 ? 'بدون خصم' : p + '%'}</option>)}
+              </select>
+            </FG>
+            <FG label="المدفوع | Paid (KD)"><input type="number" inputMode="decimal" style={{ ...S.inp, borderColor: GREEN, background: '#f0fff4' }} value={order.paid} onChange={e => setOrder(o => ({ ...o, paid: e.target.value }))} placeholder="0.000" /></FG>
+            <FG label="طريقة الدفع"><select style={S.inp} value={order.payMethod} onChange={e => setOrder(o => ({ ...o, payMethod: e.target.value }))}><option>نقدي</option><option>كنت (KNET)</option><option>تحويل</option></select></FG>
+          </div>
+          <TotalsBox tailoring={tailoring} textiles={textiles} others={others} discount={order.discount} paid={paid} total={total} remaining={remaining} />
+          <FG label="ملاحظات"><textarea style={{ ...S.inp, minHeight: 56, resize: 'vertical' }} value={order.remarks} onChange={e => setOrder(o => ({ ...o, remarks: e.target.value }))} /></FG>
+        </div>
+        <button onClick={saveOrder} style={{ ...btn(GOLD), width: '100%', justifyContent: 'center', fontSize: 16, padding: 14 }}>💾 حفظ الطلب</button>
       </div>
-    </div>`;
-  }).join('') : '<div class="empty">ما في زبائن</div>';
-}
+    )}
 
-async function viewCust(id) {
-  viewingCustId = id;
-  const {data:c} = await sb.from('customers').select('*').eq('id',id).single();
-  if(!c) return;
-  const {data:ords} = await sb.from('orders').select('*').eq('phone',c.phone).order('created_at',{ascending:false});
-  const debt = (ords||[]).reduce((s,o)=>s+(o.remaining||0),0);
-  const m = c.measurements||{};
-  const measHTML = MEAS_FIELDS.filter(f=>m[f.id]).map(f=>`<div style="background:var(--cream);border-radius:6px;padding:5px 8px;font-size:12px"><div style="font-size:10px;color:#888">${f.ar}</div><div style="font-weight:700">${m[f.id]}</div></div>`).join('');
+    {/* ORDERS */}
+    {page === 'orders' && (
+      <div>
+        <div style={S.secTitle}>📋 الطلبات</div>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+          <select style={{ ...S.inp, flex: 1 }} value={ordFilter} onChange={e => setOrdFilter(e.target.value)}>
+            <option value="">كل الطلبات</option><option>شغال</option><option>جاهز</option><option>سلّم</option>
+          </select>
+          <input style={{ ...S.inp, flex: 1 }} placeholder="ابحث..." value={ordSearch} onChange={e => setOrdSearch(e.target.value)} />
+        </div>
+        {filteredOrders.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في طلبات</div> :
+          filteredOrders.map(o => <OrderCard key={o.id} o={o} role={role} onView={() => setViewOrd(o)} onWA={() => sendWA(o)} onStatus={s => updateStatus(o.id, s)} onDelete={() => deleteOrder(o.id)} />)}
+      </div>
+    )}
 
-  document.getElementById('cdm_name').textContent = c.name;
-  document.getElementById('cdm_body').innerHTML = `
-    <p style="font-size:13px;color:#777;margin-bottom:12px">📞 ${c.phone}</p>
-    <div class="totals-box" style="margin-bottom:12px">
-      <div class="trow"><label>إجمالي الطلبات</label><span>${(ords||[]).length}</span></div>
-      <div class="trow"><label>المتبقي</label><span style="color:var(--red)">${debt.toFixed(3)} KD</span></div>
-    </div>
-    ${measHTML?`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">${measHTML}</div>`:''}
-    <div style="font-size:13px;font-weight:700;color:var(--brown);margin-bottom:8px">آخر الطلبات</div>
-    ${(ords||[]).slice(0,3).map(o=>`<div style="padding:8px;border:1px solid var(--gold-pale);border-radius:8px;margin-bottom:6px;font-size:12px">#${o.serial} - ${(o.services||[]).join('، ')} - ${o.date||'—'} - <b>${(o.total||0).toFixed(3)} KD</b></div>`).join('')}`;
-  openModal('custDetailModal');
-}
+    {/* CUSTOMERS */}
+    {page === 'customers' && (
+      <div>
+        <div style={S.secTitle}>👥 الزبائن
+          <button onClick={() => { setCustForm({ name: '', phone: '', address: '', notes: '' }); setEditCust({}); }} style={btn(GOLD)}>+ زبون جديد</button>
+        </div>
+        <input style={{ ...S.inp, marginBottom: 12 }} placeholder="ابحث باسم أو رقم..." value={custSearch} onChange={e => setCustSearch(e.target.value)} />
+        {filteredCusts.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في زبائن</div> :
+          filteredCusts.map(c => {
+            const ords = orders.filter(o => o.phone === c.phone);
+            const debt = ords.reduce((s, o) => s + (o.remaining || 0), 0);
+            return (
+              <div key={c.id} onClick={() => setViewCust(c)} style={{ ...S.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
+                <div><div style={{ fontWeight: 900, fontSize: 15, color: BROWN }}>{c.name}</div><div style={{ fontSize: 12, color: '#777', marginTop: 3 }}>📞 {c.phone} | {ords.length} طلب</div></div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5 }}>
+                  <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: debt > 0 ? '#fde2e2' : '#d4edda', color: debt > 0 ? RED : GREEN }}>{debt > 0 ? debt.toFixed(3) + ' KD' : 'مسوّى'}</span>
+                  <span style={{ color: '#ccc', fontSize: 20 }}>›</span>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    )}
 
-function openAddCust() {
-  editingCustId = null;
-  document.getElementById('cm_title').textContent = 'زبون جديد';
-  ['cm_name','cm_phone','cm_address','cm_notes'].forEach(id=>document.getElementById(id).value='');
-  openModal('custModal');
-}
+    {/* REPORTS - OWNER ONLY */}
+    {page === 'reports' && (
+      <div>
+        {role !== 'owner' ? <div style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>🔒 التقارير للمالك فقط</div> : (
+          <>
+            <div style={S.secTitle}>📈 التقرير الأسبوعي</div>
+            <div style={S.card}>
+              {[['عدد طلبات الأسبوع', weekOrds.length], ['إيرادات الأسبوع', weekRev.toFixed(3) + ' KD'], ['طلبات شغالة', pendingCount], ['طلبات جاهزة', orders.filter(o => o.status === 'جاهز').length], ['مبالغ متبقية', totalDebt.toFixed(3) + ' KD']].map(([l, v]) => (
+                <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${GOLD_PALE}` }}>
+                  <span>{l}</span><span style={{ fontWeight: 900, color: GOLD }}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <button onClick={sendReportWA} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 10, padding: '11px 16px', fontFamily: 'Tajawal,sans-serif', fontSize: 14, fontWeight: 700, cursor: 'pointer', width: '100%', marginBottom: 16 }}>📲 إرسال التقرير للملاك</button>
+            <div style={S.secTitle}>💸 المبالغ المتبقية</div>
+            {orders.filter(o => (o.remaining || 0) > 0).sort((a, b) => b.remaining - a.remaining).map(o => (
+              <div key={o.id} style={{ ...S.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div><div style={{ fontWeight: 900 }}>{o.name} - #{o.serial}</div><div style={{ fontSize: 12, color: '#777' }}>{o.phone}</div></div>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 900, fontSize: 16, color: RED }}>{o.remaining.toFixed(3)} KD</div>
+                  <button onClick={() => sendWA(o)} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 8, padding: '5px 10px', fontFamily: 'Tajawal,sans-serif', fontSize: 12, cursor: 'pointer', marginTop: 4 }}>📲</button>
+                </div>
+              </div>
+            ))}
+            {orders.filter(o => (o.remaining || 0) > 0).length === 0 && <div style={{ textAlign: 'center', padding: 20, color: GREEN, fontWeight: 700 }}>✅ ما في مبالغ متبقية!</div>}
+          </>
+        )}
+      </div>
+    )}
 
-function editCurrentCust() {
-  if(!viewingCustId) return;
-  sb.from('customers').select('*').eq('id',viewingCustId).single().then(({data:c})=>{
-    if(!c) return;
-    editingCustId = viewingCustId;
-    document.getElementById('cm_title').textContent = 'تعديل الزبون';
-    document.getElementById('cm_name').value = c.name||'';
-    document.getElementById('cm_phone').value = c.phone||'';
-    document.getElementById('cm_address').value = c.address||'';
-    document.getElementById('cm_notes').value = c.notes||'';
-    closeModal('custDetailModal');
-    openModal('custModal');
-  });
-}
-
-async function saveCustomer() {
-  const name = document.getElementById('cm_name').value.trim();
-  const phone = document.getElementById('cm_phone').value.trim();
-  if(!name||!phone) { showToast('❌ أدخل الاسم والهاتف'); return; }
-  const data = { name, phone, address:document.getElementById('cm_address').value, notes:document.getElementById('cm_notes').value };
-  if(editingCustId) await sb.from('customers').update(data).eq('id',editingCustId);
-  else await sb.from('customers').insert(data);
-  closeModal('custModal');
-  showToast('✅ تم الحفظ');
-  renderCustomers();
-}
-
-async function deleteCurrentCust() {
-  if(!viewingCustId) return;
-  if(!confirm('تأكيد حذف الزبون؟')) return;
-  await sb.from('customers').delete().eq('id',viewingCustId);
-  closeModal('custDetailModal');
-  showToast('🗑️ تم الحذف');
-  renderCustomers();
-}
-
-async function newOrderForCust() {
-  const {data:c} = await sb.from('customers').select('*').eq('id',viewingCustId).single();
-  if(!c) return;
-  closeModal('custDetailModal');
-  showPage('order', document.querySelector('.bnav-item:nth-child(2)'));
-  setTimeout(()=>{
-    document.getElementById('o_name').value = c.name;
-    document.getElementById('o_phone').value = c.phone;
-    if(c.measurements) MEAS_FIELDS.forEach(f=>{ const el=document.getElementById('m_'+f.id); if(el) el.value=c.measurements[f.id]||''; });
-  }, 100);
-}
-
-// ─── REPORTS ─────────────────────────────────────────────────
-async function generateReport() {
-  const now = new Date();
-  const weekAgo = new Date(now - 7*864e5);
-  const weekAgoStr = weekAgo.toISOString();
-
-  const {data:allOrders} = await sb.from('orders').select('*');
-  const weekOrders = (allOrders||[]).filter(o => new Date(o.created_at) >= weekAgo);
-  const weekRev = weekOrders.reduce((s,o)=>s+(o.paid||0),0);
-  const totalDebt = (allOrders||[]).reduce((s,o)=>s+(o.remaining||0),0);
-  const pending = (allOrders||[]).filter(o=>o.status==='شغال').length;
-  const ready = (allOrders||[]).filter(o=>o.status==='جاهز').length;
-
-  // By service
-  const byService = {};
-  weekOrders.forEach(o=>(o.services||[]).forEach(s=>{ byService[s]=(byService[s]||0)+1; }));
-
-  document.getElementById('reportContent').innerHTML = `
-    <div class="card">
-      <div class="card-title">📊 ملخص الأسبوع</div>
-      <div class="report-row"><span>عدد الطلبات</span><b>${weekOrders.length}</b></div>
-      <div class="report-row"><span>إيرادات الأسبوع</span><b>${weekRev.toFixed(3)} KD</b></div>
-      <div class="report-row"><span>طلبات شغالة</span><b>${pending}</b></div>
-      <div class="report-row"><span>طلبات جاهزة</span><b>${ready}</b></div>
-      <div class="report-row"><span>مبالغ متبقية (كل الوقت)</span><b style="color:var(--red)">${totalDebt.toFixed(3)} KD</b></div>
-      ${Object.entries(byService).map(([s,c])=>`<div class="report-row"><span>${s}</span><b>${c} طلب</b></div>`).join('')}
-    </div>`;
-
-  const debtOrds = (allOrders||[]).filter(o=>(o.remaining||0)>0).sort((a,b)=>b.remaining-a.remaining);
-  document.getElementById('debtList').innerHTML = debtOrds.length ?
-    debtOrds.map(o=>`<div class="ord-card" style="margin-bottom:8px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b>${o.name}</b> - #${o.serial}<br><span style="font-size:12px;color:#777">${o.phone}</span></div>
-        <div style="text-align:left">
-          <div style="font-weight:900;font-size:16px;color:var(--red)">${o.remaining.toFixed(3)} KD</div>
-          <button class="btn-wa btn-sm" style="margin-top:4px" onclick="sendWA('${o.id}')">📲</button>
+    {/* SETTINGS */}
+    {page === 'settings' && (
+      <div>
+        <div style={S.secTitle}>⚙️ الإعدادات</div>
+        <div style={S.card}>
+          <div style={S.cardTitle}>ℹ️ معلومات السستم</div>
+          <div style={{ fontSize: 13, color: '#777', lineHeight: 1.9 }}>
+            <div>👑 رمز المالك: <b>1973</b></div>
+            <div>🪡 رمز الخياط: <b>1234</b></div>
+            <div>📱 أرقام التقارير: 60601605 | 60948048 | 50519551</div>
+            <div style={{ marginTop: 8, color: RED, fontSize: 12 }}>⚠️ لتغيير الأرقام والرموز تواصل مع المطور</div>
+          </div>
+        </div>
+        <div style={S.card}>
+          <div style={S.cardTitle}>📊 إحصائيات</div>
+          <div style={{ fontSize: 13, color: '#777', lineHeight: 2 }}>
+            <div>عدد الزبائن: <b>{customers.length}</b></div>
+            <div>إجمالي الطلبات: <b>{orders.length}</b></div>
+            <div>طلبات شغالة: <b>{pendingCount}</b></div>
+            {role === 'owner' && <div>مبالغ متبقية: <b style={{ color: RED }}>{totalDebt.toFixed(3)} KD</b></div>}
+          </div>
         </div>
       </div>
-    </div>`).join('') :
-    '<div class="empty" style="color:var(--green);font-weight:700">✅ ما في مبالغ متبقية!</div>';
+    )}
+
+  </div>
+
+  {/* BOTTOM NAV */}
+  <div style={S.bottomNav}>
+    <BNavItem icon="🏠" label="الرئيسية" active={page === 'home'} onClick={() => setPage('home')} />
+    <BNavItem icon="➕" label="طلب جديد" active={page === 'order'} onClick={() => setPage('order')} />
+    <BNavItem icon="📋" label="الطلبات" active={page === 'orders'} onClick={() => setPage('orders')} />
+    <BNavItem icon="👥" label="الزبائن" active={page === 'customers'} onClick={() => setPage('customers')} />
+    {role === 'owner' && <BNavItem icon="📈" label="التقارير" active={page === 'reports'} onClick={() => setPage('reports')} />}
+    <BNavItem icon="⚙️" label="الإعدادات" active={page === 'settings'} onClick={() => setPage('settings')} />
+  </div>
+</div>
+```
+
+);
 }
 
-async function sendReportWA() {
-  const {data:allOrders} = await sb.from('orders').select('*');
-  const now = new Date(); const weekAgo = new Date(now-7*864e5);
-  const weekOrds = (allOrders||[]).filter(o=>new Date(o.created_at)>=weekAgo);
-  const weekRev = weekOrds.reduce((s,o)=>s+(o.paid||0),0);
-  const debt = (allOrders||[]).reduce((s,o)=>s+(o.remaining||0),0);
-  let msg = `📊 *تقرير أسبوعي - كشمير للخياطة*\n📅 ${weekAgo.toLocaleDateString('ar-KW')} → ${now.toLocaleDateString('ar-KW')}\n\n`;
-  msg += `🔢 عدد الطلبات: ${weekOrds.length}\n💰 الإيرادات: ${weekRev.toFixed(3)} KD\n💸 المبالغ المتبقية: ${debt.toFixed(3)} KD\n`;
-  msg += `⏳ شغالة: ${(allOrders||[]).filter(o=>o.status==='شغال').length} | ✅ جاهزة: ${(allOrders||[]).filter(o=>o.status==='جاهز').length}`;
-  const numbers = ['96560601605','96560948048','96550519551'];
-  const encoded = encodeURIComponent(msg);
-  numbers.forEach((num,i) => {
-    setTimeout(() => { window.open(`https://wa.me/${num}?text=${encoded}`, '_blank'); }, i*800);
-  });
-  showToast('✅ يتم إرسال التقرير للأرقام الأربعة');
-}
-
-// ─── SETTINGS ────────────────────────────────────────────────
-async function saveSettings() {
-  const ph = document.getElementById('s_phone').value;
-  if(ph) { ownerPhone = ph; await sb.from('settings').upsert({key:'ownerPhone', value:ph}); }
-  showToast('✅ تم الحفظ');
-}
-async function changeTailorPin() {
-  const p = document.getElementById('s_tailorpin').value;
-  if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
-  tailorPin = p;
-  try { await sb.from('settings').upsert({key:'tailorPin', value:p}); } catch(e){}
-  const el = document.getElementById('tailorPinDisplay'); if(el) el.textContent = p;
-  showToast('✅ تم تغيير رمز الخياط - سيُطبق على الجميع');
-  document.getElementById('s_tailorpin').value='';
-}
-async function changePin() {
-  const p = document.getElementById('s_newpin').value;
-  if(p.length!==4||!/^[0-9]{4}$/.test(p)) { showToast('❌ الرمز لازم 4 أرقام'); return; }
-  currentPin = p;
-  try { await sb.from('settings').upsert({key:'ownerPin', value:p}); } catch(e){}
-  showToast('✅ تم تغيير رمز المالك - سيُطبق على الجميع');
-  document.getElementById('s_newpin').value='';
-}
+ReactDOM.createRoot(document.getElementById(‘root’)).render(<App />);
 </script>
 
 </body>
