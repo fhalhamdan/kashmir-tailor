@@ -7,837 +7,927 @@
 <title>كشمير للخياطة</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Tajawal',sans-serif;background:#fdf8f0;color:#1a1208;min-height:100vh;padding-bottom:70px}
+body{font-family:'Tajawal',sans-serif;background:#fdf8f0;color:#1a1208;min-height:100vh;padding-bottom:72px}
+:root{--g:#b8860b;--br:#3d2b1f;--cr:#fdf8f0;--pl:#f9f0d8;--bd:#d4a84c;--gn:#27ae60;--rd:#c0392b;--wh:#fff}
+.nav{background:linear-gradient(135deg,#3d2b1f,#2a1a10);color:#f9f0d8;display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:54px;position:sticky;top:0;z-index:100;box-shadow:0 3px 12px rgba(0,0,0,.35)}
+.logo{font-size:17px;font-weight:900;color:#d4a017}
+.bn{position:fixed;bottom:0;left:0;right:0;background:#3d2b1f;display:flex;z-index:100;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
+.bi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;color:rgba(255,255,255,.5);background:none;border:none;font-family:'Tajawal',sans-serif;font-size:10px;gap:2px;cursor:pointer}
+.bi .ic{font-size:20px}
+.bi.on{color:#d4a017}
+.pg{display:none;padding:14px;max-width:800px;margin:0 auto}
+.pg.on{display:block}
+.card{background:#fff;border:1.5px solid #d4a84c;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(184,134,11,.1)}
+.ct{font-size:13px;font-weight:900;color:#3d2b1f;background:#f9f0d8;padding:6px 10px;border-radius:8px;margin-bottom:12px}
+.st{font-size:18px;font-weight:900;color:#3d2b1f;border-right:4px solid #b8860b;padding-right:10px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.fg{margin-bottom:10px}
+.fg label{font-size:11px;font-weight:700;color:#3d2b1f;display:block;margin-bottom:3px}
+input,select,textarea{border:1.5px solid #ddd;border-radius:8px;padding:9px 10px;font-family:'Tajawal',sans-serif;font-size:14px;background:#fdf8f0;width:100%;outline:none;box-sizing:border-box}
+input:focus,select:focus,textarea:focus{border-color:#b8860b;background:#fff}
+textarea{resize:vertical;min-height:56px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.cg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.ci{border:1.5px solid #ddd;border-radius:8px;padding:6px 12px;cursor:pointer;background:#fdf8f0;font-size:13px;color:#555;user-select:none;display:inline-block}
+.ci.on{border-color:#b8860b;background:#f9f0d8;font-weight:700;color:#3d2b1f}
+.vg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.vo{border:2px solid #ddd;border-radius:8px;padding:8px 14px;cursor:pointer;background:#fdf8f0;font-size:13px;color:#777;user-select:none}
+.vo.on{border-color:#b8860b;background:#f9f0d8;font-weight:700;color:#3d2b1f}
+.tbox{background:#f9f0d8;border:2px solid #b8860b;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.tr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(184,134,11,.2)}
+.tr b{font-weight:700;font-size:13px}
+.btn{border:none;border-radius:10px;padding:10px 16px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.bg{background:#b8860b;color:#fff}
+.bb{background:#3d2b1f;color:#f9f0d8}
+.bgn{background:#27ae60;color:#fff}
+.brd{background:#c0392b;color:#fff}
+.bwa{background:#25d366;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.bout{background:transparent;border:1.5px solid #d4a84c;color:#3d2b1f;border-radius:10px;padding:10px 16px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.bsm{padding:7px 12px;font-size:12px;border-radius:8px}
+.bful{width:100%;justify-content:center}
+.oc{background:#fff;border:1.5px solid #d4a84c;border-radius:12px;padding:13px;margin-bottom:10px}
+.cc{background:#fff;border:1.5px solid #d4a84c;border-radius:12px;padding:13px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sc{background:#fff;border:1.5px solid #d4a84c;border-radius:12px;padding:14px;text-align:center}
+.sc .sn{font-size:26px;font-weight:900;color:#b8860b}
+.sc .sl{font-size:12px;color:#777;font-weight:700}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.mo{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border-top:3px solid #b8860b}
+.mt{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:17px;font-weight:900;color:#3d2b1f}
+.xb{background:none;border:none;font-size:22px;cursor:pointer;color:#999}
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#3d2b1f,#1a0a05);padding:20px}
+.lb{background:#fff;border-radius:20px;padding:28px 22px;width:100%;max-width:360px;text-align:center;border:2px solid #b8860b}
+.rb{width:100%;border:2px solid #d4a84c;background:#fdf8f0;border-radius:12px;padding:14px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:10px;text-align:right}
+.toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);background:#3d2b1f;color:#f9f0d8;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:999;display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px}
+.tbl th{background:#3d2b1f;color:#f9f0d8;padding:8px 5px;text-align:center;font-size:11px}
+.tbl td{padding:5px 3px;border-bottom:1px solid #f9f0d8;text-align:center;vertical-align:middle}
+.tbl td input,.tbl td select{border:1px solid #ddd;border-radius:6px;padding:5px 4px;font-size:12px;width:100%;background:#fdf8f0;text-align:center}
+.rr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f9f0d8;font-size:13px}
+.empty{text-align:center;padding:30px;color:#aaa}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 </style>
 </head>
 <body>
-<div id="root"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Tajawal,sans-serif;font-size:18px;color:#b8860b">⌛ جاري التحميل...</div></div>
-<script type="text/babel" data-type="module">
 
-// ─── SUPABASE CONFIG ─────────────────────────────────────────
-const SUPA_URL = ‘https://gnyephepayziysasiavj.supabase.co’;
-const SUPA_KEY = ‘sb_publishable_NPTC1AtF9PSBZ5glYB4MWQ_DszwmaLh’;
+<!-- LOGIN -->
 
-let sb;
-try {
-const { createClient } = window.supabase || {};
-if (createClient) sb = createClient(SUPA_URL, SUPA_KEY);
-} catch(e) {}
+<div class="lw" id="loginWrap">
+  <div class="lb">
+    <div style="font-size:40px;margin-bottom:10px">✂️</div>
+    <h2 style="font-size:22px;font-weight:900;color:#3d2b1f;margin-bottom:6px">كشمير للخياطة</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:20px">اختر طريقة الدخول</p>
+    <button class="rb" onclick="showPin('owner')">
+      <span style="font-size:24px">👑</span>
+      <div><div>المالك</div><div style="font-size:11px;color:#888;font-weight:400">صلاحيات كاملة + التقارير</div></div>
+    </button>
+    <button class="rb" onclick="showPin('tailor')">
+      <span style="font-size:24px">🪡</span>
+      <div><div>الخياط</div><div style="font-size:11px;color:#888;font-weight:400">الطلبات والزبائن فقط</div></div>
+    </button>
+  </div>
+</div>
 
-// Fallback mock if supabase not available
-const mockDB = { customers: [], orders: [], settings: [] };
-const sbMock = {
-from: (table) => ({
-select: () => ({ data: mockDB[table] || [], error: null }),
-insert: (d) => { (mockDB[table] = mockDB[table] || []).push({…d, id: Date.now().toString(), created_at: new Date().toISOString()}); return { error: null }; },
-update: (d) => ({ eq: () => ({ data: null, error: null }) }),
-delete: () => ({ eq: () => ({ error: null }) }),
-upsert: (d) => { return { error: null }; },
-order: () => ({ limit: () => ({ data: mockDB[table] || [], error: null }), data: mockDB[table] || [], error: null }),
-eq: () => ({ single: () => ({ data: null, error: null }), data: [], error: null }),
-})
-};
+<!-- PIN -->
 
-const db = sb || sbMock;
+<div class="ov" id="pinOv">
+  <div class="mo" style="max-width:340px">
+    <div class="mt">🔐 <span id="pinTitle">رمز الدخول</span><button class="xb" onclick="closeOv('pinOv')">✕</button></div>
+    <input type="password" maxlength="4" inputmode="numeric" id="pinInp" style="text-align:center;font-size:28px;letter-spacing:12px;margin-bottom:10px" onkeydown="if(event.key==='Enter')chkPin()">
+    <div id="pinErr" style="color:#c0392b;font-size:13px;text-align:center;display:none;margin-bottom:8px">❌ رمز خاطئ</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bg bful" onclick="chkPin()">دخول</button>
+      <button class="bout bsm" onclick="closeOv('pinOv')">إلغاء</button>
+    </div>
+  </div>
+</div>
 
-// ─── CONSTANTS ───────────────────────────────────────────────
-const OWNER_PIN = ‘1973’;
-const TAILOR_PIN = ‘1234’;
-const REPORT_NUMBERS = [‘96560601605’, ‘96560948048’, ‘96550519551’];
+<!-- MAIN -->
 
-const GOLD = ‘#b8860b’;
-const BROWN = ‘#3d2b1f’;
-const CREAM = ‘#fdf8f0’;
-const GOLD_PALE = ‘#f9f0d8’;
-const BORDER = ‘#d4a84c’;
-const GREEN = ‘#27ae60’;
-const RED = ‘#c0392b’;
-const WHITE = ‘#ffffff’;
+<div id="app" style="display:none">
+  <div class="nav">
+    <div class="logo">✂️ كشمير للخياطة</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="rbadge" style="font-size:11px;background:rgba(255,255,255,.15);padding:3px 8px;border-radius:20px"></span>
+      <button onclick="logout()" style="background:transparent;border:1px solid rgba(255,255,255,.3);color:#f9f0d8;border-radius:8px;padding:5px 10px;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer">خروج</button>
+    </div>
+  </div>
 
-const MEAS_FIELDS = [
-{ id: ‘frontlen’, ar: ‘طول أمامي’, en: ‘Length Front’ },
-{ id: ‘backlen’, ar: ‘طول خلفي’, en: ‘Length Back’ },
-{ id: ‘shoulder’, ar: ‘كتف’, en: ‘Shoulder’ },
-{ id: ‘sleeves’, ar: ‘كم’, en: ‘Sleeves’ },
-{ id: ‘chest’, ar: ‘صدر’, en: ‘Chest’ },
-{ id: ‘halfchest’, ar: ‘نصف الصدر’, en: ‘Half Chest’ },
-{ id: ‘button’, ar: ‘زر’, en: ‘Button’ },
-{ id: ‘hemfold’, ar: ‘طية الحاشية’, en: ‘Hem Fold’ },
-{ id: ‘buttoncut’, ar: ‘قطع الزر’, en: ‘Button Cut’ },
-{ id: ‘handcut’, ar: ‘قطع يدوي’, en: ‘Hand Cut’ },
-{ id: ‘wallet’, ar: ‘محفظة’, en: ‘Wallet’ },
-{ id: ‘mobile’, ar: ‘نقال’, en: ‘Mobile’ },
+  <!-- HOME -->
+
+  <div class="pg on" id="pg-home">
+    <div class="sg" id="statsGrid"></div>
+    <div class="st">آخر الطلبات</div>
+    <div id="homeOrds"></div>
+  </div>
+
+  <!-- NEW ORDER -->
+
+  <div class="pg" id="pg-order">
+    <div class="st">📝 طلب جديد <button class="bout bsm" onclick="clearOrd()">مسح</button></div>
+    <div class="card">
+      <div class="ct">👤 بيانات الزبون</div>
+      <div class="r2">
+        <div class="fg"><label>الاسم *</label><input id="o_name" placeholder="اسم الزبون"></div>
+        <div class="fg"><label>الهاتف *</label><input id="o_phone" placeholder="965XXXXXXXX" inputmode="tel"></div>
+      </div>
+      <div class="r2">
+        <div class="fg"><label>التاريخ</label><input type="date" id="o_date"></div>
+        <div class="fg"><label>تاريخ التسليم</label><input type="date" id="o_due"></div>
+      </div>
+      <div class="r2">
+        <div class="fg"><label>الخياط</label><input id="o_tailor" placeholder="اسم الخياط"></div>
+        <div class="fg"><label>الخام</label><select id="o_fabric"><option value="">اختر</option><option>من عندنا (داخل)</option><option>من برا (خارج)</option></select></div>
+      </div>
+    </div>
+
+```
+<div class="card">
+  <div class="ct">🧵 الخدمات</div>
+  <div class="cg" id="cg_svc"></div>
+</div>
+
+<div class="card">
+  <div class="ct">👘 تفاصيل الدشداشة</div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">نوع الدشداشة</div>
+  <div class="cg" id="cg_type"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">تصميم الفولة | Neck Style</div>
+  <div class="vg" id="vg_neck"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">شريط الصدر | Chest Strip</div>
+  <div class="vg" id="vg_chest"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">المخبة الجانبية | Side Pocket</div>
+  <div class="vg" id="vg_pocket"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">الجيب الأمامي | Front Pocket</div>
+  <div class="vg" id="vg_front"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">زر الغولة | Button</div>
+  <div class="vg" id="vg_btn"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">الخط الجانبي | Side Line</div>
+  <div class="vg" id="vg_side"></div>
+  <div class="r2" style="margin-top:8px">
+    <div class="fg"><label>عدد القطع</label><input type="number" id="o_qty" value="1" min="1" inputmode="numeric"></div>
+  </div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">إضافات</div>
+  <div class="cg" id="cg_ext"></div>
+  <div style="font-size:12px;font-weight:700;color:#3d2b1f;margin-bottom:6px">خدمات إضافية</div>
+  <div class="cg" id="cg_xsvc"></div>
+</div>
+
+<div class="card">
+  <div class="ct">📏 القياسات</div>
+  <div style="display:flex;gap:10px;align-items:flex-start">
+    <div style="flex-shrink:0">
+      <svg viewBox="0 0 160 340" width="110" height="250">
+        <path d="M50,35 Q80,22 110,35 L128,85 L132,315 L28,315 L32,85 Z" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="2"/>
+        <ellipse cx="80" cy="34" rx="17" ry="10" fill="#fdf8f0" stroke="#3d2b1f" stroke-width="1.5"/>
+        <path d="M32,85 L8,132 L18,137 L40,98" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="1.5"/>
+        <path d="M128,85 L152,132 L142,137 L120,98" fill="#fdf6e3" stroke="#3d2b1f" stroke-width="1.5"/>
+        <line x1="80" y1="44" x2="80" y2="305" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="292" x2="130" y2="292" stroke="#b8860b" stroke-width="1.5"/>
+        <line x1="20" y1="34" x2="20" y2="315" stroke="#2980b9" stroke-width="1.2"/>
+        <polygon points="20,32 18,38 22,38" fill="#2980b9"/>
+        <polygon points="20,317 18,311 22,311" fill="#2980b9"/>
+        <line x1="33" y1="85" x2="127" y2="85" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <line x1="33" y1="113" x2="127" y2="113" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <line x1="33" y1="142" x2="127" y2="142" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <line x1="33" y1="170" x2="127" y2="170" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,2"/>
+      </svg>
+    </div>
+    <div id="measFields" style="flex:1;display:flex;flex-direction:column;gap:5px"></div>
+  </div>
+  <div class="fg" style="margin-top:10px"><label>ملاحظات القياسات</label><textarea id="m_notes" placeholder="أي ملاحظة..."></textarea></div>
+</div>
+
+<div class="card">
+  <div class="ct">🧣 الأقمشة والأمتار</div>
+  <div style="overflow-x:auto">
+    <table class="tbl">
+      <thead><tr><th>#</th><th>اسم الخامة</th><th>النوع</th><th>الأمتار</th><th>السعر/م</th><th>الإجمالي</th><th></th></tr></thead>
+      <tbody id="itemsTbl"></tbody>
+    </table>
+  </div>
+  <button class="bout bsm" onclick="addItem()">+ إضافة سطر</button>
+</div>
+
+<div class="card">
+  <div class="ct">💰 الأسعار والدفع</div>
+  <div class="r3">
+    <div class="fg"><label>رسوم الخياطة (KD)</label><input type="number" id="p_tail" value="0" inputmode="decimal" oninput="calcTotals()"></div>
+    <div class="fg"><label>إجمالي الخام (KD)</label><input id="p_text" value="0" readonly style="background:#f0f0f0"></div>
+    <div class="fg"><label>أخرى (KD)</label><input type="number" id="p_other" value="0" inputmode="decimal" oninput="calcTotals()"></div>
+  </div>
+  <div class="r3">
+    <div class="fg"><label>خصم | Discount</label>
+      <select id="p_disc" onchange="calcTotals()">
+        <option value="0">بدون خصم</option>
+        <option value="5">5%</option><option value="10">10%</option><option value="15">15%</option>
+        <option value="20">20%</option><option value="25">25%</option><option value="30">30%</option>
+        <option value="35">35%</option><option value="40">40%</option>
+      </select>
+    </div>
+    <div class="fg"><label>المدفوع | Paid (KD)</label><input type="number" id="p_paid" value="0" inputmode="decimal" oninput="calcTotals()" style="border-color:#27ae60;background:#f0fff4"></div>
+    <div class="fg"><label>طريقة الدفع</label><select id="p_method"><option>نقدي</option><option>كنت (KNET)</option><option>تحويل</option></select></div>
+  </div>
+  <div class="tbox" id="totalsBox"></div>
+  <div class="fg"><label>ملاحظات</label><textarea id="o_remarks" placeholder="أي ملاحظات..."></textarea></div>
+</div>
+<button class="btn bg bful" style="font-size:16px;padding:14px" onclick="saveOrder()">💾 حفظ الطلب</button>
+```
+
+  </div>
+
+  <!-- ORDERS -->
+
+  <div class="pg" id="pg-orders">
+    <div class="st">📋 الطلبات</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <select id="ordFilter" onchange="renderOrders()" style="flex:1"><option value="">كل الطلبات</option><option>شغال</option><option>جاهز</option><option>سلّم</option></select>
+      <input id="ordSearch" placeholder="ابحث..." oninput="renderOrders()" style="flex:1">
+    </div>
+    <div id="ordsList"></div>
+  </div>
+
+  <!-- CUSTOMERS -->
+
+  <div class="pg" id="pg-customers">
+    <div class="st">👥 الزبائن <button class="btn bg bsm" onclick="openAddCust()">+ زبون جديد</button></div>
+    <input id="custSearch" placeholder="ابحث باسم أو رقم..." oninput="renderCusts()" style="margin-bottom:12px">
+    <div id="custsList"></div>
+  </div>
+
+  <!-- REPORTS -->
+
+  <div class="pg" id="pg-reports">
+    <div id="rptContent"></div>
+  </div>
+
+  <!-- SETTINGS -->
+
+  <div class="pg" id="pg-settings">
+    <div class="st">⚙️ الإعدادات</div>
+    <div class="card">
+      <div class="ct">ℹ️ معلومات السستم</div>
+      <div style="font-size:13px;color:#777;line-height:2">
+        <div>👑 رمز المالك: <b>1973</b></div>
+        <div>🪡 رمز الخياط: <b>1234</b></div>
+        <div>📱 أرقام التقارير: 60601605 | 60948048 | 50519551</div>
+        <div style="margin-top:8px;color:#c0392b;font-size:12px">⚠️ لتغيير الأرقام والرموز تواصل مع المطور</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">📊 إحصائيات</div>
+      <div id="settingsStats" style="font-size:13px;color:#777;line-height:2"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+
+  <div class="bn">
+    <button class="bi on" onclick="goPage('home',this)" id="bn-home"><span class="ic">🏠</span>الرئيسية</button>
+    <button class="bi" onclick="goPage('order',this)" id="bn-order"><span class="ic">➕</span>طلب جديد</button>
+    <button class="bi" onclick="goPage('orders',this)" id="bn-orders"><span class="ic">📋</span>الطلبات</button>
+    <button class="bi" onclick="goPage('customers',this)" id="bn-customers"><span class="ic">👥</span>الزبائن</button>
+    <button class="bi" onclick="goPage('reports',this)" id="bn-reports" style="display:none"><span class="ic">📈</span>التقارير</button>
+    <button class="bi" onclick="goPage('settings',this)" id="bn-settings"><span class="ic">⚙️</span>الإعدادات</button>
+  </div>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+
+<div class="ov" id="ordOv">
+  <div class="mo">
+    <div class="mt"><span id="ordOvTitle"></span><button class="xb" onclick="closeOv('ordOv')">✕</button></div>
+    <div id="ordOvBody"></div>
+  </div>
+</div>
+
+<!-- CUSTOMER MODAL -->
+
+<div class="ov" id="custOv">
+  <div class="mo">
+    <div class="mt"><span id="custOvTitle">زبون جديد</span><button class="xb" onclick="closeOv('custOv')">✕</button></div>
+    <div class="r2">
+      <div class="fg"><label>الاسم *</label><input id="cm_name"></div>
+      <div class="fg"><label>الهاتف *</label><input id="cm_phone" inputmode="tel"></div>
+    </div>
+    <div class="fg"><label>ملاحظات</label><textarea id="cm_notes"></textarea></div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn bg" style="flex:1;justify-content:center" onclick="saveCust()">💾 حفظ</button>
+      <button class="bout bsm" onclick="closeOv('custOv')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER DETAIL MODAL -->
+
+<div class="ov" id="custDetOv">
+  <div class="mo">
+    <div class="mt"><span id="cdTitle"></span><button class="xb" onclick="closeOv('custDetOv')">✕</button></div>
+    <div id="cdBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══ CONFIG ═══════════════════════════════════════════
+const SUPA_URL = 'https://gnyephepayziysasiavj.supabase.co';
+const SUPA_KEY = 'sb_publishable_NPTC1AtF9PSBZ5glYB4MWQ_DszwmaLh';
+const { createClient } = supabase;
+const sb = createClient(SUPA_URL, SUPA_KEY);
+
+const OWNER_PIN = '1973';
+const TAILOR_PIN = '1234';
+const REPORT_NUMS = ['96560601605','96560948048','96550519551'];
+
+const MEAS = [
+  {id:'frontlen',ar:'طول أمامي',en:'Length Front'},
+  {id:'backlen',ar:'طول خلفي',en:'Length Back'},
+  {id:'shoulder',ar:'كتف',en:'Shoulder'},
+  {id:'sleeves',ar:'كم',en:'Sleeves'},
+  {id:'chest',ar:'صدر',en:'Chest'},
+  {id:'halfchest',ar:'نصف الصدر',en:'Half Chest'},
+  {id:'button',ar:'زر',en:'Button'},
+  {id:'hemfold',ar:'طية الحاشية',en:'Hem Fold'},
+  {id:'buttoncut',ar:'قطع الزر',en:'Button Cut'},
+  {id:'handcut',ar:'قطع يدوي',en:'Hand Cut'},
+  {id:'wallet',ar:'محفظة',en:'Wallet'},
+  {id:'mobile',ar:'نقال',en:'Mobile'},
 ];
 
-const SERVICES = [‘خياطة دشداشة’, ‘بيع خام’, ‘تصليح دشداشة’, ‘غسيل’];
-const DISHDASHA_TYPES = [‘Classic | كلاسيك’, ‘Design | تصميم’];
-const EXTRAS = [‘مخبة | Pocket’, ‘موبايل | Mobile’];
-const EXTRA_SVCS = [‘تنقيع | Soaking’, ‘غسيل | Laundry’, ‘خدمة سريعة | Fast Track’];
+// ═══ STATE ════════════════════════════════════════════
+let role = null;
+let pinMode = null;
+let orders = [];
+let customers = [];
+let items = [{fabricName:'',type:'',meters:'',price:''}];
+let selSvc = [], selType = [], selExt = [], selXsvc = [];
+let selNeck = 'عادية - زر واحد';
+let selChest = 'مخفي';
+let selPocket = 'بدون مخبة داخلية';
+let selFront = 'بدون كرتون';
+let selBtn = 'طباقي';
+let selSide = 'مفرد';
+let editCustId = null;
+let viewCustId = null;
+let viewOrdId = null;
+let serial = 383;
 
-const NECK_OPTS = [‘عادية - زر واحد’, ‘زرارين’, ‘قلابي مثلث’];
-const CHEST_OPTS = [‘مخفي’, ‘مكشوف الأزرة’, ‘سحاب’];
-const POCKET_OPTS = [‘بدون مخبة داخلية’, ‘مع مخبة داخلية’];
-const FRONT_OPTS = [‘بدون كرتون’, ‘مع كرتون’];
-const BTN_OPTS = [‘مخفي’, ‘طباقي’, ‘زرار قديم’];
-const SIDELINE_OPTS = [‘مفرد’, ‘مزدوج’];
+// ═══ INIT ════════════════════════════════════════════
+function initUI() {
+  // Check groups
+  mkCG('cg_svc', ['خياطة دشداشة','بيع خام','تصليح دشداشة','غسيل'], () => selSvc);
+  mkCG('cg_type', ['Classic | كلاسيك','Design | تصميم'], () => selType);
+  mkCG('cg_ext', ['مخبة | Pocket','موبايل | Mobile'], () => selExt);
+  mkCG('cg_xsvc', ['تنقيع | Soaking','غسيل | Laundry','خدمة سريعة | Fast Track'], () => selXsvc);
 
-const emptyOrder = () => ({
-name: ‘’, phone: ‘’, tailor: ‘’,
-date: new Date().toISOString().split(‘T’)[0],
-duedate: ‘’, services: [], fabric: ‘’, qty: 1,
-dishdashaTypes: [], neck: ‘عادية - زر واحد’,
-chestStrip: ‘مخفي’, sidePocket: ‘بدون مخبة داخلية’,
-frontPocket: ‘بدون كرتون’, buttonStyle: ‘طباقي’,
-sideLine: ‘مفرد’, extras: [], extraServices: [],
-measurements: Object.fromEntries(MEAS_FIELDS.map(f => [f.id, ‘’])),
-measNotes: ‘’,
-items: [{ fabricName: ‘’, type: ‘’, meters: ‘’, price: ‘’ }],
-tailoring: ‘’, others: ‘’, discount: 0, paid: ‘’, payMethod: ‘نقدي’, remarks: ‘’,
-});
+  // Visual pickers
+  mkVG('vg_neck', ['عادية - زر واحد','زرارين','قلابي مثلث'], () => selNeck, v => { selNeck = v; });
+  mkVG('vg_chest', ['مخفي','مكشوف الأزرة','سحاب'], () => selChest, v => { selChest = v; });
+  mkVG('vg_pocket', ['بدون مخبة داخلية','مع مخبة داخلية'], () => selPocket, v => { selPocket = v; });
+  mkVG('vg_front', ['بدون كرتون','مع كرتون'], () => selFront, v => { selFront = v; });
+  mkVG('vg_btn', ['مخفي','طباقي','زرار قديم'], () => selBtn, v => { selBtn = v; });
+  mkVG('vg_side', ['مفرد','مزدوج'], () => selSide, v => { selSide = v; });
 
-// ─── STYLES ──────────────────────────────────────────────────
-const S = {
-body: { fontFamily: “‘Tajawal’, sans-serif”, direction: ‘rtl’, background: CREAM, minHeight: ‘100vh’, paddingBottom: 70 },
-topNav: { background: `linear-gradient(135deg, ${BROWN}, #2a1a10)`, color: GOLD_PALE, display: ‘flex’, alignItems: ‘center’, justifyContent: ‘space-between’, padding: ‘0 14px’, height: 54, position: ‘sticky’, top: 0, zIndex: 100, boxShadow: ‘0 3px 12px rgba(0,0,0,.35)’ },
-logo: { fontWeight: 900, fontSize: 17, color: ‘#d4a017’ },
-bottomNav: { position: ‘fixed’, bottom: 0, left: 0, right: 0, background: BROWN, display: ‘flex’, zIndex: 100, boxShadow: ‘0 -3px 12px rgba(0,0,0,.3)’ },
-page: { padding: 14, maxWidth: 800, margin: ‘0 auto’ },
-card: { background: WHITE, border: `1.5px solid ${BORDER}`, borderRadius: 14, padding: 14, marginBottom: 12, boxShadow: ‘0 2px 8px rgba(184,134,11,.1)’ },
-cardTitle: { fontSize: 13, fontWeight: 900, color: BROWN, background: GOLD_PALE, padding: ‘6px 10px’, borderRadius: 8, marginBottom: 12 },
-secTitle: { fontSize: 18, fontWeight: 900, color: BROWN, borderRight: `4px solid ${GOLD}`, paddingRight: 10, marginBottom: 14, display: ‘flex’, justifyContent: ‘space-between’, alignItems: ‘center’ },
-inp: { border: `1.5px solid #ddd`, borderRadius: 8, padding: ‘9px 10px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 14, background: CREAM, width: ‘100%’, outline: ‘none’, boxSizing: ‘border-box’ },
-label: { fontSize: 11, fontWeight: 700, color: BROWN, display: ‘block’, marginBottom: 3 },
-fg: { marginBottom: 10 },
-row2: { display: ‘grid’, gridTemplateColumns: ‘1fr 1fr’, gap: 10, marginBottom: 10 },
-row3: { display: ‘grid’, gridTemplateColumns: ‘1fr 1fr 1fr’, gap: 10, marginBottom: 10 },
-};
+  // Meas fields
+  const mf = document.getElementById('measFields');
+  mf.innerHTML = MEAS.map(f => `
+    <div>
+      <label style="font-size:10px;font-weight:700;color:#3d2b1f;display:block;margin-bottom:2px">${f.ar} | ${f.en}</label>
+      <input type="number" inputmode="decimal" placeholder="0" id="m_${f.id}" style="padding:7px 8px;font-size:13px;text-align:center">
+    </div>`).join('');
 
-const btn = (bg, color = WHITE, extra = {}) => ({
-border: ‘none’, borderRadius: 10, padding: ‘10px 16px’,
-fontFamily: ‘Tajawal,sans-serif’, fontSize: 14, fontWeight: 700,
-cursor: ‘pointer’, background: bg, color,
-display: ‘inline-flex’, alignItems: ‘center’, gap: 6, …extra
-});
+  // Items
+  renderItems();
+  calcTotals();
 
-// ─── COMPONENTS ──────────────────────────────────────────────
-function FG({ label: lbl, children }) {
-return <div style={S.fg}><label style={S.label}>{lbl}</label>{children}</div>;
+  // Date
+  document.getElementById('o_date').value = new Date().toISOString().split('T')[0];
 }
 
-function CheckGroup({ label: lbl, options, values, onChange }) {
-const toggle = v => onChange(values.includes(v) ? values.filter(x => x !== v) : […values, v]);
-return (
-<div style={{ marginBottom: 10 }}>
-{lbl && <div style={{ fontSize: 12, fontWeight: 700, color: BROWN, marginBottom: 6 }}>{lbl}</div>}
-<div style={{ display: ‘flex’, flexWrap: ‘wrap’, gap: 7 }}>
-{options.map(o => {
-const on = values.includes(o);
-return <div key={o} onClick={() => toggle(o)} style={{ border: `1.5px solid ${on ? GOLD : '#ddd'}`, borderRadius: 8, padding: ‘6px 12px’, cursor: ‘pointer’, background: on ? GOLD_PALE : CREAM, fontSize: 13, fontWeight: on ? 700 : 400, color: on ? BROWN : ‘#555’ }}>{o}</div>;
-})}
-</div>
-</div>
-);
+function mkCG(id, opts, getArr) {
+  const el = document.getElementById(id);
+  el.innerHTML = opts.map(o => `<div class="ci" onclick="togCI(this,'${o}','${id}')">${o}</div>`).join('');
 }
 
-function VisPicker({ label: lbl, options, value, onChange }) {
-return (
-<div style={{ marginBottom: 10 }}>
-<div style={{ fontSize: 12, fontWeight: 700, color: BROWN, marginBottom: 6 }}>{lbl}</div>
-<div style={{ display: ‘flex’, flexWrap: ‘wrap’, gap: 8 }}>
-{options.map(o => (
-<div key={o} onClick={() => onChange(o)} style={{ border: `2px solid ${value === o ? GOLD : '#ddd'}`, borderRadius: 8, padding: ‘8px 14px’, cursor: ‘pointer’, background: value === o ? GOLD_PALE : CREAM, fontSize: 13, fontWeight: value === o ? 700 : 400, color: value === o ? BROWN : ‘#777’ }}>{o}</div>
-))}
-</div>
-</div>
-);
+function togCI(el, val, gid) {
+  el.classList.toggle('on');
+  const arr = [...document.querySelectorAll(`#${gid} .ci.on`)].map(c => c.textContent);
+  if(gid==='cg_svc') selSvc = arr;
+  if(gid==='cg_type') selType = arr;
+  if(gid==='cg_ext') selExt = arr;
+  if(gid==='cg_xsvc') selXsvc = arr;
 }
 
-function TotalsBox({ tailoring, textiles, others, discount, paid, total, remaining }) {
-const discAmt = (tailoring + textiles + others) * discount / 100;
-return (
-<div style={{ background: GOLD_PALE, border: `2px solid ${GOLD}`, borderRadius: 12, padding: ‘12px 14px’, marginBottom: 10 }}>
-{[[‘الخياطة’, tailoring], [‘المنسوجات’, textiles], [‘أخرى’, others]].map(([l, v]) => (
-<div key={l} style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
-<span style={{ fontWeight: 700 }}>{l}</span><span>{v.toFixed(3)} KD</span>
-</div>
-))}
-{discount > 0 && <div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
-<span style={{ fontWeight: 700, color: GREEN }}>خصم {discount}%</span>
-<span style={{ color: GREEN, fontWeight: 700 }}>- {discAmt.toFixed(3)} KD</span>
-</div>}
-<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘8px 0 4px’, borderBottom: `1px solid rgba(184,134,11,.2)` }}>
-<span style={{ fontWeight: 900 }}>الإجمالي الكلي</span>
-<span style={{ fontWeight: 900, fontSize: 18, color: GOLD }}>{total.toFixed(3)} KD</span>
-</div>
-<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘4px 0’ }}>
-<span style={{ fontWeight: 700 }}>المدفوع</span>
-<span style={{ color: GREEN, fontWeight: 900 }}>{paid.toFixed(3)} KD</span>
-</div>
-<div style={{ display: ‘flex’, justifyContent: ‘space-between’, padding: ‘8px 10px’, marginTop: 6, borderRadius: 8, background: remaining > 0 ? ‘#fde2e2’ : ‘#d4edda’, border: `2px solid ${remaining > 0 ? RED : GREEN}` }}>
-<span style={{ fontWeight: 900, color: remaining > 0 ? RED : GREEN, fontSize: 15 }}>{remaining > 0 ? ‘⚠️ الباقي | Remaining’ : ‘✅ مسوّى | Paid in Full’}</span>
-<span style={{ fontWeight: 900, fontSize: 18, color: remaining > 0 ? RED : GREEN }}>{remaining.toFixed(3)} KD</span>
-</div>
-</div>
-);
+function mkVG(id, opts, getVal, setVal) {
+  const el = document.getElementById(id);
+  el.innerHTML = opts.map(o => `<div class="vo ${getVal()===o?'on':''}" onclick="selVO(this,'${id}')">${o}</div>`).join('');
+  el.dataset.setfn = id;
+  el.onclick = function(e) {
+    const vo = e.target.closest('.vo');
+    if(!vo) return;
+    el.querySelectorAll('.vo').forEach(v => v.classList.remove('on'));
+    vo.classList.add('on');
+    setVal(vo.textContent.trim());
+  };
 }
 
-function Modal({ show, title, onClose, children }) {
-if (!show) return null;
-return (
-<div style={{ position: ‘fixed’, inset: 0, background: ‘rgba(0,0,0,.55)’, zIndex: 200, display: ‘flex’, alignItems: ‘flex-end’, justifyContent: ‘center’ }}>
-<div style={{ background: WHITE, borderRadius: ‘20px 20px 0 0’, padding: 20, width: ‘100%’, maxWidth: 600, maxHeight: ‘90vh’, overflowY: ‘auto’, borderTop: `3px solid ${GOLD}` }}>
-<div style={{ display: ‘flex’, justifyContent: ‘space-between’, marginBottom: 14, fontSize: 17, fontWeight: 900, color: BROWN }}>
-<span>{title}</span>
-<button onClick={onClose} style={{ background: ‘none’, border: ‘none’, fontSize: 22, cursor: ‘pointer’, color: ‘#999’ }}>✕</button>
-</div>
-{children}
-</div>
-</div>
-);
+function selVO(el, gid) {} // handled by parent onclick
+
+// ═══ ITEMS ════════════════════════════════════════════
+function renderItems() {
+  const tb = document.getElementById('itemsTbl');
+  tb.innerHTML = items.map((r,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><input placeholder="اسم الخامة" value="${r.fabricName||''}" oninput="updItem(${i},'fabricName',this.value)"></td>
+      <td><select onchange="updItem(${i},'type',this.value)">
+        <option value="">النوع</option>
+        <option ${r.type==='صيفي | Summer'?'selected':''}>صيفي | Summer</option>
+        <option ${r.type==='شتوي | Winter'?'selected':''}>شتوي | Winter</option>
+      </select></td>
+      <td><input type="number" value="${r.meters||''}" placeholder="0" oninput="updItem(${i},'meters',this.value)" inputmode="decimal"></td>
+      <td><input type="number" value="${r.price||''}" placeholder="0" oninput="updItem(${i},'price',this.value)" inputmode="decimal"></td>
+      <td><b>${((parseFloat(r.meters)||0)*(parseFloat(r.price)||0)).toFixed(3)}</b></td>
+      <td><button onclick="delItem(${i})" style="background:none;border:none;color:#c0392b;font-size:16px;cursor:pointer">✕</button></td>
+    </tr>`).join('');
+  calcTotals();
 }
 
-function Toast({ msg }) {
-if (!msg) return null;
-return <div style={{ position: ‘fixed’, top: 64, left: ‘50%’, transform: ‘translateX(-50%)’, background: BROWN, color: GOLD_PALE, padding: ‘10px 20px’, borderRadius: 30, fontSize: 13, fontWeight: 700, zIndex: 999, boxShadow: ‘0 4px 16px rgba(0,0,0,.3)’, whiteSpace: ‘nowrap’ }}>{msg}</div>;
+function updItem(i,f,v){ items[i][f]=v; renderItems(); }
+function delItem(i){ items.splice(i,1); if(!items.length) items.push({fabricName:'',type:'',meters:'',price:''}); renderItems(); }
+function addItem(){ items.push({fabricName:'',type:'',meters:'',price:''}); renderItems(); }
+
+function calcTotals() {
+  const textiles = items.reduce((s,r) => s+(parseFloat(r.meters)||0)*(parseFloat(r.price)||0), 0);
+  const tail = parseFloat(document.getElementById('p_tail').value)||0;
+  const other = parseFloat(document.getElementById('p_other').value)||0;
+  const disc = parseFloat(document.getElementById('p_disc').value)||0;
+  const paid = parseFloat(document.getElementById('p_paid').value)||0;
+  const sub = tail + textiles + other;
+  const discAmt = sub * disc / 100;
+  const total = sub - discAmt;
+  const rem = total - paid;
+
+  document.getElementById('p_text').value = textiles.toFixed(3);
+
+  let html = `
+    <div class="tr"><b>الخياطة</b><span>${tail.toFixed(3)} KD</span></div>
+    <div class="tr"><b>المنسوجات</b><span>${textiles.toFixed(3)} KD</span></div>
+    <div class="tr"><b>أخرى</b><span>${other.toFixed(3)} KD</span></div>
+    ${disc>0?`<div class="tr"><b style="color:#27ae60">خصم ${disc}%</b><span style="color:#27ae60">- ${discAmt.toFixed(3)} KD</span></div>`:''}
+    <div class="tr"><b>الإجمالي الكلي</b><span style="font-size:18px;font-weight:900;color:#b8860b">${total.toFixed(3)} KD</span></div>
+    <div class="tr"><b>المدفوع</b><span style="color:#27ae60;font-weight:900">${paid.toFixed(3)} KD</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 10px;border-radius:8px;margin-top:6px;background:${rem>0?'#fde2e2':'#d4edda'};border:2px solid ${rem>0?'#c0392b':'#27ae60'}">
+      <span style="font-weight:900;color:${rem>0?'#c0392b':'#27ae60'};font-size:15px">${rem>0?'⚠️ الباقي | Remaining':'✅ مسوّى | Paid in Full'}</span>
+      <span style="font-weight:900;font-size:18px;color:${rem>0?'#c0392b':'#27ae60'}">${rem.toFixed(3)} KD</span>
+    </div>`;
+  document.getElementById('totalsBox').innerHTML = html;
 }
 
-function BNavItem({ icon, label: lbl, active, onClick }) {
-return (
-<button onClick={onClick} style={{ flex: 1, display: ‘flex’, flexDirection: ‘column’, alignItems: ‘center’, justifyContent: ‘center’, padding: ‘8px 4px’, color: active ? ‘#d4a017’ : ‘rgba(255,255,255,.5)’, background: ‘none’, border: ‘none’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 10, gap: 2, cursor: ‘pointer’ }}>
-<span style={{ fontSize: 20 }}>{icon}</span>{lbl}
-</button>
-);
+// ═══ LOGIN ════════════════════════════════════════════
+function showPin(r) {
+  pinMode = r;
+  document.getElementById('pinTitle').textContent = r==='owner' ? 'رمز المالك' : 'رمز الخياط';
+  document.getElementById('pinInp').value = '';
+  document.getElementById('pinErr').style.display = 'none';
+  openOv('pinOv');
+  setTimeout(() => document.getElementById('pinInp').focus(), 300);
 }
 
-function OrderCard({ o, onView, onWA, onStatus, onDelete, role }) {
-const sc = { شغال: ‘#dbeeff’, جاهز: ‘#d4edda’, “سلّم”: ‘#eee’ }[o.status] || ‘#eee’;
-const tc = { شغال: ‘#2980b9’, جاهز: GREEN, “سلّم”: ‘#777’ }[o.status] || ‘#777’;
-return (
-<div style={{ background: WHITE, border: `1.5px solid ${BORDER}`, borderRadius: 12, padding: 13, marginBottom: 10 }}>
-<div style={{ display: ‘flex’, justifyContent: ‘space-between’, alignItems: ‘center’, marginBottom: 8 }}>
-<div style={{ fontSize: 20, fontWeight: 900, color: GOLD }}>#{o.serial}</div>
-<select value={o.status} onChange={e => onStatus(e.target.value)} style={{ border: `1.5px solid ${BORDER}`, borderRadius: 8, padding: ‘5px 10px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 13, fontWeight: 700, background: sc, color: tc, cursor: ‘pointer’ }}>
-<option>شغال</option><option>جاهز</option><option>سلّم</option>
-</select>
-</div>
-<div style={{ fontSize: 13, color: ‘#666’, lineHeight: 1.9 }}>
-👤 <b>{o.name}</b> | 📞 {o.phone}<br />
-🧵 {(o.services || []).join(’، ’) || ‘—’}<br />
-📅 {o.date || ‘—’}{o.duedate ? ` → تسليم: ${o.duedate}` : ‘’}<br />
-💰 <b>{(o.total || 0).toFixed(3)} KD</b> | مدفوع: {(o.paid || 0).toFixed(3)}
-{role === ‘owner’ && <span style={{ color: RED }}> | متبقي: {(o.remaining || 0).toFixed(3)}</span>}
-</div>
-<div style={{ display: ‘flex’, gap: 7, marginTop: 10, flexWrap: ‘wrap’ }}>
-<button onClick={onWA} style={{ background: ‘#25d366’, color: WHITE, border: ‘none’, borderRadius: 8, padding: ‘7px 12px’, fontFamily: ‘Tajawal,sans-serif’, fontSize: 12, fontWeight: 700, cursor: ‘pointer’ }}>📲 رسالة</button>
-<button onClick={onView} style={{ …btn(‘transparent’, BROWN), border: `1.5px solid ${BORDER}`, padding: ‘7px 12px’, fontSize: 12 }}>👁️ تفاصيل</button>
-<button onClick={onDelete} style={{ …btn(RED), padding: ‘7px 12px’, fontSize: 12 }}>🗑️</button>
-</div>
-</div>
-);
+function chkPin() {
+  const pin = document.getElementById('pinInp').value;
+  const correct = pinMode==='owner' ? OWNER_PIN : TAILOR_PIN;
+  if(pin === correct) {
+    role = pinMode;
+    closeOv('pinOv');
+    startApp();
+  } else {
+    document.getElementById('pinErr').style.display = 'block';
+    document.getElementById('pinInp').value = '';
+    setTimeout(() => { document.getElementById('pinErr').style.display='none'; }, 1500);
+  }
 }
 
-// ─── MAIN APP ────────────────────────────────────────────────
-export default function App() {
-const [role, setRole] = useState(null);
-const [page, setPage] = useState(‘home’);
-const [toast, setToast] = useState(’’);
-const [orders, setOrders] = useState([]);
-const [customers, setCustomers] = useState([]);
-const [order, setOrder] = useState(emptyOrder());
-const [orderSerial, setOrderSerial] = useState(383);
-const [pinInput, setPinInput] = useState(’’);
-const [pinMode, setPinMode] = useState(null); // ‘owner’ | ‘tailor’
-const [pinError, setPinError] = useState(false);
-const [viewOrd, setViewOrd] = useState(null);
-const [viewCust, setViewCust] = useState(null);
-const [editCust, setEditCust] = useState(null);
-const [custForm, setCustForm] = useState({ name: ‘’, phone: ‘’, address: ‘’, notes: ‘’ });
-const [ordFilter, setOrdFilter] = useState(’’);
-const [ordSearch, setOrdSearch] = useState(’’);
-const [custSearch, setCustSearch] = useState(’’);
-const [extraPay, setExtraPay] = useState(’’);
-const [loading, setLoading] = useState(false);
-
-const showToast = (msg, dur = 2500) => {
-setToast(msg);
-setTimeout(() => setToast(’’), dur);
-};
-
-// Load data
-const loadData = useCallback(async () => {
-setLoading(true);
-try {
-const [{ data: ords }, { data: custs }] = await Promise.all([
-db.from(‘orders’).select(’*’).order(‘created_at’, { ascending: false }),
-db.from(‘customers’).select(’*’).order(‘created_at’, { ascending: false }),
-]);
-setOrders(ords || []);
-setCustomers(custs || []);
-if (ords && ords.length > 0) {
-const maxSerial = Math.max(…ords.map(o => o.serial || 0));
-setOrderSerial(Math.max(383, maxSerial));
+async function startApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('rbadge').textContent = role==='owner' ? '👑 مالك' : '🪡 خياط';
+  if(role==='owner') document.getElementById('bn-reports').style.display = '';
+  initUI();
+  await loadData();
+  renderHome();
 }
-} catch (e) { console.error(e); }
-setLoading(false);
-}, []);
 
-useEffect(() => { if (role) loadData(); }, [role, loadData]);
-
-// ── TOTALS ──
-const textiles = order.items.reduce((s, r) => s + (parseFloat(r.meters) || 0) * (parseFloat(r.price) || 0), 0);
-const tailoring = parseFloat(order.tailoring) || 0;
-const others = parseFloat(order.others) || 0;
-const sub = tailoring + textiles + others;
-const discAmt = sub * (order.discount || 0) / 100;
-const total = sub - discAmt;
-const paid = parseFloat(order.paid) || 0;
-const remaining = total - paid;
-
-// ── LOGIN ──
-const doLogin = (r) => { setPinMode(r); setPinInput(’’); setPinError(false); };
-
-const checkPin = () => {
-const correctPin = pinMode === ‘owner’ ? OWNER_PIN : TAILOR_PIN;
-if (pinInput === correctPin) {
-setRole(pinMode); setPinMode(null);
-} else {
-setPinError(true); setPinInput(’’);
-setTimeout(() => setPinError(false), 1500);
+function logout() {
+  role = null;
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('bn-reports').style.display = 'none';
 }
-};
 
-// ── SAVE ORDER ──
-const saveOrder = async () => {
-if (!order.name || !order.phone) { showToast(‘❌ أدخل الاسم والهاتف’); return; }
-const newSerial = orderSerial + 1;
-const newOrder = {
-serial: newSerial, date: order.date, duedate: order.duedate,
-name: order.name, phone: order.phone, tailor: order.tailor,
-services: order.services, fabric: order.fabric, qty: order.qty,
-dishdasha_types: order.dishdashaTypes, neck: order.neck,
-chest_strip: order.chestStrip, side_pocket: order.sidePocket,
-front_pocket: order.frontPocket, button_style: order.buttonStyle,
-side_line: order.sideLine, extras: order.extras,
-extra_services: order.extraServices, measurements: order.measurements,
-meas_notes: order.measNotes, items: order.items,
-tailoring, textiles, others, discount: order.discount,
-total, paid, remaining, pay_method: order.payMethod,
-remarks: order.remarks, status: ‘شغال’,
-};
-const { error } = await db.from(‘orders’).insert(newOrder);
-if (error) { showToast(’❌ خطأ: ’ + error.message); return; }
-
-```
-// Update customer
-const existing = customers.find(c => c.phone === order.phone);
-if (existing) {
-  await db.from('customers').update({ measurements: order.measurements, name: order.name }).eq('id', existing.id);
-} else {
-  await db.from('customers').insert({ name: order.name, phone: order.phone, measurements: order.measurements });
+// ═══ DATA ════════════════════════════════════════════
+async function loadData() {
+  const [{ data: ords }, { data: custs }] = await Promise.all([
+    sb.from('orders').select('*').order('created_at', { ascending: false }),
+    sb.from('customers').select('*').order('created_at', { ascending: false }),
+  ]);
+  orders = ords || [];
+  customers = custs || [];
+  if(orders.length > 0) {
+    const max = Math.max(...orders.map(o => o.serial||0));
+    serial = Math.max(383, max);
+  }
 }
-setOrderSerial(newSerial);
-await loadData();
-showToast('✅ تم حفظ الطلب #' + newSerial);
-setOrder(emptyOrder());
-setPage('orders');
-```
 
-};
-
-// ── WHATSAPP ──
-const sendWA = (o) => {
-const shop = ‘كشمير للخياطة’;
-let msg = `🌟 *${shop}*\n\nالسلام عليكم ${o.name} 👋\n`;
-msg += o.status === ‘جاهز’ ? ‘طلبك جاهز للاستلام ✅\n\n’ : ‘تم استلام طلبك وهو قيد التنفيذ 🪡\n\n’;
-msg += `📋 *تفاصيل الطلب:*\n• رقم الطلب: #${o.serial}\n`;
-msg += `• الخدمة: ${(o.services || []).join('، ') || '—'}\n`;
-if (o.duedate) msg += `• موعد التسليم: ${o.duedate}\n`;
-const m = o.measurements || {};
-const measText = MEAS_FIELDS.filter(f => m[f.id]).map(f => `• ${f.ar}: ${m[f.id]}`).join(’\n’);
-if (measText) msg += `\n📏 *القياسات:*\n${measText}\n`;
-msg += `\n💰 *الحساب:*\n• الإجمالي: ${(o.total || 0).toFixed(3)} KD\n`;
-msg += `• المدفوع: ${(o.paid || 0).toFixed(3)} KD\n`;
-msg += o.remaining > 0 ? `• المتبقي: ${o.remaining.toFixed(3)} KD\n` : ‘• ✅ تم السداد الكامل\n’;
-msg += `\nشكراً لثقتكم 🙏`;
-window.open(`https://wa.me/${o.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`, ‘_blank’);
-};
-
-const sendReportWA = async () => {
-const now = new Date(); const weekAgo = new Date(now - 7 * 864e5);
-const weekOrds = orders.filter(o => new Date(o.created_at) >= weekAgo);
-const weekRev = weekOrds.reduce((s, o) => s + (o.paid || 0), 0);
-const debt = orders.reduce((s, o) => s + (o.remaining || 0), 0);
-let msg = `📊 *تقرير أسبوعي - كشمير للخياطة*\n📅 ${weekAgo.toLocaleDateString('ar-KW')} → ${now.toLocaleDateString('ar-KW')}\n\n`;
-msg += `🔢 عدد الطلبات: ${weekOrds.length}\n💰 الإيرادات: ${weekRev.toFixed(3)} KD\n💸 المبالغ المتبقية: ${debt.toFixed(3)} KD\n`;
-msg += `⏳ شغالة: ${orders.filter(o => o.status === 'شغال').length} | ✅ جاهزة: ${orders.filter(o => o.status === 'جاهز').length}`;
-const encoded = encodeURIComponent(msg);
-REPORT_NUMBERS.forEach((num, i) => setTimeout(() => window.open(`https://wa.me/${num}?text=${encoded}`, ‘_blank’), i * 800));
-showToast(‘✅ يتم إرسال التقرير للملاك’);
-};
-
-// ── UPDATE STATUS ──
-const updateStatus = async (id, status) => {
-await db.from(‘orders’).update({ status }).eq(‘id’, id);
-setOrders(prev => prev.map(o => o.id === id ? { …o, status } : o));
-showToast(‘✅ تم تحديث الحالة’);
-};
-
-const deleteOrder = async (id) => {
-if (!window.confirm(‘تأكيد حذف الطلب؟’)) return;
-await db.from(‘orders’).delete().eq(‘id’, id);
-setOrders(prev => prev.filter(o => o.id !== id));
-setViewOrd(null);
-showToast(‘🗑️ تم الحذف’);
-};
-
-const addPayment = async () => {
-const amt = parseFloat(extraPay) || 0;
-if (!amt || !viewOrd) { showToast(‘❌ أدخل مبلغ’); return; }
-const o = orders.find(x => x.id === viewOrd.id);
-if (!o) return;
-const newPaid = (o.paid || 0) + amt;
-const newRemaining = Math.max(0, (o.total || 0) - newPaid);
-await db.from(‘orders’).update({ paid: newPaid, remaining: newRemaining }).eq(‘id’, o.id);
-setOrders(prev => prev.map(x => x.id === o.id ? { …x, paid: newPaid, remaining: newRemaining } : x));
-setExtraPay(’’); setViewOrd(null);
-showToast(‘✅ تم تسجيل الدفعة’);
-};
-
-const saveCustomer = async () => {
-if (!custForm.name || !custForm.phone) { showToast(‘❌ أدخل الاسم والهاتف’); return; }
-if (editCust) {
-await db.from(‘customers’).update(custForm).eq(‘id’, editCust.id);
-setCustomers(prev => prev.map(c => c.id === editCust.id ? { …c, …custForm } : c));
-} else {
-await db.from(‘customers’).insert(custForm);
-await loadData();
+// ═══ NAVIGATION ═══════════════════════════════════════
+function goPage(id, btn) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.bi').forEach(b => b.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(id==='home') renderHome();
+  if(id==='orders') renderOrders();
+  if(id==='customers') renderCusts();
+  if(id==='reports') renderReports();
+  if(id==='settings') renderSettings();
 }
-setEditCust(null); setViewCust(null);
-showToast(‘✅ تم الحفظ’);
-};
 
-const deleteCustomer = async (id) => {
-if (!window.confirm(‘تأكيد حذف الزبون؟’)) return;
-await db.from(‘customers’).delete().eq(‘id’, id);
-setCustomers(prev => prev.filter(c => c.id !== id));
-setViewCust(null);
-showToast(‘🗑️ تم الحذف’);
-};
+function openOv(id) { document.getElementById(id).classList.add('on'); }
+function closeOv(id) { document.getElementById(id).classList.remove('on'); }
 
-// ── STATS ──
-const totalDebt = orders.reduce((s, o) => s + (o.remaining || 0), 0);
-const pendingCount = orders.filter(o => o.status === ‘شغال’).length;
-const now = new Date(); const weekAgo = new Date(now - 7 * 864e5);
-const weekOrds = orders.filter(o => new Date(o.created_at) >= weekAgo);
-const weekRev = weekOrds.reduce((s, o) => s + (o.paid || 0), 0);
+function showToast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => t.style.display='none', dur);
+}
 
-const filteredOrders = orders.filter(o =>
-(!ordFilter || o.status === ordFilter) &&
-(!ordSearch || o.name?.includes(ordSearch) || String(o.serial).includes(ordSearch) || o.phone?.includes(ordSearch))
-);
+// ═══ HOME ════════════════════════════════════════════
+function renderHome() {
+  const debt = orders.reduce((s,o) => s+(o.remaining||0), 0);
+  const pending = orders.filter(o => o.status==='شغال').length;
+  let stats = [
+    ['👥', customers.length, 'زبون'],
+    ['📋', orders.length, 'طلب كلي'],
+    ['⏳', pending, 'طلب شغال'],
+  ];
+  if(role==='owner') stats.push(['💸', debt.toFixed(3)+' KD', 'مبالغ متبقية']);
+  document.getElementById('statsGrid').innerHTML = stats.map(([ic,v,l]) =>
+    `<div class="sc"><div>${ic}</div><div class="sn">${v}</div><div class="sl">${l}</div></div>`).join('');
+  const recent = orders.slice(0,5);
+  document.getElementById('homeOrds').innerHTML = recent.length ?
+    recent.map(o => ordCardHTML(o)).join('') :
+    '<div class="empty">ما في طلبات بعد</div>';
+}
 
-const filteredCusts = customers.filter(c =>
-!custSearch || c.name?.includes(custSearch) || c.phone?.includes(custSearch)
-);
-
-// ──────── RENDER ────────────────────────────────────────────
-
-// LOGIN
-if (!role) return (
-<div style={{ minHeight: ‘100vh’, display: ‘flex’, alignItems: ‘center’, justifyContent: ‘center’, background: `linear-gradient(160deg, ${BROWN}, #1a0a05)`, padding: 20 }}>
-<div style={{ background: WHITE, borderRadius: 20, padding: ‘28px 22px’, width: ‘100%’, maxWidth: 360, textAlign: ‘center’, border: `2px solid ${GOLD}` }}>
-{pinMode ? (
-<>
-<div style={{ fontSize: 32, marginBottom: 8 }}>🔐</div>
-<h3 style={{ color: BROWN, marginBottom: 6 }}>{pinMode === ‘owner’ ? ‘رمز المالك’ : ‘رمز الخياط’}</h3>
-<input type=“password” maxLength={4} inputMode=“numeric” value={pinInput}
-onChange={e => setPinInput(e.target.value)}
-onKeyDown={e => e.key === ‘Enter’ && checkPin()}
-style={{ …S.inp, textAlign: ‘center’, fontSize: 28, letterSpacing: 12, width: 160, margin: ‘12px auto’, display: ‘block’ }} autoFocus />
-{pinError && <p style={{ color: RED, fontSize: 13, marginBottom: 8 }}>❌ رمز خاطئ</p>}
-<div style={{ display: ‘flex’, gap: 8, justifyContent: ‘center’ }}>
-<button onClick={checkPin} style={{ …btn(GOLD), padding: ‘10px 24px’ }}>دخول</button>
-<button onClick={() => setPinMode(null)} style={{ …btn(‘transparent’, BROWN), border: `1.5px solid ${BORDER}` }}>إلغاء</button>
-</div>
-</>
-) : (
-<>
-<div style={{ fontSize: 40, marginBottom: 10 }}>✂️</div>
-<h2 style={{ fontSize: 22, fontWeight: 900, color: BROWN, marginBottom: 6 }}>كشمير للخياطة</h2>
-<p style={{ fontSize: 13, color: ‘#888’, marginBottom: 20 }}>اختر طريقة الدخول</p>
-{[{ r: ‘owner’, icon: ‘👑’, t: ‘المالك’, s: ‘صلاحيات كاملة + التقارير’ }, { r: ‘tailor’, icon: ‘🪡’, t: ‘الخياط’, s: ‘الطلبات والزبائن فقط’ }].map(x => (
-<button key={x.r} onClick={() => doLogin(x.r)} style={{ width: ‘100%’, border: `2px solid ${BORDER}`, background: CREAM, borderRadius: 12, padding: 14, fontFamily: ‘Tajawal,sans-serif’, fontSize: 15, fontWeight: 700, cursor: ‘pointer’, display: ‘flex’, alignItems: ‘center’, gap: 10, marginBottom: 10, textAlign: ‘right’ }}>
-<span style={{ fontSize: 24 }}>{x.icon}</span>
-<div><div>{x.t}</div><div style={{ fontSize: 11, color: ‘#888’, fontWeight: 400 }}>{x.s}</div></div>
-</button>
-))}
-</>
-)}
-</div>
-</div>
-);
-
-return (
-<div style={S.body}>
-{/* TOP NAV */}
-<div style={S.topNav}>
-<div style={S.logo}>✂️ كشمير للخياطة</div>
-<div style={{ display: ‘flex’, gap: 8, alignItems: ‘center’ }}>
-<span style={{ fontSize: 11, background: ‘rgba(255,255,255,.15)’, padding: ‘3px 8px’, borderRadius: 20 }}>{role === ‘owner’ ? ‘👑 مالك’ : ‘🪡 خياط’}</span>
-<button onClick={() => { setRole(null); setPage(‘home’); }} style={{ …btn(‘transparent’, GOLD_PALE), border: ‘1px solid rgba(255,255,255,.3)’, padding: ‘5px 10px’, fontSize: 12 }}>خروج</button>
-</div>
-</div>
-
-```
-  <Toast msg={toast} />
-
-  {/* VIEW ORDER MODAL */}
-  <Modal show={!!viewOrd} title={viewOrd ? `طلب #${viewOrd.serial} - ${viewOrd.name}` : ''} onClose={() => setViewOrd(null)}>
-    {viewOrd && (() => {
-      const o = orders.find(x => x.id === viewOrd.id) || viewOrd;
-      return (
-        <>
-          <div style={{ fontSize: 13, lineHeight: 2, color: '#555', marginBottom: 12 }}>
-            📞 {o.phone}<br />🧵 {(o.services || []).join('، ') || '—'}<br />
-            📅 {o.date}{o.duedate ? ` → تسليم: ${o.duedate}` : ''}<br />
-            👘 فولة: {o.neck} | شريط: {o.chest_strip}
-            {o.remarks ? <><br />📝 {o.remarks}</> : null}
-          </div>
-          <div style={{ background: GOLD_PALE, border: `1.5px solid ${GOLD}`, borderRadius: 10, padding: '10px 14px', marginBottom: 12 }}>
-            {[['الإجمالي', (o.total || 0).toFixed(3) + ' KD', GOLD], ['المدفوع', (o.paid || 0).toFixed(3) + ' KD', GREEN], ['المتبقي', (o.remaining || 0).toFixed(3) + ' KD', RED]].map(([l, v, c]) => (
-              <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: `1px solid rgba(184,134,11,.2)` }}>
-                <span style={{ fontWeight: 700 }}>{l}</span><span style={{ fontWeight: 900, color: c }}>{v}</span>
-              </div>
-            ))}
-          </div>
-          <FG label="دفعة إضافية (KD)">
-            <div style={{ display: 'flex', gap: 8 }}>
-              <input type="number" value={extraPay} onChange={e => setExtraPay(e.target.value)} placeholder="0.000" style={{ ...S.inp, flex: 1 }} />
-              <button onClick={addPayment} style={btn(GREEN)}>تسجيل</button>
-            </div>
-          </FG>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
-            <button onClick={() => sendWA(o)} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 10, padding: '10px 14px', fontFamily: 'Tajawal,sans-serif', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>📲 رسالة الزبون</button>
-            <button onClick={() => deleteOrder(o.id)} style={btn(RED)}>🗑️ حذف</button>
-            <button onClick={() => setViewOrd(null)} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>إغلاق</button>
-          </div>
-        </>
-      );
-    })()}
-  </Modal>
-
-  {/* VIEW CUSTOMER MODAL */}
-  <Modal show={!!viewCust} title={viewCust?.name || ''} onClose={() => setViewCust(null)}>
-    {viewCust && (() => {
-      const c = viewCust;
-      const ords = orders.filter(o => o.phone === c.phone);
-      const debt = ords.reduce((s, o) => s + (o.remaining || 0), 0);
-      const m = c.measurements || {};
-      return (
-        <>
-          <p style={{ fontSize: 13, color: '#777', marginBottom: 12 }}>📞 {c.phone}</p>
-          <div style={{ background: GOLD_PALE, border: `1.5px solid ${GOLD}`, borderRadius: 10, padding: '10px 14px', marginBottom: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontWeight: 700 }}>إجمالي الطلبات</span><span style={{ fontWeight: 900 }}>{ords.length}</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}><span style={{ fontWeight: 700 }}>المتبقي</span><span style={{ fontWeight: 900, color: RED }}>{debt.toFixed(3)} KD</span></div>
-          </div>
-          {MEAS_FIELDS.some(f => m[f.id]) && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, marginBottom: 12 }}>
-              {MEAS_FIELDS.filter(f => m[f.id]).map(f => (
-                <div key={f.id} style={{ background: CREAM, borderRadius: 6, padding: '5px 8px', fontSize: 12 }}>
-                  <div style={{ fontSize: 10, color: '#888' }}>{f.ar}</div>
-                  <div style={{ fontWeight: 700 }}>{m[f.id]}</div>
-                </div>
-              ))}
-            </div>
-          )}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <button onClick={() => { setViewCust(null); setOrder(o => ({ ...o, name: c.name, phone: c.phone, measurements: c.measurements || {} })); setPage('order'); }} style={btn(GOLD)}>➕ طلب جديد</button>
-            <button onClick={() => { setCustForm({ name: c.name, phone: c.phone, address: c.address || '', notes: c.notes || '' }); setEditCust(c); setViewCust(null); }} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>✏️ تعديل</button>
-            <button onClick={() => deleteCustomer(c.id)} style={btn(RED)}>🗑️ حذف</button>
-          </div>
-        </>
-      );
-    })()}
-  </Modal>
-
-  {/* EDIT CUSTOMER MODAL */}
-  <Modal show={editCust !== null} title={editCust ? 'تعديل الزبون' : 'زبون جديد'} onClose={() => { setEditCust(null); }}>
-    <div style={S.row2}>
-      <FG label="الاسم *"><input style={S.inp} value={custForm.name} onChange={e => setCustForm(f => ({ ...f, name: e.target.value }))} /></FG>
-      <FG label="الهاتف *"><input style={S.inp} value={custForm.phone} onChange={e => setCustForm(f => ({ ...f, phone: e.target.value }))} inputMode="tel" /></FG>
+// ═══ ORDER CARD ═══════════════════════════════════════
+function ordCardHTML(o) {
+  const sc = {شغال:'#dbeeff',جاهز:'#d4edda',"سلّم":'#eee'}[o.status]||'#eee';
+  const tc = {شغال:'#2980b9',جاهز:'#27ae60',"سلّم":'#777'}[o.status]||'#777';
+  return `<div class="oc">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-size:20px;font-weight:900;color:#b8860b">#${o.serial}</div>
+      <select style="border:1.5px solid #d4a84c;border-radius:8px;padding:5px 10px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;background:${sc};color:${tc};cursor:pointer" onchange="updStatus('${o.id}',this.value)">
+        <option ${o.status==='شغال'?'selected':''}>شغال</option>
+        <option ${o.status==='جاهز'?'selected':''}>جاهز</option>
+        <option ${o.status==="سلّم"?'selected':''}>سلّم</option>
+      </select>
     </div>
-    <FG label="ملاحظات"><textarea style={{ ...S.inp, minHeight: 56, resize: 'vertical' }} value={custForm.notes || ''} onChange={e => setCustForm(f => ({ ...f, notes: e.target.value }))} /></FG>
-    <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-      <button onClick={saveCustomer} style={{ ...btn(GOLD), flex: 1, justifyContent: 'center' }}>💾 حفظ</button>
-      <button onClick={() => setEditCust(null)} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}` }}>إلغاء</button>
+    <div style="font-size:13px;color:#666;line-height:1.9">
+      👤 <b>${o.name}</b> | 📞 ${o.phone}<br>
+      🧵 ${(o.services||[]).join('، ')||'—'}<br>
+      📅 ${o.date||'—'}${o.duedate?' → تسليم: <b>'+o.duedate+'</b>':''}<br>
+      💰 <b>${(o.total||0).toFixed(3)} KD</b> | مدفوع: ${(o.paid||0).toFixed(3)}
+      ${role==='owner'?` | <span style="color:#c0392b">متبقي: ${(o.remaining||0).toFixed(3)}</span>`:''}
     </div>
-  </Modal>
-
-  {/* PAGES */}
-  <div style={S.page}>
-
-    {/* HOME */}
-    {page === 'home' && (
-      <div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
-          {[['👥', customers.length, 'زبون'], ['📋', orders.length, 'طلب كلي'], ['⏳', pendingCount, 'طلب شغال'], ...(role === 'owner' ? [['💸', totalDebt.toFixed(3) + ' KD', 'مبالغ متبقية']] : [])].map(([ic, v, l]) => (
-            <div key={l} style={{ ...S.card, textAlign: 'center', padding: 14 }}>
-              <div style={{ fontSize: 22 }}>{ic}</div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: GOLD }}>{v}</div>
-              <div style={{ fontSize: 12, color: '#777' }}>{l}</div>
-            </div>
-          ))}
-        </div>
-        <div style={S.secTitle}>آخر الطلبات</div>
-        {loading ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>جاري التحميل...</div> :
-          orders.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في طلبات بعد</div> :
-            orders.slice(0, 5).map(o => <OrderCard key={o.id} o={o} role={role} onView={() => setViewOrd(o)} onWA={() => sendWA(o)} onStatus={s => updateStatus(o.id, s)} onDelete={() => deleteOrder(o.id)} />)}
-      </div>
-    )}
-
-    {/* NEW ORDER */}
-    {page === 'order' && (
-      <div>
-        <div style={S.secTitle}>📝 طلب جديد
-          <button onClick={() => setOrder(emptyOrder())} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}`, padding: '7px 12px', fontSize: 12 }}>مسح</button>
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>👤 بيانات الزبون</div>
-          <div style={S.row2}>
-            <FG label="الاسم *"><input style={S.inp} value={order.name} onChange={e => setOrder(o => ({ ...o, name: e.target.value }))} placeholder="اسم الزبون" /></FG>
-            <FG label="رقم الهاتف *"><input style={S.inp} value={order.phone} onChange={e => setOrder(o => ({ ...o, phone: e.target.value }))} placeholder="965XXXXXXXX" inputMode="tel" /></FG>
-          </div>
-          <div style={S.row2}>
-            <FG label="التاريخ"><input type="date" style={S.inp} value={order.date} onChange={e => setOrder(o => ({ ...o, date: e.target.value }))} /></FG>
-            <FG label="تاريخ التسليم"><input type="date" style={S.inp} value={order.duedate} onChange={e => setOrder(o => ({ ...o, duedate: e.target.value }))} /></FG>
-          </div>
-          <div style={S.row2}>
-            <FG label="الخياط"><input style={S.inp} value={order.tailor} onChange={e => setOrder(o => ({ ...o, tailor: e.target.value }))} /></FG>
-            <FG label="الخام"><select style={S.inp} value={order.fabric} onChange={e => setOrder(o => ({ ...o, fabric: e.target.value }))}><option value="">اختر</option><option>من عندنا (داخل)</option><option>من برا (خارج)</option></select></FG>
-          </div>
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>🧵 الخدمات</div>
-          <CheckGroup options={SERVICES} values={order.services} onChange={v => setOrder(o => ({ ...o, services: v }))} />
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>👘 تفاصيل الدشداشة</div>
-          <CheckGroup label="نوع الدشداشة" options={DISHDASHA_TYPES} values={order.dishdashaTypes} onChange={v => setOrder(o => ({ ...o, dishdashaTypes: v }))} />
-          <VisPicker label="تصميم الفولة | Neck Style" options={NECK_OPTS} value={order.neck} onChange={v => setOrder(o => ({ ...o, neck: v }))} />
-          <VisPicker label="شريط الصدر | Chest Strip" options={CHEST_OPTS} value={order.chestStrip} onChange={v => setOrder(o => ({ ...o, chestStrip: v }))} />
-          <VisPicker label="المخبة الجانبية | Side Pocket" options={POCKET_OPTS} value={order.sidePocket} onChange={v => setOrder(o => ({ ...o, sidePocket: v }))} />
-          <VisPicker label="الجيب الأمامي | Front Pocket" options={FRONT_OPTS} value={order.frontPocket} onChange={v => setOrder(o => ({ ...o, frontPocket: v }))} />
-          <VisPicker label="زر الغولة | Button" options={BTN_OPTS} value={order.buttonStyle} onChange={v => setOrder(o => ({ ...o, buttonStyle: v }))} />
-          <VisPicker label="الخط الجانبي | Side Line" options={SIDELINE_OPTS} value={order.sideLine} onChange={v => setOrder(o => ({ ...o, sideLine: v }))} />
-          <div style={S.row2}>
-            <FG label="عدد القطع"><input type="number" style={S.inp} value={order.qty} onChange={e => setOrder(o => ({ ...o, qty: e.target.value }))} inputMode="numeric" min={1} /></FG>
-          </div>
-          <CheckGroup label="إضافات" options={EXTRAS} values={order.extras} onChange={v => setOrder(o => ({ ...o, extras: v }))} />
-          <CheckGroup label="خدمات إضافية" options={EXTRA_SVCS} values={order.extraServices} onChange={v => setOrder(o => ({ ...o, extraServices: v }))} />
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>📏 القياسات</div>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-            <div style={{ flexShrink: 0 }}>
-              <svg viewBox="0 0 160 340" width="110" height="250" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50,35 Q80,22 110,35 L128,85 L132,315 L28,315 L32,85 Z" fill="#fdf6e3" stroke={BROWN} strokeWidth="2" />
-                <ellipse cx="80" cy="34" rx="17" ry="10" fill="#fdf8f0" stroke={BROWN} strokeWidth="1.5" />
-                <path d="M32,85 L8,132 L18,137 L40,98" fill="#fdf6e3" stroke={BROWN} strokeWidth="1.5" />
-                <path d="M128,85 L152,132 L142,137 L120,98" fill="#fdf6e3" stroke={BROWN} strokeWidth="1.5" />
-                <line x1="80" y1="44" x2="80" y2="305" stroke="#aaa" strokeWidth="1" strokeDasharray="4,3" />
-                <line x1="30" y1="292" x2="130" y2="292" stroke={GOLD} strokeWidth="1.5" />
-                <line x1="20" y1="34" x2="20" y2="315" stroke="#2980b9" strokeWidth="1.2" />
-                <polygon points="20,32 18,38 22,38" fill="#2980b9" />
-                <polygon points="20,317 18,311 22,311" fill="#2980b9" />
-                {[85, 113, 142, 170].map(y => <line key={y} x1="33" y1={y} x2="127" y2={y} stroke={RED} strokeWidth="0.8" strokeDasharray="3,2" />)}
-              </svg>
-            </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
-              {MEAS_FIELDS.map(f => (
-                <div key={f.id}>
-                  <label style={{ fontSize: 10, fontWeight: 700, color: BROWN, display: 'block', marginBottom: 2 }}>{f.ar} | {f.en}</label>
-                  <input type="number" inputMode="decimal" placeholder="0" style={{ ...S.inp, padding: '7px 8px', fontSize: 13, textAlign: 'center' }}
-                    value={order.measurements[f.id] || ''}
-                    onChange={e => setOrder(o => ({ ...o, measurements: { ...o.measurements, [f.id]: e.target.value } }))} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <FG label="ملاحظات القياسات">
-            <textarea style={{ ...S.inp, minHeight: 56, marginTop: 8, resize: 'vertical' }} value={order.measNotes} onChange={e => setOrder(o => ({ ...o, measNotes: e.target.value }))} placeholder="أي ملاحظة..." />
-          </FG>
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>🧣 الأقمشة والأمتار</div>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 10 }}>
-              <thead><tr>{['#', 'اسم الخامة', 'النوع', 'الأمتار', 'السعر/م', 'الإجمالي', ''].map(h => <th key={h} style={{ background: BROWN, color: GOLD_PALE, padding: '8px 5px', textAlign: 'center' }}>{h}</th>)}</tr></thead>
-              <tbody>
-                {order.items.map((row, i) => (
-                  <tr key={i}>
-                    <td style={{ textAlign: 'center', padding: '5px 3px' }}>{i + 1}</td>
-                    <td><input style={{ ...S.inp, padding: '5px 4px', fontSize: 12 }} placeholder="اسم الخامة" value={row.fabricName || ''} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, fabricName: e.target.value } : r) }))} /></td>
-                    <td><select style={{ ...S.inp, padding: '5px 4px', fontSize: 12 }} value={row.type} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, type: e.target.value } : r) }))}>
-                      <option value="">النوع</option><option>صيفي | Summer</option><option>شتوي | Winter</option>
-                    </select></td>
-                    <td><input type="number" inputMode="decimal" style={{ ...S.inp, padding: '5px 4px', fontSize: 12, textAlign: 'center' }} value={row.meters} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, meters: e.target.value } : r) }))} /></td>
-                    <td><input type="number" inputMode="decimal" style={{ ...S.inp, padding: '5px 4px', fontSize: 12, textAlign: 'center' }} value={row.price} onChange={e => setOrder(o => ({ ...o, items: o.items.map((r, j) => j === i ? { ...r, price: e.target.value } : r) }))} /></td>
-                    <td style={{ textAlign: 'center', fontWeight: 700 }}>{((parseFloat(row.meters) || 0) * (parseFloat(row.price) || 0)).toFixed(3)}</td>
-                    <td><button onClick={() => setOrder(o => ({ ...o, items: o.items.filter((_, j) => j !== i) }))} style={{ background: 'none', border: 'none', color: RED, fontSize: 16, cursor: 'pointer' }}>✕</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <button onClick={() => setOrder(o => ({ ...o, items: [...o.items, { fabricName: '', type: '', meters: '', price: '' }] }))} style={{ ...btn('transparent', BROWN), border: `1.5px solid ${BORDER}`, fontSize: 13, padding: '7px 12px' }}>+ إضافة سطر</button>
-        </div>
-
-        <div style={S.card}>
-          <div style={S.cardTitle}>💰 الأسعار والدفع</div>
-          <div style={S.row3}>
-            <FG label="رسوم الخياطة (KD)"><input type="number" inputMode="decimal" style={S.inp} value={order.tailoring} onChange={e => setOrder(o => ({ ...o, tailoring: e.target.value }))} /></FG>
-            <FG label="إجمالي الخام (KD)"><input style={{ ...S.inp, background: '#f0f0f0' }} readOnly value={textiles.toFixed(3)} /></FG>
-            <FG label="أخرى (KD)"><input type="number" inputMode="decimal" style={S.inp} value={order.others} onChange={e => setOrder(o => ({ ...o, others: e.target.value }))} /></FG>
-          </div>
-          <div style={S.row3}>
-            <FG label="خصم | Discount">
-              <select style={S.inp} value={order.discount} onChange={e => setOrder(o => ({ ...o, discount: parseFloat(e.target.value) }))}>
-                {[0, 5, 10, 15, 20, 25, 30, 35, 40].map(p => <option key={p} value={p}>{p === 0 ? 'بدون خصم' : p + '%'}</option>)}
-              </select>
-            </FG>
-            <FG label="المدفوع | Paid (KD)"><input type="number" inputMode="decimal" style={{ ...S.inp, borderColor: GREEN, background: '#f0fff4' }} value={order.paid} onChange={e => setOrder(o => ({ ...o, paid: e.target.value }))} placeholder="0.000" /></FG>
-            <FG label="طريقة الدفع"><select style={S.inp} value={order.payMethod} onChange={e => setOrder(o => ({ ...o, payMethod: e.target.value }))}><option>نقدي</option><option>كنت (KNET)</option><option>تحويل</option></select></FG>
-          </div>
-          <TotalsBox tailoring={tailoring} textiles={textiles} others={others} discount={order.discount} paid={paid} total={total} remaining={remaining} />
-          <FG label="ملاحظات"><textarea style={{ ...S.inp, minHeight: 56, resize: 'vertical' }} value={order.remarks} onChange={e => setOrder(o => ({ ...o, remarks: e.target.value }))} /></FG>
-        </div>
-        <button onClick={saveOrder} style={{ ...btn(GOLD), width: '100%', justifyContent: 'center', fontSize: 16, padding: 14 }}>💾 حفظ الطلب</button>
-      </div>
-    )}
-
-    {/* ORDERS */}
-    {page === 'orders' && (
-      <div>
-        <div style={S.secTitle}>📋 الطلبات</div>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-          <select style={{ ...S.inp, flex: 1 }} value={ordFilter} onChange={e => setOrdFilter(e.target.value)}>
-            <option value="">كل الطلبات</option><option>شغال</option><option>جاهز</option><option>سلّم</option>
-          </select>
-          <input style={{ ...S.inp, flex: 1 }} placeholder="ابحث..." value={ordSearch} onChange={e => setOrdSearch(e.target.value)} />
-        </div>
-        {filteredOrders.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في طلبات</div> :
-          filteredOrders.map(o => <OrderCard key={o.id} o={o} role={role} onView={() => setViewOrd(o)} onWA={() => sendWA(o)} onStatus={s => updateStatus(o.id, s)} onDelete={() => deleteOrder(o.id)} />)}
-      </div>
-    )}
-
-    {/* CUSTOMERS */}
-    {page === 'customers' && (
-      <div>
-        <div style={S.secTitle}>👥 الزبائن
-          <button onClick={() => { setCustForm({ name: '', phone: '', address: '', notes: '' }); setEditCust({}); }} style={btn(GOLD)}>+ زبون جديد</button>
-        </div>
-        <input style={{ ...S.inp, marginBottom: 12 }} placeholder="ابحث باسم أو رقم..." value={custSearch} onChange={e => setCustSearch(e.target.value)} />
-        {filteredCusts.length === 0 ? <div style={{ textAlign: 'center', padding: 30, color: '#aaa' }}>ما في زبائن</div> :
-          filteredCusts.map(c => {
-            const ords = orders.filter(o => o.phone === c.phone);
-            const debt = ords.reduce((s, o) => s + (o.remaining || 0), 0);
-            return (
-              <div key={c.id} onClick={() => setViewCust(c)} style={{ ...S.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
-                <div><div style={{ fontWeight: 900, fontSize: 15, color: BROWN }}>{c.name}</div><div style={{ fontSize: 12, color: '#777', marginTop: 3 }}>📞 {c.phone} | {ords.length} طلب</div></div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5 }}>
-                  <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: debt > 0 ? '#fde2e2' : '#d4edda', color: debt > 0 ? RED : GREEN }}>{debt > 0 ? debt.toFixed(3) + ' KD' : 'مسوّى'}</span>
-                  <span style={{ color: '#ccc', fontSize: 20 }}>›</span>
-                </div>
-              </div>
-            );
-          })}
-      </div>
-    )}
-
-    {/* REPORTS - OWNER ONLY */}
-    {page === 'reports' && (
-      <div>
-        {role !== 'owner' ? <div style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>🔒 التقارير للمالك فقط</div> : (
-          <>
-            <div style={S.secTitle}>📈 التقرير الأسبوعي</div>
-            <div style={S.card}>
-              {[['عدد طلبات الأسبوع', weekOrds.length], ['إيرادات الأسبوع', weekRev.toFixed(3) + ' KD'], ['طلبات شغالة', pendingCount], ['طلبات جاهزة', orders.filter(o => o.status === 'جاهز').length], ['مبالغ متبقية', totalDebt.toFixed(3) + ' KD']].map(([l, v]) => (
-                <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${GOLD_PALE}` }}>
-                  <span>{l}</span><span style={{ fontWeight: 900, color: GOLD }}>{v}</span>
-                </div>
-              ))}
-            </div>
-            <button onClick={sendReportWA} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 10, padding: '11px 16px', fontFamily: 'Tajawal,sans-serif', fontSize: 14, fontWeight: 700, cursor: 'pointer', width: '100%', marginBottom: 16 }}>📲 إرسال التقرير للملاك</button>
-            <div style={S.secTitle}>💸 المبالغ المتبقية</div>
-            {orders.filter(o => (o.remaining || 0) > 0).sort((a, b) => b.remaining - a.remaining).map(o => (
-              <div key={o.id} style={{ ...S.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div><div style={{ fontWeight: 900 }}>{o.name} - #{o.serial}</div><div style={{ fontSize: 12, color: '#777' }}>{o.phone}</div></div>
-                <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontWeight: 900, fontSize: 16, color: RED }}>{o.remaining.toFixed(3)} KD</div>
-                  <button onClick={() => sendWA(o)} style={{ background: '#25d366', color: WHITE, border: 'none', borderRadius: 8, padding: '5px 10px', fontFamily: 'Tajawal,sans-serif', fontSize: 12, cursor: 'pointer', marginTop: 4 }}>📲</button>
-                </div>
-              </div>
-            ))}
-            {orders.filter(o => (o.remaining || 0) > 0).length === 0 && <div style={{ textAlign: 'center', padding: 20, color: GREEN, fontWeight: 700 }}>✅ ما في مبالغ متبقية!</div>}
-          </>
-        )}
-      </div>
-    )}
-
-    {/* SETTINGS */}
-    {page === 'settings' && (
-      <div>
-        <div style={S.secTitle}>⚙️ الإعدادات</div>
-        <div style={S.card}>
-          <div style={S.cardTitle}>ℹ️ معلومات السستم</div>
-          <div style={{ fontSize: 13, color: '#777', lineHeight: 1.9 }}>
-            <div>👑 رمز المالك: <b>1973</b></div>
-            <div>🪡 رمز الخياط: <b>1234</b></div>
-            <div>📱 أرقام التقارير: 60601605 | 60948048 | 50519551</div>
-            <div style={{ marginTop: 8, color: RED, fontSize: 12 }}>⚠️ لتغيير الأرقام والرموز تواصل مع المطور</div>
-          </div>
-        </div>
-        <div style={S.card}>
-          <div style={S.cardTitle}>📊 إحصائيات</div>
-          <div style={{ fontSize: 13, color: '#777', lineHeight: 2 }}>
-            <div>عدد الزبائن: <b>{customers.length}</b></div>
-            <div>إجمالي الطلبات: <b>{orders.length}</b></div>
-            <div>طلبات شغالة: <b>{pendingCount}</b></div>
-            {role === 'owner' && <div>مبالغ متبقية: <b style={{ color: RED }}>{totalDebt.toFixed(3)} KD</b></div>}
-          </div>
-        </div>
-      </div>
-    )}
-
-  </div>
-
-  {/* BOTTOM NAV */}
-  <div style={S.bottomNav}>
-    <BNavItem icon="🏠" label="الرئيسية" active={page === 'home'} onClick={() => setPage('home')} />
-    <BNavItem icon="➕" label="طلب جديد" active={page === 'order'} onClick={() => setPage('order')} />
-    <BNavItem icon="📋" label="الطلبات" active={page === 'orders'} onClick={() => setPage('orders')} />
-    <BNavItem icon="👥" label="الزبائن" active={page === 'customers'} onClick={() => setPage('customers')} />
-    {role === 'owner' && <BNavItem icon="📈" label="التقارير" active={page === 'reports'} onClick={() => setPage('reports')} />}
-    <BNavItem icon="⚙️" label="الإعدادات" active={page === 'settings'} onClick={() => setPage('settings')} />
-  </div>
-</div>
-```
-
-);
+    <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
+      <button class="bwa" style="padding:7px 12px;font-size:12px" onclick="sendWA('${o.id}')">📲 رسالة</button>
+      <button class="bout bsm" onclick="viewOrd('${o.id}')">👁️ تفاصيل</button>
+      <button class="btn brd bsm" onclick="delOrd('${o.id}')">🗑️</button>
+    </div>
+  </div>`;
 }
 
-const { useState, useEffect, useCallback } = React;
-ReactDOM.createRoot(document.getElementById(‘root’)).render(React.createElement(App));
+// ═══ ORDERS ═══════════════════════════════════════════
+function renderOrders() {
+  const filter = document.getElementById('ordFilter').value;
+  const search = document.getElementById('ordSearch').value;
+  let list = orders.filter(o =>
+    (!filter || o.status===filter) &&
+    (!search || o.name?.includes(search) || String(o.serial).includes(search) || o.phone?.includes(search))
+  );
+  document.getElementById('ordsList').innerHTML = list.length ?
+    list.map(o => ordCardHTML(o)).join('') :
+    '<div class="empty">ما في طلبات</div>';
+}
+
+async function updStatus(id, status) {
+  await sb.from('orders').update({status}).eq('id',id);
+  orders = orders.map(o => o.id===id ? {...o,status} : o);
+  showToast('✅ تم تحديث الحالة');
+  renderHome();
+}
+
+function viewOrd(id) {
+  viewOrdId = id;
+  const o = orders.find(x => x.id===id);
+  if(!o) return;
+  document.getElementById('ordOvTitle').textContent = `طلب #${o.serial} - ${o.name}`;
+  const m = o.measurements || {};
+  document.getElementById('ordOvBody').innerHTML = `
+    <div style="font-size:13px;line-height:2;color:#555;margin-bottom:12px">
+      📞 ${o.phone}<br>🧵 ${(o.services||[]).join('، ')||'—'}<br>
+      📅 ${o.date||'—'}${o.duedate?' → تسليم: '+o.duedate:''}<br>
+      👘 فولة: ${o.neck||'—'} | شريط: ${o.chest_strip||'—'}
+      ${o.remarks?'<br>📝 '+o.remarks:''}
+    </div>
+    <div class="tbox">
+      <div class="tr"><b>الإجمالي</b><span style="color:#b8860b;font-weight:900;font-size:18px">${(o.total||0).toFixed(3)} KD</span></div>
+      <div class="tr"><b>المدفوع</b><span style="color:#27ae60;font-weight:900">${(o.paid||0).toFixed(3)} KD</span></div>
+      <div class="tr"><b>المتبقي</b><span style="color:#c0392b;font-weight:900">${(o.remaining||0).toFixed(3)} KD</span></div>
+    </div>
+    <div class="fg"><label>دفعة إضافية (KD)</label>
+      <div style="display:flex;gap:8px">
+        <input type="number" id="extraPay" placeholder="0.000" inputmode="decimal" style="flex:1">
+        <button class="btn bgn" onclick="addPayment('${id}',${o.total||0},${o.paid||0})">تسجيل</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="bwa" onclick="sendWA('${id}');closeOv('ordOv')">📲 رسالة الزبون</button>
+      <button class="btn brd bsm" onclick="delOrd('${id}')">🗑️ حذف</button>
+      <button class="bout bsm" onclick="closeOv('ordOv')">إغلاق</button>
+    </div>`;
+  openOv('ordOv');
+}
+
+async function addPayment(id, total, oldPaid) {
+  const amt = parseFloat(document.getElementById('extraPay').value)||0;
+  if(!amt) { showToast('❌ أدخل مبلغ'); return; }
+  const newPaid = oldPaid + amt;
+  const newRem = Math.max(0, total - newPaid);
+  await sb.from('orders').update({paid:newPaid, remaining:newRem}).eq('id',id);
+  orders = orders.map(o => o.id===id ? {...o,paid:newPaid,remaining:newRem} : o);
+  closeOv('ordOv'); showToast('✅ تم تسجيل الدفعة');
+  renderHome();
+}
+
+async function delOrd(id) {
+  if(!confirm('تأكيد حذف الطلب؟')) return;
+  await sb.from('orders').delete().eq('id',id);
+  orders = orders.filter(o => o.id!==id);
+  closeOv('ordOv'); showToast('🗑️ تم الحذف');
+  renderOrders(); renderHome();
+}
+
+// ═══ SAVE ORDER ═══════════════════════════════════════
+async function saveOrder() {
+  const name = document.getElementById('o_name').value.trim();
+  const phone = document.getElementById('o_phone').value.trim();
+  if(!name||!phone) { showToast('❌ أدخل الاسم والهاتف'); return; }
+
+  const textiles = items.reduce((s,r) => s+(parseFloat(r.meters)||0)*(parseFloat(r.price)||0), 0);
+  const tail = parseFloat(document.getElementById('p_tail').value)||0;
+  const other = parseFloat(document.getElementById('p_other').value)||0;
+  const disc = parseFloat(document.getElementById('p_disc').value)||0;
+  const paid = parseFloat(document.getElementById('p_paid').value)||0;
+  const sub = tail + textiles + other;
+  const total = sub - (sub*disc/100);
+  const remaining = total - paid;
+
+  const meas = {};
+  MEAS.forEach(f => { meas[f.id] = document.getElementById('m_'+f.id)?.value||''; });
+
+  serial++;
+  const newOrd = {
+    serial, date: document.getElementById('o_date').value,
+    duedate: document.getElementById('o_due').value,
+    name, phone, tailor: document.getElementById('o_tailor').value,
+    services: selSvc, fabric: document.getElementById('o_fabric').value,
+    qty: parseInt(document.getElementById('o_qty').value)||1,
+    dishdasha_types: selType, neck: selNeck, chest_strip: selChest,
+    side_pocket: selPocket, front_pocket: selFront,
+    button_style: selBtn, side_line: selSide,
+    extras: selExt, extra_services: selXsvc,
+    measurements: meas, meas_notes: document.getElementById('m_notes').value,
+    items, tailoring:tail, textiles, others:other,
+    discount:disc, total, paid, remaining,
+    pay_method: document.getElementById('p_method').value,
+    remarks: document.getElementById('o_remarks').value,
+    status: 'شغال'
+  };
+
+  const { error } = await sb.from('orders').insert(newOrd);
+  if(error) { showToast('❌ خطأ: '+error.message); serial--; return; }
+
+  const ex = customers.find(c => c.phone===phone);
+  if(ex) await sb.from('customers').update({measurements:meas,name}).eq('phone',phone);
+  else await sb.from('customers').insert({name,phone,measurements:meas});
+
+  await loadData();
+  showToast('✅ تم حفظ الطلب #'+serial);
+  clearOrd();
+  goPage('orders', document.getElementById('bn-orders'));
+}
+
+function clearOrd() {
+  ['o_name','o_phone','o_tailor','o_remarks','m_notes','p_tail','p_other'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('p_disc').value='0';
+  document.getElementById('p_paid').value='0';
+  document.getElementById('o_fabric').value='';
+  document.getElementById('o_qty').value='1';
+  document.getElementById('o_date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('o_due').value='';
+  selSvc=[]; selType=[]; selExt=[]; selXsvc=[];
+  selNeck='عادية - زر واحد'; selChest='مخفي';
+  selPocket='بدون مخبة داخلية'; selFront='بدون كرتون';
+  selBtn='طباقي'; selSide='مفرد';
+  items=[{fabricName:'',type:'',meters:'',price:''}];
+  initUI();
+}
+
+// ═══ WHATSAPP ════════════════════════════════════════
+function sendWA(id) {
+  const o = orders.find(x => x.id===id);
+  if(!o) return;
+  let msg = `🌟 *كشمير للخياطة*\n\nالسلام عليكم ${o.name} 👋\n`;
+  msg += o.status==='جاهز' ? 'طلبك جاهز للاستلام ✅\n\n' : 'تم استلام طلبك وهو قيد التنفيذ 🪡\n\n';
+  msg += `📋 *تفاصيل الطلب:*\n• رقم الطلب: #${o.serial}\n`;
+  msg += `• الخدمة: ${(o.services||[]).join('، ')||'—'}\n`;
+  if(o.duedate) msg += `• موعد التسليم: ${o.duedate}\n`;
+  const m = o.measurements||{};
+  const mt = MEAS.filter(f=>m[f.id]).map(f=>`• ${f.ar}: ${m[f.id]}`).join('\n');
+  if(mt) msg += `\n📏 *القياسات:*\n${mt}\n`;
+  msg += `\n💰 *الحساب:*\n• الإجمالي: ${(o.total||0).toFixed(3)} KD\n`;
+  msg += `• المدفوع: ${(o.paid||0).toFixed(3)} KD\n`;
+  msg += o.remaining>0 ? `• المتبقي: ${o.remaining.toFixed(3)} KD\n` : '• ✅ تم السداد الكامل\n';
+  msg += '\nشكراً لثقتكم 🙏';
+  window.open(`https://wa.me/${o.phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function sendReportWA() {
+  const now = new Date(); const wa = new Date(now-7*864e5);
+  const wOrds = orders.filter(o => new Date(o.created_at)>=wa);
+  const rev = wOrds.reduce((s,o)=>s+(o.paid||0),0);
+  const debt = orders.reduce((s,o)=>s+(o.remaining||0),0);
+  let msg = `📊 *تقرير أسبوعي - كشمير للخياطة*\n📅 ${wa.toLocaleDateString('ar-KW')} → ${now.toLocaleDateString('ar-KW')}\n\n`;
+  msg += `🔢 عدد الطلبات: ${wOrds.length}\n💰 الإيرادات: ${rev.toFixed(3)} KD\n`;
+  msg += `💸 المبالغ المتبقية: ${debt.toFixed(3)} KD\n`;
+  msg += `⏳ شغالة: ${orders.filter(o=>o.status==='شغال').length} | ✅ جاهزة: ${orders.filter(o=>o.status==='جاهز').length}`;
+  const enc = encodeURIComponent(msg);
+  REPORT_NUMS.forEach((n,i) => setTimeout(()=>window.open(`https://wa.me/${n}?text=${enc}`,'_blank'), i*800));
+  showToast('✅ يتم إرسال التقرير للملاك');
+}
+
+// ═══ CUSTOMERS ════════════════════════════════════════
+function renderCusts() {
+  const q = document.getElementById('custSearch').value;
+  let list = customers.filter(c => !q||c.name?.includes(q)||c.phone?.includes(q));
+  const debtMap = {};
+  orders.forEach(o => { debtMap[o.phone]=(debtMap[o.phone]||0)+(o.remaining||0); });
+  document.getElementById('custsList').innerHTML = list.length ?
+    list.map(c => {
+      const debt = debtMap[c.phone]||0;
+      const cnt = orders.filter(o=>o.phone===c.phone).length;
+      return `<div class="cc" onclick="viewCust('${c.id}')">
+        <div>
+          <div style="font-weight:900;font-size:15px;color:#3d2b1f">${c.name}</div>
+          <div style="font-size:12px;color:#777;margin-top:3px">📞 ${c.phone} | ${cnt} طلب</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+          <span class="badge" style="${debt>0?'background:#fde2e2;color:#c0392b':'background:#d4edda;color:#27ae60'}">${debt>0?debt.toFixed(3)+' KD':'مسوّى'}</span>
+          <span style="color:#ccc;font-size:20px">›</span>
+        </div>
+      </div>`;
+    }).join('') :
+    '<div class="empty">ما في زبائن</div>';
+}
+
+function viewCust(id) {
+  viewCustId = id;
+  const c = customers.find(x=>x.id===id);
+  if(!c) return;
+  const ords = orders.filter(o=>o.phone===c.phone);
+  const debt = ords.reduce((s,o)=>s+(o.remaining||0),0);
+  const m = c.measurements||{};
+  document.getElementById('cdTitle').textContent = c.name;
+  const measHTML = MEAS.filter(f=>m[f.id]).map(f=>
+    `<div style="background:#fdf8f0;border-radius:6px;padding:5px 8px;font-size:12px"><div style="font-size:10px;color:#888">${f.ar}</div><div style="font-weight:700">${m[f.id]}</div></div>`
+  ).join('');
+  document.getElementById('cdBody').innerHTML = `
+    <p style="font-size:13px;color:#777;margin-bottom:12px">📞 ${c.phone}</p>
+    <div class="tbox" style="margin-bottom:12px">
+      <div class="tr"><b>إجمالي الطلبات</b><span style="font-weight:900">${ords.length}</span></div>
+      <div class="tr"><b>المتبقي</b><span style="color:#c0392b;font-weight:900">${debt.toFixed(3)} KD</span></div>
+    </div>
+    ${measHTML?`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">${measHTML}</div>`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bg bsm" onclick="newOrdForCust('${id}')">➕ طلب جديد</button>
+      <button class="bout bsm" onclick="editCust('${id}')">✏️ تعديل</button>
+      <button class="btn brd bsm" onclick="deleteCust('${id}')">🗑️ حذف</button>
+    </div>`;
+  openOv('custDetOv');
+}
+
+function newOrdForCust(id) {
+  const c = customers.find(x=>x.id===id);
+  if(!c) return;
+  closeOv('custDetOv');
+  goPage('order', document.getElementById('bn-order'));
+  setTimeout(() => {
+    document.getElementById('o_name').value = c.name;
+    document.getElementById('o_phone').value = c.phone;
+    if(c.measurements) MEAS.forEach(f => { const el=document.getElementById('m_'+f.id); if(el) el.value=c.measurements[f.id]||''; });
+  }, 100);
+}
+
+function openAddCust() {
+  editCustId = null;
+  document.getElementById('custOvTitle').textContent = 'زبون جديد';
+  ['cm_name','cm_phone','cm_notes'].forEach(id=>document.getElementById(id).value='');
+  openOv('custOv');
+}
+
+function editCust(id) {
+  editCustId = id;
+  const c = customers.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('custOvTitle').textContent = 'تعديل الزبون';
+  document.getElementById('cm_name').value = c.name||'';
+  document.getElementById('cm_phone').value = c.phone||'';
+  document.getElementById('cm_notes').value = c.notes||'';
+  closeOv('custDetOv');
+  openOv('custOv');
+}
+
+async function saveCust() {
+  const name = document.getElementById('cm_name').value.trim();
+  const phone = document.getElementById('cm_phone').value.trim();
+  if(!name||!phone) { showToast('❌ أدخل الاسم والهاتف'); return; }
+  const data = {name, phone, notes:document.getElementById('cm_notes').value};
+  if(editCustId) {
+    await sb.from('customers').update(data).eq('id',editCustId);
+    customers = customers.map(c=>c.id===editCustId?{...c,...data}:c);
+  } else {
+    const {data:nd} = await sb.from('customers').insert(data).select().single();
+    if(nd) customers.unshift(nd);
+  }
+  closeOv('custOv'); showToast('✅ تم الحفظ');
+  renderCusts();
+}
+
+async function deleteCust(id) {
+  if(!confirm('تأكيد حذف الزبون؟')) return;
+  await sb.from('customers').delete().eq('id',id);
+  customers = customers.filter(c=>c.id!==id);
+  closeOv('custDetOv'); showToast('🗑️ تم الحذف');
+  renderCusts();
+}
+
+// ═══ REPORTS ═════════════════════════════════════════
+function renderReports() {
+  if(role!=='owner') {
+    document.getElementById('rptContent').innerHTML = '<div class="empty">🔒 التقارير للمالك فقط</div>';
+    return;
+  }
+  const now = new Date(); const wa = new Date(now-7*864e5);
+  const wOrds = orders.filter(o=>new Date(o.created_at)>=wa);
+  const rev = wOrds.reduce((s,o)=>s+(o.paid||0),0);
+  const debt = orders.reduce((s,o)=>s+(o.remaining||0),0);
+  const debtOrds = orders.filter(o=>(o.remaining||0)>0).sort((a,b)=>b.remaining-a.remaining);
+
+  document.getElementById('rptContent').innerHTML = `
+    <div class="st">📈 التقرير الأسبوعي</div>
+    <div class="card">
+      ${[['عدد طلبات الأسبوع',wOrds.length],['إيرادات الأسبوع',rev.toFixed(3)+' KD'],['طلبات شغالة',orders.filter(o=>o.status==='شغال').length],['طلبات جاهزة',orders.filter(o=>o.status==='جاهز').length],['مبالغ متبقية',debt.toFixed(3)+' KD']].map(([l,v])=>
+        `<div class="rr"><span>${l}</span><span style="font-weight:900;color:#b8860b">${v}</span></div>`).join('')}
+    </div>
+    <button class="bwa bful" style="margin-bottom:16px;justify-content:center" onclick="sendReportWA()">📲 إرسال التقرير للملاك</button>
+    <div class="st">💸 المبالغ المتبقية</div>
+    ${debtOrds.length ?
+      debtOrds.map(o=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center">
+        <div><b>${o.name}</b> - #${o.serial}<br><span style="font-size:12px;color:#777">${o.phone}</span></div>
+        <div style="text-align:left">
+          <div style="font-weight:900;font-size:16px;color:#c0392b">${o.remaining.toFixed(3)} KD</div>
+          <button class="bwa" style="margin-top:4px;padding:5px 10px;font-size:12px" onclick="sendWA('${o.id}')">📲</button>
+        </div>
+      </div>`).join('') :
+      '<div class="empty" style="color:#27ae60;font-weight:700">✅ ما في مبالغ متبقية!</div>'
+    }`;
+}
+
+// ═══ SETTINGS ════════════════════════════════════════
+function renderSettings() {
+  const debt = orders.reduce((s,o)=>s+(o.remaining||0),0);
+  document.getElementById('settingsStats').innerHTML = `
+    <div>عدد الزبائن: <b>${customers.length}</b></div>
+    <div>إجمالي الطلبات: <b>${orders.length}</b></div>
+    <div>طلبات شغالة: <b>${orders.filter(o=>o.status==='شغال').length}</b></div>
+    ${role==='owner'?`<div>مبالغ متبقية: <b style="color:#c0392b">${debt.toFixed(3)} KD</b></div>`:''}`;
+}
 </script>
 
 </body>
